@@ -1,0 +1,18 @@
+Treffen 1
+
+1. Diskussion über Verständnis der Aufgabenstellung, bei welcher folgende noch offene Fragen aufgekommen sind:
+
+- Wie sollen die Tests aussehen? Soll es eine Testklasse für je eine Codeklasse geben, die für die Lösung der Aufgabe nötig ist? Oder gibt es sogar eine Testklasse pro Codemethode?
+
+- Darf zwischen RED und GREEN gewechselt werden, während man an einer Testklasse schreibt und jede Testmethode läuft? D.h. darf der Entwicklungsprozess folgendermaßen aussehen:
+Schreibe eine Testklasse, schreibe den passenden Code, sodass der Test läuft. Erweitere die Testklasse um eine weitere Methode, sodass die Testklasse wieder fehlschlägt und erweitere dann wieder den Code. Erst wenn die Testklasse (vorläufig) fertig ist, trete in die Refactor-Phase ein.
+
+- Funktionalität von RED und GREEN? Aufgabenstellung und Text von Frank Westphal stimmen unserer Meinung nach nicht überein.
+
+2. Einbettung der Aufgabenstellungen:
+- Katalog ist bei uns ein Ordner, der die Aufgabenstellungen in Form von Dateien enthält (nicht eine Datei mit allen Aufgabenstellungen)
+
+3. Erste Entwürfe zum Layout des Programms:
+- Menu: Begrüßungstext, darunter eine Liste mit Aufgaben und ein Button für den Wechsel in einen anderen Katalog 
+- Trainer: Aufgabenstellung, run-Button, Menu-Button, Status-Balken, Tabelle mit Testklassennamen und zugehörigem Status, ob der Test erfolgreich ist oder fehlschlägt, Button zum Hinzufügen eines neuen Tests, zwei Textfelder zum Editieren der Testklassen und Codeklassen
+(Wir haben das Layout bisher ausschließlich auf Papier entworfen.)
