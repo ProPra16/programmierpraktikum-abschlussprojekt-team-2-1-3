@@ -79,3 +79,4 @@ Würde src/ löschen
 
 .idea/
 gradle/
+.gradle/
