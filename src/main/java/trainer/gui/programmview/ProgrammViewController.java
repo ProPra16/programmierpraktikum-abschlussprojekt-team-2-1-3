@@ -1,4 +1,4 @@
-package trainer.gui;
+package trainer.gui.programmview;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
