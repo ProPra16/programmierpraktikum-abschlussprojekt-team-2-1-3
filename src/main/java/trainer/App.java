@@ -3,6 +3,7 @@ package trainer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -23,7 +24,7 @@ public class App extends Application {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/StartMenuView.fxml"));
 
-        GridPane pane = loader.load();
+        BorderPane pane = loader.load();
         Scene scene = new Scene(pane);
 
         stage.setScene(scene);

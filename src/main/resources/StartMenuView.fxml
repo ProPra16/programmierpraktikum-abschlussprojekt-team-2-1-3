@@ -5,25 +5,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.StartMenuViewController">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-  </columnConstraints>
-  <rowConstraints>
-      <RowConstraints maxHeight="379.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="379.0" minHeight="10.0" prefHeight="355.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="194.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0" GridPane.rowIndex="1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.startmenu.StartMenuViewController">
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Menu">
+            <Label lineSpacing="20.0" text="Willkommen">
                <font>
-                  <Font name="System Bold" size="30.0" />
+                  <Font size="30.0" />
                </font>
             </Label>
-            <Button contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#startButton" text="Start" />
+            <ListView fx:id="listView" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </VBox>
-   </children>
-</GridPane>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#loadButton" text="Load Files" />
+            <Button mnemonicParsing="false" onAction="#switchFolderButton" prefHeight="25.0" prefWidth="106.0" text="Switch Folder" />
+            <Button mnemonicParsing="false" onAction="#startProgramm" prefHeight="25.0" prefWidth="90.0" text="Start" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

@@ -1,54 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.ProgrammViewController">
-  <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="240.0" minWidth="10.0" prefWidth="31.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="324.0" minWidth="10.0" prefWidth="255.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="0.0" prefWidth="16.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="384.0" minWidth="10.0" prefWidth="275.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="308.0" minWidth="10.0" prefWidth="33.0" />
-  </columnConstraints>
-  <rowConstraints>
-      <RowConstraints maxHeight="193.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="375.0" minHeight="10.0" prefHeight="335.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <children>
-            <TextArea fx:id="leftTextArea" prefHeight="309.0" prefWidth="221.0" />
-         </children>
-      </VBox>
-      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
-         <children>
-            <TextArea fx:id="rightTextArea" prefHeight="310.0" prefWidth="245.0" />
-         </children>
-      </VBox>
-      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="252.0" spacing="10.0" GridPane.columnIndex="3">
-         <children>
-            <Polygon fill="#1fff2a" rotate="90.0" scaleX="0.4" scaleY="0.4" stroke="BLACK" strokeType="INSIDE">
-              <points>
-                <Double fx:value="-50.0" />
-                <Double fx:value="40.0" />
-                <Double fx:value="50.0" />
-                <Double fx:value="40.0" />
-                <Double fx:value="0.0" />
-                <Double fx:value="-60.0" />
-              </points>
-            </Polygon>
-            <Circle fill="#ff1f1f" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-            <MenuButton contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="Optionen">
-               <items>
-                  <RadioMenuItem mnemonicParsing="false" text="Option 1" />
-                  <RadioMenuItem mnemonicParsing="false" text="Option 2" />
-                  <RadioMenuItem mnemonicParsing="false" text="Option 3" />
-               </items>
-            </MenuButton>
-         </children>
-      </HBox>
-   </children>
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.programmview.ProgrammViewController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="240.0" minWidth="10.0" prefWidth="31.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="324.0" minWidth="10.0" prefWidth="255.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="0.0" prefWidth="16.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="384.0" minWidth="10.0" prefWidth="275.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="308.0" minWidth="10.0" prefWidth="33.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="193.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="375.0" minHeight="10.0" prefHeight="335.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <children>
+                <TextArea fx:id="leftTextArea" prefHeight="309.0" prefWidth="221.0" />
+            </children>
+        </VBox>
+        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <children>
+                <TextArea fx:id="rightTextArea" prefHeight="310.0" prefWidth="245.0" />
+            </children>
+        </VBox>
+        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="252.0" spacing="10.0" GridPane.columnIndex="3">
+            <children>
+                <Polygon fill="LIGHTGREEN" rotate="90.0" scaleX="0.4" scaleY="0.4" stroke="BLACK" strokeType="INSIDE">
+                    <points>
+                        <Double fx:value="-50.0" />
+                        <Double fx:value="40.0" />
+                        <Double fx:value="50.0" />
+                        <Double fx:value="40.0" />
+                        <Double fx:value="0.0" />
+                        <Double fx:value="-60.0" />
+                    </points>
+                </Polygon>
+                <Circle fx:id="statusbutton" fill="ORANGERED" onMouseClicked="#colorcheck" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+                <MenuButton contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Optionen">
+                    <items>
+                        <RadioMenuItem mnemonicParsing="false" text="Option 1" />
+                        <RadioMenuItem mnemonicParsing="false" text="Option 2" />
+                        <RadioMenuItem mnemonicParsing="false" text="Option 3" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                    </items>
+                </MenuButton>
+            </children>
+        </HBox>
+        <TextArea fx:id="problem_definition" prefHeight="50.0" prefWidth="253.0" GridPane.columnIndex="1" />
+    </children>
 </GridPane>

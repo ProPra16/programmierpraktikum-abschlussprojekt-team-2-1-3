@@ -2,33 +2,64 @@ package trainer.gui.programmview;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+
+import java.io.IOException;
 
 public class ProgrammViewController {
 
 
     @FXML
-    private static TextArea leftTextArea;
+    private TextArea leftTextArea = new TextArea("");
 
     @FXML
-    private static TextArea rightTextArea;
+    private TextArea rightTextArea = new TextArea("");
 
-    public static void disableLeftTextArea (){
+    @FXML
+    private TextArea problem_definition = new TextArea("");
+
+    @FXML
+    private Circle statusbutton;
+
+    public static String task;
+    private int status = 0;
+
+    public void initialize() throws IOException {
+
+        rightTextArea.setEditable(false);
+        problem_definition.setEditable(false);
+        rightTextArea.setDisable(true);
+
+        problem_definition.setText(task);
+    }
+
+    public void disableLeftTextArea() {
         leftTextArea.setEditable(false);
     }
 
-    public static void disableRightTextArea (){
+    public void disableRightTextArea() {
         rightTextArea.setEditable(false);
     }
 
-    public static void enableLeftTextArea (){
+    public void enableLeftTextArea() {
         leftTextArea.setEditable(true);
     }
 
-    public static void enableRightTextArea (){
+    public void enableRightTextArea() {
         rightTextArea.setEditable(false);
     }
 
-    public static void setLeftTextArea (TextArea textarea){
-        leftTextArea = textarea;
+    public void colorcheck (){
+        if (status == 0){
+            statusbutton.setFill(Color.LIGHTGREEN);
+            status = 1;
+        }
+
+        else if (status == 1){
+            statusbutton.setFill(Color.ORANGERED);
+            status = 0;
+        }
     }
+
 }
