@@ -7,12 +7,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import trainer.App;
 import trainer.gui.programmview.ProgrammViewController;
+import trainer.gui.system.Controller;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,13 +26,24 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class StartMenuViewController {
+public class SelectionController extends Controller {
 
     @FXML
     private ListView listView;
     private ObservableList<String> observableList;
 
+    @FXML
+    public BorderPane root;
+
     private File folder = new File("tasks");
+
+    public static SelectionController createWithName(String nameOfController) throws IOException {
+        FXMLLoader loader = new FXMLLoader(SelectionController.class.getResource("/SelectionView.fxml"));
+        loader.load();
+        SelectionController selectionController = loader.getController();
+        selectionController.setName(nameOfController);
+        return selectionController;
+    }
 
     public ArrayList scanForFiles() throws IOException {
 
@@ -108,4 +121,5 @@ public class StartMenuViewController {
         if (selectedDirectory != null)
             folder = selectedDirectory;
     }
+
 }
