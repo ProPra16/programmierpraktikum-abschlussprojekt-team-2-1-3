@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.startmenu.SelectionController">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.SelectionController">
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
@@ -21,9 +21,9 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#loadButton" text="Load Files" />
-            <Button mnemonicParsing="false" onAction="#switchFolderButton" prefHeight="25.0" prefWidth="106.0" text="Switch Folder" />
-            <Button mnemonicParsing="false" onAction="#startProgramm" prefHeight="25.0" prefWidth="90.0" text="Start" />
+            <Button mnemonicParsing="false" onAction="#loadFiles" text="Load Files" />
+            <Button mnemonicParsing="false" onAction="#switchFolder" prefHeight="25.0" prefWidth="106.0" text="Switch Folder" />
+            <Button mnemonicParsing="false" onAction="#startTrainer" prefHeight="25.0" prefWidth="90.0" text="Start" />
          </children>
       </HBox>
    </bottom>
