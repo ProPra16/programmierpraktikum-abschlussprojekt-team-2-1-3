@@ -1,0 +1,20 @@
+Treffen 2
+
+Hier erstmal die geforderte Liste:
+Silja Mohrmann | SiljaMo | silja.mohrmann@gmx.de | lokaler-git-Name(wegen der ersten Commits nicht unter Github Account): Silja
+Julian Schacht | toadie223 | jusch196@hhu.de | lokaler-git-Name: jusch
+Kathrin Parchatka | KasiaPar | Kathrin.Parchatka@hhu.de 
+
+1. Review der letzten Woche:
+Aufgekommene Fragen (siehe Treffen 1) wurden wie folgt geklärt:
+	Die Aufgabenstellung ist nach Frank Westphal zu verstehen.
+	Wie die Tests genau aussehen sollen ist noch nicht ganz klar, aber der Compiler/die Beispielkonfiguration gibt erste Ideen.
+Der bereits gepushte Code wurde überarbeitet und MVC tauglich gemacht. (Branch: Umstrukturierung)
+Die Layouts wurden geringfügig angepasst (noch nicht im Code).
+Enorme GitHub Probleme wurden größtenteils behoben (auch nach Anleitung im Internet sind wir noch keine Contributors).
+
+2. TODO für die kommenden Tage: Aufgabenverteilung
+- Julian: MVC-Modell für den Trainer entwerfen
+- Silja: Gegebenen Compiler studieren
+- Kathrin: Startmenü vervollständigen, bzw Layouts aktualisieren, MVC weiter ausarbeiten
+
