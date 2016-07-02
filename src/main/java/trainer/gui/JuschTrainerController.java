@@ -8,7 +8,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import trainer.App;
 import trainer.gui.system.Controller;
-import trainer.models.Selection;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class TrainerController extends Controller {
+public class JuschTrainerController extends Controller {
 
     @FXML
     private GridPane root;
@@ -36,10 +35,10 @@ public class TrainerController extends Controller {
     public String task;
     private int status = 0;
 
-    public static TrainerController createWithName(String nameOfController) throws IOException {
-        FXMLLoader loader = new FXMLLoader(SelectionController.class.getResource("/TrainerView.fxml"));
+    public static JuschTrainerController createWithName(String nameOfController) throws IOException {
+        FXMLLoader loader = new FXMLLoader(JuschTrainerController.class.getResource("/JuschTrainerView.fxml"));
         loader.load();
-        TrainerController trainerController = loader.getController();
+        JuschTrainerController trainerController = loader.getController();
         trainerController.setName(nameOfController);
         return trainerController;
     }
@@ -88,30 +87,32 @@ public class TrainerController extends Controller {
 
     @Override
     public void willAppear() {
+        if (((SelectionController) App.getInstance().controllers.get("selection")).selection.exerciseName == null) {
+        } else {
+            initialize(readExercise());
+        }
+    }
+
+    public String readExercise() {
         /** Pfad für ausgewählte Aufgabe wird erstellt und die Aufgabe wird mit dem Reader als String eingelesen.*/
 
-        if (((SelectionController)App.getInstance().controllers.get("selection")).selection.exerciseName == null) {
-        } else {
-            Path taskPath = Paths.get(((SelectionController) App.getInstance().controllers.get("selection")).selection.folder.getAbsolutePath() + "/" + ((SelectionController) App.getInstance().controllers.get("selection")).selection.exerciseName.toString());
-            BufferedReader bR = null;
-            try {
-                bR = Files.newBufferedReader(taskPath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String tempLine;
-            String task = "";
-
-            try {
-                while ((tempLine = bR.readLine()) != null)
-                    task += tempLine + "\n";
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            this.task = task;
-            initialize(this.task);
+        Path taskPath = Paths.get(((SelectionController) App.getInstance().controllers.get("selection")).selection.catalog.folder.getAbsolutePath() + "/" + ((SelectionController) App.getInstance().controllers.get("selection")).selection.exerciseName.toString());
+        BufferedReader bR = null;
+        try {
+            bR = Files.newBufferedReader(taskPath);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        String tempLine;
+        String exercise = "";
+        try {
+            while ((tempLine = bR.readLine()) != null)
+                exercise += tempLine + "\n";
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+            return exercise;
 
     }
+
 }

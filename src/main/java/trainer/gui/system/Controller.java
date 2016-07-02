@@ -29,6 +29,14 @@ public class Controller {
 
     }
 
+    public void showChild(String nameOfChild, Pane container) {
+        if (!children.containsKey(nameOfChild)) return;
+        Controller controller = children.get(nameOfChild);
+        controller.willAppear();
+        container.getChildren().add(controller.getRoot());
+        controller.didAppear();
+    }
+
     /** getter und setter für die Variablen */
 
     public String getName() {

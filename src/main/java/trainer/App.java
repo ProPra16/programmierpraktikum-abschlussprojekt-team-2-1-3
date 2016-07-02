@@ -4,17 +4,10 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import trainer.gui.SelectionController;
+import trainer.gui.*;
 import trainer.gui.system.Controller;
-import trainer.gui.TrainerController;
-import trainer.models.Selection;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 
 public class App extends Application {
@@ -37,8 +30,10 @@ public class App extends Application {
         stage.setScene(new Scene(new Pane()));
 
 
+        //controllers.put("catalog", FalseCatalogController.createWithName("catalog"));
+        //controllers.put("juschSelection", JuschSelectionController.createWithName("juschSelection"));
         controllers.put("selection", SelectionController.createWithName("selection"));
-        controllers.put("trainer",TrainerController.createWithName("trainer"));
+        controllers.put("trainer", JuschTrainerController.createWithName("trainer"));
         showController("selection");
 
         /** Anzeigen */
