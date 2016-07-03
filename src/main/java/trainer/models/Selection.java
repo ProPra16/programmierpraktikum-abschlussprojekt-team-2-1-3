@@ -16,6 +16,10 @@ public class Selection {
         catalog.folder = new File(nameOfFolder);
     }
 
+    public void setExerciseName(String exerciseName) {
+        this.exerciseName = exerciseName;
+    }
+
     public void setCatalog(Catalog catalog) {
         this.catalog = catalog;
     }

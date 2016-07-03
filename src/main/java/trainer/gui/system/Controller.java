@@ -18,6 +18,7 @@ public class Controller {
     public void willAppear() {
 
     }
+
     public void didAppear() {
 
     }
@@ -25,6 +26,7 @@ public class Controller {
     public void willDisappear() {
 
     }
+
     public void didDisappear() {
 
     }

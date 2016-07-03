@@ -9,47 +9,38 @@ import javafx.scene.shape.Circle;
 import trainer.App;
 import trainer.gui.system.Controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
-public class JuschTrainerController extends Controller {
+public class TrainerController extends Controller {
 
     @FXML
     private GridPane root;
-
     @FXML
     private TextArea leftTextArea = new TextArea("");
-
     @FXML
     private TextArea rightTextArea = new TextArea("");
-
     @FXML
     private TextArea problem_definition = new TextArea("");
-
     @FXML
     private Circle statusbutton;
-
     public String task;
     private int status = 0;
 
-    public static JuschTrainerController createWithName(String nameOfController) throws IOException {
-        FXMLLoader loader = new FXMLLoader(JuschTrainerController.class.getResource("/JuschTrainerView.fxml"));
+    public static TrainerController createWithName(String nameOfController) throws IOException {
+        FXMLLoader loader = new FXMLLoader(TrainerController.class.getResource("/TrainerView.fxml"));
         loader.load();
-        JuschTrainerController trainerController = loader.getController();
+        TrainerController trainerController = loader.getController();
         trainerController.setName(nameOfController);
         return trainerController;
     }
 
-    public void initialize(String task) {
+    public void initialize(String exercise) {
 
         rightTextArea.setEditable(false);
         problem_definition.setEditable(false);
         rightTextArea.setDisable(true);
 
-        problem_definition.setText(task);
+        problem_definition.setText(exercise);
     }
 
     public void disableLeftTextArea() {
@@ -80,6 +71,11 @@ public class JuschTrainerController extends Controller {
         }
     }
 
+    public String readExercise() {
+        /** Aufgabenstellung anzeigen */
+        return ((SelectionController) App.getInstance().controllers.get("selection")).readExercise();
+    }
+
     @Override
     public GridPane getRoot() {
         return root;
@@ -92,27 +88,4 @@ public class JuschTrainerController extends Controller {
             initialize(readExercise());
         }
     }
-
-    public String readExercise() {
-        /** Pfad für ausgewählte Aufgabe wird erstellt und die Aufgabe wird mit dem Reader als String eingelesen.*/
-
-        Path taskPath = Paths.get(((SelectionController) App.getInstance().controllers.get("selection")).selection.catalog.folder.getAbsolutePath() + "/" + ((SelectionController) App.getInstance().controllers.get("selection")).selection.exerciseName.toString());
-        BufferedReader bR = null;
-        try {
-            bR = Files.newBufferedReader(taskPath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String tempLine;
-        String exercise = "";
-        try {
-            while ((tempLine = bR.readLine()) != null)
-                exercise += tempLine + "\n";
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-            return exercise;
-
-    }
-
 }

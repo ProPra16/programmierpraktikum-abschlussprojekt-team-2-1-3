@@ -26,14 +26,12 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         /** Initialisierung */
         stage = primaryStage;
-        stage.setTitle("Menu");
+        stage.setTitle("Hauptmenü");
         stage.setScene(new Scene(new Pane()));
 
 
-        //controllers.put("catalog", FalseCatalogController.createWithName("catalog"));
-        //controllers.put("juschSelection", JuschSelectionController.createWithName("juschSelection"));
         controllers.put("selection", SelectionController.createWithName("selection"));
-        controllers.put("trainer", JuschTrainerController.createWithName("trainer"));
+        controllers.put("trainer", TrainerController.createWithName("trainer"));
         showController("selection");
 
         /** Anzeigen */
@@ -65,8 +63,8 @@ public class App extends Application {
         activeController.didAppear();
     }
 
+    /** Nach ausgewaehler Aufgabe wird der Trainer geoeffnet */
     public void startTrainer () throws IOException {
-
             showController("trainer");
             stage.setTitle("TDD - Trainer");
             stage.show();
