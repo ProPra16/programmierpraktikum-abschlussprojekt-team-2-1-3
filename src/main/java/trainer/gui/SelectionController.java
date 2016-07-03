@@ -11,15 +11,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import trainer.App;
 import trainer.gui.system.Controller;
+import trainer.models.Exercise;
 import trainer.models.Selection;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -47,8 +44,8 @@ public class SelectionController extends Controller {
     @FXML
     public void showExercise() {
         /** Aufgabenstellung der ausgewaehlten Aufgabe anzeigen */
-        selection.setExerciseName(exercisesListView.getSelectionModel().getSelectedItem().toString());
-        exerciseTextArea.setText(readExercise());
+        selection.exercise = new Exercise(selection.catalog, exercisesListView.getSelectionModel().getSelectedItem().toString());
+        exerciseTextArea.setText(selection.exercise.description);
     }
 
     @FXML
@@ -59,7 +56,7 @@ public class SelectionController extends Controller {
     @FXML
     public void startTrainer() throws IOException {
         /** Trainer starten */
-        selection.exerciseName = exercisesListView.getSelectionModel().getSelectedItem();
+        selection.exercise.name = exercisesListView.getSelectionModel().getSelectedItem();
         App.getInstance().startTrainer();
     }
 
@@ -81,6 +78,10 @@ public class SelectionController extends Controller {
     }
 
     public ArrayList scanForFiles() throws IOException {
+
+        // TODO: Wenn eine Uebung aus Description, Templates und Settings besteht (welche in einem Ordner gesammelt sind), so muss nach Ordnernamen gesucht werden, nicht nach .txt
+        // andernfalls so lassen
+
         ArrayList listOfTextFiles = new ArrayList();
         FilenameFilter filenameFilter = new FilenameFilter() {
             @Override
@@ -114,27 +115,6 @@ public class SelectionController extends Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public String readExercise() {
-        /** Pfad für ausgewählte Aufgabe wird erstellt und die Aufgabe wird mit dem Reader als String eingelesen.*/
-
-        Path taskPath = Paths.get(selection.catalog.folder.getAbsolutePath() + "/" + selection.exerciseName.toString());
-        BufferedReader bR = null;
-        try {
-            bR = Files.newBufferedReader(taskPath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String tempLine;
-        String exercise = "";
-        try {
-            while ((tempLine = bR.readLine()) != null)
-                exercise += tempLine + "\n";
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return exercise;
     }
 
     public void setSelection(Selection selection) {

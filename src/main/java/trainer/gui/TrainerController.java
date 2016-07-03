@@ -73,7 +73,7 @@ public class TrainerController extends Controller {
 
     public String readExercise() {
         /** Aufgabenstellung anzeigen */
-        return ((SelectionController) App.getInstance().controllers.get("selection")).readExercise();
+        return ((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.description;
     }
 
     @Override
@@ -83,7 +83,7 @@ public class TrainerController extends Controller {
 
     @Override
     public void willAppear() {
-        if (((SelectionController) App.getInstance().controllers.get("selection")).selection.exerciseName == null) {
+        if (((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.name == null) {
         } else {
             initialize(readExercise());
         }

@@ -5,19 +5,15 @@ import java.io.File;
 public class Selection {
 
     public Catalog catalog = new Catalog();
-    public Object exerciseName;
+    public Exercise exercise;
 
-    public static Selection create(String nameOfFolder) {
-        Selection selection = new Selection(nameOfFolder);
-        return selection;
-    }
 
     public Selection(String nameOfFolder) {
         catalog.folder = new File(nameOfFolder);
     }
 
-    public void setExerciseName(String exerciseName) {
-        this.exerciseName = exerciseName;
+    public void setExercise(Exercise exercise) {
+        this.exercise = exercise;
     }
 
     public void setCatalog(Catalog catalog) {
