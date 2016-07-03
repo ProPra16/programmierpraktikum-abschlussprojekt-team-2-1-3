@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import trainer.App;
@@ -27,11 +26,11 @@ import java.util.Collections;
 public class SelectionController extends Controller {
 
     @FXML
-    public VBox root;
+    private VBox root;
     @FXML
     private TextField catalogTextField;
     @FXML
-    public ListView listView;
+    private ListView exercisesListView;
     @FXML
     public TextArea exerciseTextArea;
     private ObservableList<String> exerciseObservableList;
@@ -46,27 +45,27 @@ public class SelectionController extends Controller {
     }
 
     @FXML
-    public void showExercise(MouseEvent arg0) {
+    public void showExercise() {
         /** Aufgabenstellung der ausgewaehlten Aufgabe anzeigen */
-        selection.setExerciseName(listView.getSelectionModel().getSelectedItem().toString());
+        selection.setExerciseName(exercisesListView.getSelectionModel().getSelectedItem().toString());
         exerciseTextArea.setText(readExercise());
     }
 
     @FXML
     public void quit() {
-        System.exit(0);
+        App.getInstance().quit();
     }
 
     @FXML
     public void startTrainer() throws IOException {
         /** Trainer starten */
-        selection.exerciseName = listView.getSelectionModel().getSelectedItem();
+        selection.exerciseName = exercisesListView.getSelectionModel().getSelectedItem();
         App.getInstance().startTrainer();
     }
 
     @FXML
     public void searchForCatalogs() {
-        /** Katalog aendern  (beim klicken des ... Button)*/
+        /** Katalog aendern  (beim Klicken des ... Button)*/
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Switch Folder");
         File selectedDirectory = directoryChooser.showDialog(App.getInstance().getStage());
@@ -102,7 +101,7 @@ public class SelectionController extends Controller {
         ArrayList listOfTextFiles = scanForFiles();
         Collections.sort(listOfTextFiles);
         exerciseObservableList = FXCollections.observableList(listOfTextFiles);
-        listView.setItems(exerciseObservableList);
+        exercisesListView.setItems(exerciseObservableList);
     }
 
     public void willAppear() {

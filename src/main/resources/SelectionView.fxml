@@ -42,7 +42,7 @@
                         <Insets />
                      </VBox.margin>
                   </Label>
-                  <ListView fx:id="listView" prefHeight="127.0" prefWidth="239.0" VBox.vgrow="ALWAYS" onMouseClicked="#showExercise" />
+                  <ListView fx:id="exercisesListView" prefHeight="127.0" prefWidth="239.0" VBox.vgrow="ALWAYS" onMouseClicked="#showExercise" />
                </children>
             </VBox>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="180.0" prefWidth="252.0" HBox.hgrow="ALWAYS">

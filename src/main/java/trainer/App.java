@@ -17,10 +17,11 @@ public class App extends Application {
     public LinkedHashMap<String, Controller> controllers = new LinkedHashMap<>();
     private Controller activeController;
 
-    public App() {
+    @Override
+    public void init() throws Exception {
+        super.init();
         instance = this;
     }
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -28,7 +29,6 @@ public class App extends Application {
         stage = primaryStage;
         stage.setTitle("Hauptmenü");
         stage.setScene(new Scene(new Pane()));
-
 
         controllers.put("selection", SelectionController.createWithName("selection"));
         controllers.put("trainer", TrainerController.createWithName("trainer"));
@@ -63,19 +63,21 @@ public class App extends Application {
         activeController.didAppear();
     }
 
-    /** Nach ausgewaehler Aufgabe wird der Trainer geoeffnet */
-    public void startTrainer () throws IOException {
+    public void startTrainer() throws IOException {
+        /** Nach ausgewaehler Aufgabe wird der Trainer geoeffnet */
             showController("trainer");
             stage.setTitle("TDD - Trainer");
-            stage.show();
         }
 
+    public void quit() {
+        System.exit(0);
+    }
 
     public static void main(String[] args){
         launch(args);
     }
 
-    public static App getInstance (){
+    public static App getInstance(){
         return instance;
     }
 
