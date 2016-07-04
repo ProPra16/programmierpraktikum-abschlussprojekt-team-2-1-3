@@ -1,0 +1,11 @@
+Treffen 3
+
+1. Review des Wochenendes:
+Die Layouts wurden angepasst und die Controller-Struktur wurde weiter ausgebaut. Der erste Entwurf für die Trainer-Architektur wurde festgelegt. 
+Außerdem haben wir uns geeinigt, dass eine Übung aus einer xml-Datei besteht (und nicht aus einem Ordner mit mehreren Dateien).
+
+
+2. TODO für die kommenden Tage: Aufgabenverteilung
+- Julian: Einbindung der Übungen (xml-Dateien) in das Programm
+- Silja: Integration des Compilers
+- Kathrin: Trainerdesign implementieren
