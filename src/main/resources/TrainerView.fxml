@@ -1,57 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.control.*?>
 <?import java.lang.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.TrainerController">
-    <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="240.0" minWidth="10.0" prefWidth="31.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="324.0" minWidth="10.0" prefWidth="255.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="0.0" prefWidth="16.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="384.0" minWidth="10.0" prefWidth="275.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="308.0" minWidth="10.0" prefWidth="33.0" />
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints maxHeight="193.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="375.0" minHeight="10.0" prefHeight="335.0" vgrow="SOMETIMES" />
-    </rowConstraints>
+<Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="trainer.gui.TrainerController">
     <children>
-        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-            <children>
-                <TextArea fx:id="leftTextArea" prefHeight="309.0" prefWidth="221.0" />
-            </children>
-        </VBox>
-        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
-            <children>
-                <TextArea fx:id="rightTextArea" prefHeight="310.0" prefWidth="245.0" />
-            </children>
-        </VBox>
-        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="252.0" spacing="10.0" GridPane.columnIndex="3">
-            <children>
-                <Polygon fill="LIGHTGREEN" rotate="90.0" scaleX="0.4" scaleY="0.4" stroke="BLACK" strokeType="INSIDE">
-                    <points>
-                        <Double fx:value="-50.0" />
-                        <Double fx:value="40.0" />
-                        <Double fx:value="50.0" />
-                        <Double fx:value="40.0" />
-                        <Double fx:value="0.0" />
-                        <Double fx:value="-60.0" />
-                    </points>
-                </Polygon>
-                <Circle fx:id="statusbutton" fill="ORANGERED" onMouseClicked="#colorcheck" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-                <MenuButton contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Optionen">
-                    <items>
-                        <RadioMenuItem mnemonicParsing="false" text="Option 1" />
-                        <RadioMenuItem mnemonicParsing="false" text="Option 2" />
-                        <RadioMenuItem mnemonicParsing="false" text="Option 3" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                    </items>
-                </MenuButton>
-            </children>
-        </HBox>
-        <TextArea fx:id="problem_definition" prefHeight="50.0" prefWidth="253.0" GridPane.columnIndex="1" />
+        <SplitPane dividerPositions="0.2914572864321608" maxHeight="-Infinity" maxWidth="-Infinity"
+                   minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0"
+                   prefWidth="600.0">
+            <items>
+                <VBox prefHeight="200.0" prefWidth="100.0">
+                    <children>
+                        <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <MenuBar HBox.hgrow="ALWAYS">
+                                    <menus>
+                                        <Menu mnemonicParsing="false" text="Navigate">
+                                            <items>
+                                                <MenuItem mnemonicParsing="false" text="Back"/>
+                                                <MenuItem mnemonicParsing="false" text="Edit Code"/>
+                                                <MenuItem mnemonicParsing="false" text="Edit Test"/>
+                                                <MenuItem mnemonicParsing="false" text="Save"/>
+                                                <MenuItem mnemonicParsing="false" text="Exit"/>
+                                            </items>
+                                        </Menu>
+                                        <Menu mnemonicParsing="false" text="Run">
+                                            <items>
+                                                <MenuItem mnemonicParsing="false" text="Compile &amp; Run"/>
+                                            </items>
+                                        </Menu>
+                                        <Menu mnemonicParsing="false" text="Help">
+                                            <items>
+                                                <MenuItem mnemonicParsing="false" text="Show Settings"/>
+                                                <MenuItem mnemonicParsing="false" text="About"/>
+                                                <MenuItem mnemonicParsing="false" text="Handbuch"/>
+                                            </items>
+                                        </Menu>
+                                    </menus>
+                                </MenuBar>
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                            <children>
+                                <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label text="Aufgabenstellung">
+                                            <font>
+                                                <Font name="System Bold" size="15.0"/>
+                                            </font>
+                                        </Label>
+                                        <TextArea fx:id="problem_definition" prefHeight="63.0" prefWidth="401.0"
+                                                  VBox.vgrow="ALWAYS"/>
+                                    </children>
+                                </VBox>
+                                <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <TreeTableView VBox.vgrow="ALWAYS">
+                                            <columns>
+                                                <TreeTableColumn prefWidth="150.0" text="Test"/>
+                                                <TreeTableColumn minWidth="0.0" prefWidth="79.0" text="Status"/>
+                                            </columns>
+                                        </TreeTableView>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+                <BorderPane prefHeight="200.0" prefWidth="200.0">
+                    <bottom>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="5.0" prefWidth="600.0" spacing="30.0"
+                              BorderPane.alignment="CENTER">
+                            <children>
+                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="7.0" stroke="BLACK"
+                                           strokeType="INSIDE" width="600.0" HBox.hgrow="ALWAYS"/>
+                            </children>
+                        </HBox>
+                    </bottom>
+                    <center>
+                        <HBox alignment="CENTER" prefHeight="413.0" prefWidth="598.0" BorderPane.alignment="CENTER">
+                            <children>
+                                <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label text="Test - Editor">
+                                            <font>
+                                                <Font name="System Bold" size="15.0"/>
+                                            </font>
+                                        </Label>
+                                        <TextArea fx:id="leftTextArea" VBox.vgrow="ALWAYS"/>
+                                    </children>
+                                </VBox>
+                                <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label text="Code - Editor">
+                                            <font>
+                                                <Font name="System Bold" size="15.0"/>
+                                            </font>
+                                        </Label>
+                                        <TextArea fx:id="rightTextArea" VBox.vgrow="SOMETIMES"/>
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets/>
+                                    </HBox.margin>
+                                </VBox>
+                            </children>
+                        </HBox>
+                    </center>
+                </BorderPane>
+            </items>
+        </SplitPane>
     </children>
-</GridPane>
+</Pane>

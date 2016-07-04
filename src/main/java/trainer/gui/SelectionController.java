@@ -30,6 +30,7 @@ public class SelectionController extends Controller {
     private ListView exercisesListView;
     @FXML
     public TextArea exerciseTextArea;
+
     private ObservableList<String> exerciseObservableList;
     public Selection selection = new Selection("tasks");
 
