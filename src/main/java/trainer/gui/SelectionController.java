@@ -8,6 +8,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.DirectoryChooser;
 import trainer.App;
 import trainer.gui.system.Controller;
@@ -37,9 +38,9 @@ public class SelectionController extends Controller {
     public static SelectionController createWithName(String nameOfController) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(SelectionController.class.getResource("/SelectionView.fxml"));
         fxmlLoader.load();
-        SelectionController SelectionController = fxmlLoader.getController();
-        SelectionController.setName(nameOfController);
-        return SelectionController;
+        SelectionController selectionController = fxmlLoader.getController();
+        selectionController.setName(nameOfController);
+        return selectionController;
     }
 
     @FXML

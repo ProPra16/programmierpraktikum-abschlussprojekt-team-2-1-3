@@ -36,6 +36,10 @@ public class App extends Application {
 
         /** Anzeigen */
         stage.show();
+        stage.setHeight(600);
+        stage.setWidth(800);
+
+        //stage.setFullScreen(true);
     }
 
     public void showController(String nameOfController) {

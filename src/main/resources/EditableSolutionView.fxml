@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.EditableSolutionController">
+   <center>
+      <HBox alignment="CENTER" prefHeight="413.0" prefWidth="598.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Test - Editor">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="testTextArea" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Code - Editor">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="codeTextArea" VBox.vgrow="SOMETIMES" />
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+</BorderPane>
