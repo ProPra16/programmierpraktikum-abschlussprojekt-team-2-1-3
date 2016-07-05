@@ -14,9 +14,10 @@ public class EditableSolutionController extends Controller {
     @FXML
     public BorderPane root;
     @FXML
-    private TextArea testTextArea;
+    public TextArea testTextArea;
     @FXML
-    private  TextArea codeTextArea;
+    public  TextArea codeTextArea;
+
 
     private String testInput;
 

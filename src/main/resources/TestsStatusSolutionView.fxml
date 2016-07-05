@@ -6,10 +6,9 @@
 
 <BorderPane fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.TestsStatusSolutionController">
    <center>
-      <TableView focusTraversable="false" nodeOrientation="LEFT_TO_RIGHT" BorderPane.alignment="TOP_RIGHT">
+      <TableView fx:id="testTableView" focusTraversable="false" nodeOrientation="LEFT_TO_RIGHT" BorderPane.alignment="TOP_RIGHT">
         <columns>
-          <TableColumn fx:id="testTableColumn" editable="false" minWidth="-1.0" prefWidth="175.0" text="Test" />
-          <TableColumn fx:id="statusTableColumn" editable="false" prefWidth="77.0" resizable="false" text="Status" />
+          <TableColumn fx:id="testTableColumn" editable="false" minWidth="-1.0" prefWidth="175.0" text="Fehlschlagende Tests" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
