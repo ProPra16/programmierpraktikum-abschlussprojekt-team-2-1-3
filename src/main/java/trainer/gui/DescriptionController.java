@@ -32,11 +32,11 @@ public class DescriptionController extends Controller {
         return ((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.description;
     }
 
-    /**@Override
-    public void willAppear() {
+    @Override
+    public void didAppear() {
         if (((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.name == null) {
         } else {
-            initialize(readExercise());
+            descriptionTextArea.setText(readExercise());
         }
-    }*/
+    }
 }

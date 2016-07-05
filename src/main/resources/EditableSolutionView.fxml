@@ -18,7 +18,7 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="testTextArea" VBox.vgrow="ALWAYS" />
+                  <TextArea fx:id="testTextArea" focusTraversable="false" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
             <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
@@ -28,7 +28,7 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="codeTextArea" VBox.vgrow="SOMETIMES" />
+                  <TextArea fx:id="codeTextArea" focusTraversable="false" VBox.vgrow="SOMETIMES" />
                </children>
                <HBox.margin>
                   <Insets />

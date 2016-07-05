@@ -11,6 +11,6 @@
          <font>
             <Font name="System Bold Italic" size="15.0" />
          </font></Label>
-      <TextArea fx:id="descriptionTextArea" editable="false" VBox.vgrow="ALWAYS" />
+      <TextArea fx:id="descriptionTextArea" editable="false" focusTraversable="false" VBox.vgrow="ALWAYS" />
    </children>
 </VBox>

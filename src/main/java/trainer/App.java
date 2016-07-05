@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 public class App extends Application {
     private static App instance;
 
-    private Stage stage;
+    public Stage stage;
     public LinkedHashMap<String, Controller> controllers = new LinkedHashMap<>();
     private Controller activeController;
 
@@ -31,15 +31,14 @@ public class App extends Application {
         stage.setScene(new Scene(new Pane()));
 
         controllers.put("selection", SelectionController.createWithName("selection"));
-        controllers.put("trainer", TrainerController.createWithName("trainer"));
+        // controllers.put("trainer", TrainerController.createWithName("trainer"));
+        // wurde zu showExercise() im SelectionController ausgelagert, da eine Aufgabe schon ausgewaehlt sein muss um den TrainerController zu erstellen
         showController("selection");
 
         /** Anzeigen */
         stage.show();
         stage.setHeight(600);
         stage.setWidth(800);
-
-        //stage.setFullScreen(true);
     }
 
     public void showController(String nameOfController) {

@@ -10,9 +10,9 @@
       <Rectangle fx:id="statusBar" arcHeight="5.0" arcWidth="5.0" fill="RED" height="22.0" stroke="BLACK" strokeType="INSIDE" width="800.0" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
-      <SplitPane dividerPositions="0.38" orientation="VERTICAL" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.38" focusTraversable="false" orientation="VERTICAL" BorderPane.alignment="CENTER">
          <items>
-            <GridPane alignment="CENTER" gridLinesVisible="true" SplitPane.resizableWithParent="false">
+            <GridPane alignment="CENTER" SplitPane.resizableWithParent="false">
                <children>
                   <StackPane fx:id="descriptionStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.hgrow="SOMETIMES" GridPane.vgrow="ALWAYS" />
                   <StackPane fx:id="testSolutionStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="SOMETIMES" GridPane.vgrow="ALWAYS" />
@@ -25,7 +25,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
             </GridPane>
-            <StackPane fx:id="editableSolutionStackPane" />
+            <StackPane fx:id="editableSolutionStackPane" focusTraversable="true" />
          </items>
       </SplitPane>
    </center>
@@ -36,16 +36,15 @@
                <menus>
                   <Menu mnemonicParsing="false" text="Navigate">
                      <items>
-                        <MenuItem fx:id="backToEditTestMenuItem" mnemonicParsing="false" text="Back" />
-                        <MenuItem fx:id="editCodeMenuItem" mnemonicParsing="false" text="Edit Code" />
-                        <MenuItem fx:id="editTestMenuItem" mnemonicParsing="false" text="Edit Test" />
-                        <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" text="Save" />
-                        <MenuItem fx:id="exitMenuItem" mnemonicParsing="false" text="Exit" />
+                        <MenuItem fx:id="backToEditTestMenuItem" mnemonicParsing="false" onAction="#backToEditTest" text="Back" />
+                        <MenuItem fx:id="editCodeMenuItem" mnemonicParsing="false" onAction="#editCode" text="Edit Code" />
+                        <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#save" text="Save" />
+                        <MenuItem fx:id="exitMenuItem" mnemonicParsing="false" onAction="#quit" text="Exit" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Run">
                      <items>
-                        <MenuItem fx:id="compileAndRunMenuItem" mnemonicParsing="false" text="Compile &amp; Run" />
+                        <MenuItem fx:id="compileAndRunMenuItem" mnemonicParsing="false" onAction="#compileAndRun" text="Compile &amp; Run" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Help">

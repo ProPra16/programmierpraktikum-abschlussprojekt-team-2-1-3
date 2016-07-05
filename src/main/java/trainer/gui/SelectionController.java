@@ -44,10 +44,12 @@ public class SelectionController extends Controller {
     }
 
     @FXML
-    public void showExercise() {
+    public void showExercise() throws IOException {
         /** Aufgabenstellung der ausgewaehlten Aufgabe anzeigen */
+        // TODO: Fehler, wenn man auf unbesetztes Listenelement klickt
         selection.exercise = new Exercise(selection.catalog, exercisesListView.getSelectionModel().getSelectedItem().toString());
         exerciseTextArea.setText(selection.exercise.description);
+        App.getInstance().controllers.put("trainer", TrainerController.createWithName("trainer"));
     }
 
     @FXML
