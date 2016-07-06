@@ -14,15 +14,15 @@ public class Compilation {
 
     String testInput;
     String solutionInput;
-    public CompilationUnit testUnit;
-    public CompilationUnit solutionUnit;
-    public CompilationUnit[] testAndSolution = {testUnit, solutionUnit};
-    public InternalCompiler compiler = (InternalCompiler) CompilerFactory.getCompiler(testAndSolution);
+    CompilationUnit[] testAndSolution = new CompilationUnit[2];
+    InternalCompiler compiler;
 
 
     public Compilation (String testInput, String solutionInput) {
         this.testInput = testInput;
         this.solutionInput = solutionInput;
+        testAndSolution[0] = new CompilationUnit(getClassName(testInput), testInput, isATest(testInput));
+        testAndSolution[1] = new CompilationUnit(getClassName(solutionInput), solutionInput, isATest(solutionInput));
     }
 
     /*
@@ -69,11 +69,6 @@ public class Compilation {
     }
 
 
-    public void createCompilationUnits () {
-        testUnit = new CompilationUnit(getClassName(testInput), testInput, isATest(testInput));
-        solutionUnit = new CompilationUnit(getClassName(solutionInput), solutionInput, isATest(solutionInput));
-
-    }
 
 
 
@@ -87,5 +82,12 @@ public class Compilation {
 
     }
 
+    public InternalCompiler initializeCompiler(CompilationUnit[] testAndSolution) {
+        compiler = (InternalCompiler) CompilerFactory.getCompiler(testAndSolution);
+        return compiler;
+    }
 
+    public CompilationUnit[] getTestAndSolution() {
+        return testAndSolution;
+    }
 }

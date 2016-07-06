@@ -2,6 +2,7 @@ package trainer;
 
 import trainer.compilation.Compilation;
 import vk.core.api.CompilationUnit;
+import vk.core.internal.InternalCompiler;
 
 
 public class CompilerTest {
@@ -25,7 +26,8 @@ public class CompilerTest {
 
         /** so werden aus den Inputs die CompilationUnits gemacht */
         Compilation compilation = new Compilation(testInput, solutionInput);
-        compilation.createCompilationUnits();
+
+        InternalCompiler compiler = compilation.initializeCompiler(compilation.getTestAndSolution());
 
         /* Test für Umwandlung von String zu CompilationUnit:
 
@@ -39,6 +41,6 @@ public class CompilerTest {
         */
 
         compilation.compileAndRun();
-        System.out.println(compilation.compiler.getTestResult());
+        System.out.println(compiler.getTestResult().getNumberOfIgnoredTests());
     }
 }
