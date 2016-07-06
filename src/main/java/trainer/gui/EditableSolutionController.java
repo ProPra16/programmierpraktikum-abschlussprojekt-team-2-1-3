@@ -25,7 +25,7 @@ public class EditableSolutionController extends Controller {
 
 
     public static EditableSolutionController createWithName(String nameOfController) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(EditableSolutionController.class.getResource("/EditableSolutionView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(EditableSolutionController.class.getResource("/SolutionView.fxml"));
         fxmlLoader.load();
         EditableSolutionController editableSolutionController = fxmlLoader.getController();
         editableSolutionController.setName(nameOfController);
