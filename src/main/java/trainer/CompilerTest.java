@@ -1,6 +1,7 @@
 package trainer;
 
 import trainer.compilation.Compilation;
+import trainer.gui.TrainerController;
 import vk.core.api.CompilationUnit;
 import vk.core.internal.InternalCompiler;
 
@@ -18,7 +19,7 @@ public class CompilerTest {
                 + "import org.junit.Test; \n"
                 + "public class FooTest { \n"
                 + "     @Test \n"
-                + "     public void leTest() { \n"
+                + "     public voi leTest() { \n"
                 + "         assertEquals(42, Foo.fourtyTwo()); \n"
                 + "     }\n"
                 + "}";
@@ -28,6 +29,8 @@ public class CompilerTest {
         Compilation compilation = new Compilation(testInput, solutionInput);
 
         InternalCompiler compiler = compilation.initializeCompiler(compilation.getTestAndSolution());
+
+        TrainerController test = new TrainerController();
 
         /* Test für Umwandlung von String zu CompilationUnit:
 
@@ -40,7 +43,9 @@ public class CompilerTest {
         System.out.println(compilation.solutionUnit.isATest());
         */
 
-        compilation.compileAndRun();
-        System.out.println(compiler.getTestResult().getNumberOfIgnoredTests());
+        test.compileAndRun(testInput, solutionInput);
+
+        //compilation.compileAndRun();
+
     }
 }

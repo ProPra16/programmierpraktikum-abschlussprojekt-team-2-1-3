@@ -12,10 +12,10 @@ public class Compilation {
     String solutionFileName;
 */
 
-    String testInput;
-    String solutionInput;
-    CompilationUnit[] testAndSolution = new CompilationUnit[2];
-    InternalCompiler compiler;
+    private String testInput;
+    private String solutionInput;
+    private CompilationUnit[] testAndSolution = new CompilationUnit[2];
+    private InternalCompiler compiler;
 
 
     public Compilation (String testInput, String solutionInput) {

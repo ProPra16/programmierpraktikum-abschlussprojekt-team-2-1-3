@@ -133,23 +133,27 @@ public class TrainerController extends Controller {
     @FXML
     public void compileAndRun() {
         /** Kompiliere die Eingaben und führe die Tests aus. Speichere das Ergebnis */
+
+
         String testAreaInput = ((SolutionController) children.get("editableSolution")).getTestInput();
         String solutionAreaInput = ((SolutionController) children.get("editableSolution")).getSolutionInput();
         Compilation compilation = new Compilation(testAreaInput,solutionAreaInput);
-        compilation.createCompilationUnits();
+
         CompilationUnit[] testAndSolution = compilation.getTestAndSolution();
-        CompilationUnit testUnit = testAndSolution[0];
-        CompilationUnit solutionUnit = testAndSolution[1];
-        InternalCompiler compiler = compilation.getCompiler();
+
+        InternalCompiler compiler = compilation.initializeCompiler(testAndSolution);
+
         compiler.compileAndRunTests();
         boolean hasCompileErrors = compiler.getCompilerResult().hasCompileErrors();
+        // muss evtl erst später initialisiert werden, da es bei einem CompileError gar nicht belegt werden kann
         int numberOfFailedTests = compiler.getTestResult().getNumberOfFailedTests();
 
-        Collection<CompileError> testCompileErrors = compiler.getCompilerResult().getCompilerErrorsForCompilationUnit(testUnit);
-        Collection<CompileError> solutionCompileErrors = compiler.getCompilerResult().getCompilerErrorsForCompilationUnit(solutionUnit);
+        Collection<CompileError> testCompileErrors = compiler.getCompilerResult().getCompilerErrorsForCompilationUnit(testAndSolution[0]);
+        Collection<CompileError> solutionCompileErrors = compiler.getCompilerResult().getCompilerErrorsForCompilationUnit(testAndSolution[1]);
 
         if (!((SolutionController) children.get("editableSolution")).testTextArea.isDisabled()) { //// Test wird editiert
 
+            System.out.println(1);
             if (hasCompileErrors || numberOfFailedTests > 0) {
                 statusBar.setFill(Color.RED);
             } else {
@@ -161,6 +165,7 @@ public class TrainerController extends Controller {
 
         } else if (!((SolutionController) children.get("editableSolution")).codeTextArea.isDisabled()) { // Code wird editiert
 
+            System.out.println(2);
             if (hasCompileErrors == false && numberOfFailedTests == 0) {
                 statusBar.setFill(Color.GREEN);
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Alle Tests bestanden. Möchtest du deinen Code verbessern?", ButtonType.YES, ButtonType.NO);
@@ -175,7 +180,10 @@ public class TrainerController extends Controller {
                     editTest();
                 }
             } else {
+
                 statusBar.setFill(Color.RED);
+
+                System.out.println(hasCompileErrors);
                 if (hasCompileErrors) {
                     for (CompileError ce : testCompileErrors) {
                         System.out.println(ce.toString());
