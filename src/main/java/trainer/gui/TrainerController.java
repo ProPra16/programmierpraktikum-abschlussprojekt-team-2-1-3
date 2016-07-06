@@ -3,7 +3,7 @@ package trainer.gui;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import trainer.App;
@@ -14,7 +14,7 @@ import java.io.IOException;
 public class TrainerController extends Controller {
 
     @FXML
-    private GridPane root;
+    private Pane root;
     @FXML
     private TextArea leftTextArea = new TextArea("");
     @FXML
@@ -23,6 +23,7 @@ public class TrainerController extends Controller {
     private TextArea problem_definition = new TextArea("");
     @FXML
     private Circle statusbutton;
+
     public String task;
     private int status = 0;
 
@@ -77,13 +78,13 @@ public class TrainerController extends Controller {
     }
 
     @Override
-    public GridPane getRoot() {
+    public Pane getRoot() {
         return root;
     }
 
     @Override
     public void willAppear() {
-        if (((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.name == null) {
+        if (((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.xmlObject == null) {
         } else {
             initialize(readExercise());
         }
