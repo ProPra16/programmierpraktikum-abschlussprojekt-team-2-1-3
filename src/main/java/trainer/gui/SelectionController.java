@@ -9,11 +9,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
+import org.xml.sax.SAXException;
 import trainer.App;
 import trainer.gui.system.Controller;
 import trainer.models.Exercise;
 import trainer.models.Selection;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -43,10 +45,13 @@ public class SelectionController extends Controller {
     }
 
     @FXML
-    public void showExercise() {
+    public void showExercise() throws ParserConfigurationException, SAXException, IOException {
         /** Aufgabenstellung der ausgewaehlten Aufgabe anzeigen */
         selection.exercise = new Exercise(selection.catalog, exercisesListView.getSelectionModel().getSelectedItem().toString());
         exerciseTextArea.setText(selection.exercise.description);
+
+        /** Doppeldefinition ?? */
+        // exerciseTextArea.setText(String.valueOf(selection.exercise.exercice));
     }
 
     @FXML
@@ -87,7 +92,7 @@ public class SelectionController extends Controller {
         FilenameFilter filenameFilter = new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
-                return name.endsWith(".txt");
+                return name.endsWith(".xml");
             }
         };
         File[] listOfAllFiles = selection.catalog.folder.listFiles(filenameFilter);

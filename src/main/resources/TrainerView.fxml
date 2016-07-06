@@ -7,13 +7,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="trainer.gui.TrainerController">
+<Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.TrainerController">
     <children>
-        <SplitPane dividerPositions="0.2914572864321608" maxHeight="-Infinity" maxWidth="-Infinity"
-                   minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0"
-                   prefWidth="600.0">
+        <SplitPane dividerPositions="0.2914572864321608" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0">
             <items>
                 <VBox prefHeight="200.0" prefWidth="100.0">
                     <children>
@@ -23,23 +19,23 @@
                                     <menus>
                                         <Menu mnemonicParsing="false" text="Navigate">
                                             <items>
-                                                <MenuItem mnemonicParsing="false" text="Back"/>
-                                                <MenuItem mnemonicParsing="false" text="Edit Code"/>
-                                                <MenuItem mnemonicParsing="false" text="Edit Test"/>
-                                                <MenuItem mnemonicParsing="false" text="Save"/>
-                                                <MenuItem mnemonicParsing="false" text="Exit"/>
+                                                <MenuItem mnemonicParsing="false" text="Back" />
+                                                <MenuItem mnemonicParsing="false" text="Edit Code" />
+                                                <MenuItem mnemonicParsing="false" text="Edit Test" />
+                                                <MenuItem mnemonicParsing="false" text="Save" />
+                                                <MenuItem mnemonicParsing="false" text="Exit" />
                                             </items>
                                         </Menu>
                                         <Menu mnemonicParsing="false" text="Run">
                                             <items>
-                                                <MenuItem mnemonicParsing="false" text="Compile &amp; Run"/>
+                                                <MenuItem mnemonicParsing="false" text="Compile &amp; Run" />
                                             </items>
                                         </Menu>
                                         <Menu mnemonicParsing="false" text="Help">
                                             <items>
-                                                <MenuItem mnemonicParsing="false" text="Show Settings"/>
-                                                <MenuItem mnemonicParsing="false" text="About"/>
-                                                <MenuItem mnemonicParsing="false" text="Handbuch"/>
+                                                <MenuItem mnemonicParsing="false" text="Show Settings" />
+                                                <MenuItem mnemonicParsing="false" text="About" />
+                                                <MenuItem mnemonicParsing="false" text="Handbuch" />
                                             </items>
                                         </Menu>
                                     </menus>
@@ -52,19 +48,18 @@
                                     <children>
                                         <Label text="Aufgabenstellung">
                                             <font>
-                                                <Font name="System Bold" size="15.0"/>
+                                                <Font name="System Bold" size="15.0" />
                                             </font>
                                         </Label>
-                                        <TextArea fx:id="problem_definition" prefHeight="63.0" prefWidth="401.0"
-                                                  VBox.vgrow="ALWAYS"/>
+                                        <TextArea fx:id="problem_definition" prefHeight="63.0" prefWidth="401.0" VBox.vgrow="ALWAYS" />
                                     </children>
                                 </VBox>
                                 <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                     <children>
                                         <TreeTableView VBox.vgrow="ALWAYS">
                                             <columns>
-                                                <TreeTableColumn prefWidth="150.0" text="Test"/>
-                                                <TreeTableColumn minWidth="0.0" prefWidth="79.0" text="Status"/>
+                                                <TreeTableColumn prefWidth="150.0" text="Test" />
+                                                <TreeTableColumn minWidth="0.0" prefWidth="79.0" text="Status" />
                                             </columns>
                                         </TreeTableView>
                                     </children>
@@ -75,11 +70,9 @@
                 </VBox>
                 <BorderPane prefHeight="200.0" prefWidth="200.0">
                     <bottom>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="5.0" prefWidth="600.0" spacing="30.0"
-                              BorderPane.alignment="CENTER">
+                        <HBox alignment="CENTER_RIGHT" prefHeight="5.0" prefWidth="600.0" spacing="30.0" BorderPane.alignment="CENTER">
                             <children>
-                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="7.0" stroke="BLACK"
-                                           strokeType="INSIDE" width="600.0" HBox.hgrow="ALWAYS"/>
+                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="7.0" stroke="BLACK" strokeType="INSIDE" width="600.0" HBox.hgrow="ALWAYS" />
                             </children>
                         </HBox>
                     </bottom>
@@ -90,23 +83,23 @@
                                     <children>
                                         <Label text="Test - Editor">
                                             <font>
-                                                <Font name="System Bold" size="15.0"/>
+                                                <Font name="System Bold" size="15.0" />
                                             </font>
                                         </Label>
-                                        <TextArea fx:id="leftTextArea" VBox.vgrow="ALWAYS"/>
+                                        <TextArea fx:id="leftTextArea" VBox.vgrow="ALWAYS" />
                                     </children>
                                 </VBox>
                                 <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                     <children>
                                         <Label text="Code - Editor">
                                             <font>
-                                                <Font name="System Bold" size="15.0"/>
+                                                <Font name="System Bold" size="15.0" />
                                             </font>
                                         </Label>
-                                        <TextArea fx:id="rightTextArea" VBox.vgrow="SOMETIMES"/>
+                                        <TextArea fx:id="rightTextArea" VBox.vgrow="SOMETIMES" />
                                     </children>
                                     <HBox.margin>
-                                        <Insets/>
+                                        <Insets />
                                     </HBox.margin>
                                 </VBox>
                             </children>
