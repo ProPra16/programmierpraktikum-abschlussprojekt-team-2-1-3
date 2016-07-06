@@ -43,7 +43,7 @@ public class CompilerTest {
         System.out.println(compilation.solutionUnit.isATest());
         */
 
-        test.compileAndRun(testInput, solutionInput);
+        //test.compileAndRun(testInput, solutionInput);
 
         //compilation.compileAndRun();
 

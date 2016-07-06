@@ -135,7 +135,7 @@ public class TrainerController extends Controller {
         /** Kompiliere die Eingaben und führe die Tests aus. Speichere das Ergebnis */
 
 
-        String testAreaInput = ((SolutionController) children.get("editableSolution")).getTestInput();
+       /* String testAreaInput = ((SolutionController) children.get("editableSolution")).getTestInput();
         String solutionAreaInput = ((SolutionController) children.get("editableSolution")).getSolutionInput();
         Compilation compilation = new Compilation(testAreaInput,solutionAreaInput);
 

@@ -6,9 +6,6 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane fx:id="root" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.TrainerController">
-   <bottom>
-      <Rectangle fx:id="statusBar" arcHeight="5.0" arcWidth="5.0" fill="RED" height="22.0" stroke="BLACK" strokeType="INSIDE" width="800.0" BorderPane.alignment="CENTER" />
-   </bottom>
    <center>
       <SplitPane dividerPositions="0.38" focusTraversable="false" orientation="VERTICAL" BorderPane.alignment="CENTER">
          <items>
@@ -59,4 +56,12 @@
          </children>
       </HBox>
    </top>
+   <bottom>
+      <StackPane prefHeight="5.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Rectangle fx:id="statusBar" arcHeight="5.0" arcWidth="5.0" fill="RED" height="22.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
+            <Label fx:id="instructionLabel" text="Label" />
+         </children>
+      </StackPane>
+   </bottom>
 </BorderPane>
