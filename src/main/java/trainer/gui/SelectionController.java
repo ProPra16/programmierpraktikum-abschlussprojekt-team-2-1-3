@@ -62,7 +62,7 @@ public class SelectionController extends Controller {
     @FXML
     public void startTrainer() throws IOException {
         /** Trainer starten */
-        selection.exercise.name = exercisesListView.getSelectionModel().getSelectedItem();
+        selection.exercise.xmlObject = exercisesListView.getSelectionModel().getSelectedItem();
         App.getInstance().startTrainer();
     }
 

@@ -84,7 +84,7 @@ public class TrainerController extends Controller {
 
     @Override
     public void willAppear() {
-        if (((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.name == null) {
+        if (((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.xmlObject == null) {
         } else {
             initialize(readExercise());
         }

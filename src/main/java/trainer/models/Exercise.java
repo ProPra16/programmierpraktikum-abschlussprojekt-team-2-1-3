@@ -3,53 +3,46 @@ package trainer.models;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import trainer.exercise.Jclass;
-import trainer.exercise.Setting;
-import trainer.exercise.Template;
 import trainer.exercise.Test;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
 
 public class Exercise {
 
-    public Object name;
-    public final Path path;
-    public String description;
-    public LinkedHashMap<String, Template> templateList;
-    public LinkedHashMap<String, Setting> settingList;
-    public Catalog catalog;
+    public Object xmlObject;
+
     /**
      * Eine Aufgabe muss wissen, in welchem Katalog sie sich befindet, um sie aus dem entsprechenden Katalog laden zu koennen.
      */
 
-    public HashMap<String, Object> exercice = new HashMap<>();
+    public Catalog catalog;
+    public final Path path;
+
+    public String name;
+    public String description;
+    public Jclass codeTemplate = new Jclass();
+    public Test testTemplate = new Test();
+    public LinkedHashMap<String, Boolean> settingList = new LinkedHashMap<>();
+
+
 
     public Exercise(Catalog catalog, Object object) throws IOException, SAXException, ParserConfigurationException {
 
-        exercice.put("class", new Jclass());
-        exercice.put("test", new Test());
-        exercice.put("config", new Setting());
-
-        this.name = object;
+        this.xmlObject = object;
         this.catalog = catalog;
+
         /** Anhand des Namens wird ein Objekt der ausgewählten Aufgabe erstellt */
-        this.path = Paths.get(this.catalog.folder.getAbsolutePath() + "/" + this.name.toString());
+
+        this.path = Paths.get(this.catalog.folder.getAbsolutePath() + "/" + this.xmlObject.toString());
         readExercise();
 
     }
@@ -77,20 +70,16 @@ public class Exercise {
 
             Element element = (Element) node;
 
-            exercice.put("exercise_name", element.getAttribute("name"));
+            name =  element.getAttribute("xmlObject");
 
-            Jclass jclass = (Jclass) exercice.get("class");
-            jclass.initalizeJclass(element.getElementsByTagName("class_name").item(0).getTextContent(), element.getElementsByTagName("class_code").item(0).getTextContent());
+            codeTemplate.initalizeJclass(element.getElementsByTagName("class_name").item(0).getTextContent(), element.getElementsByTagName("class_code").item(0).getTextContent());
 
-            Test test = (Test) exercice.get("test");
-            test.initalizeTest(element.getElementsByTagName("test_name").item(0).getTextContent(), element.getElementsByTagName("test_code").item(0).getTextContent());
+            testTemplate.initalizeTest(element.getElementsByTagName("test_name").item(0).getTextContent(), element.getElementsByTagName("test_code").item(0).getTextContent());
 
-            exercice.put("description", element.getElementsByTagName("description").item(0).getTextContent());
             description = element.getElementsByTagName("description").item(0).getTextContent();
 
-            Setting settings = (Setting) exercice.get("config");
-            Boolean[] sets = {Boolean.getBoolean(element.getElementsByTagName("babysteps_value").item(0).getTextContent()), Boolean.getBoolean(element.getElementsByTagName("timetracking_value").item(0).getTextContent())};
-            settings.setSettings(sets);
+            settingList.put("babysteps_value",Boolean.getBoolean(element.getElementsByTagName("babysteps_value").item(0).getTextContent()));
+            settingList.put("timetracking_value",Boolean.getBoolean(element.getElementsByTagName("timetracking_value").item(0).getTextContent()));
         }
     }
 }
