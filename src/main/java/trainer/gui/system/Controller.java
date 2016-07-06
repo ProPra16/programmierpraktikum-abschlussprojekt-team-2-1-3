@@ -15,6 +15,11 @@ public class Controller {
     @FXML
     protected Pane root = new Pane();
 
+    @FXML
+    protected void initialise() {
+
+    }
+
     public void willAppear() {
 
     }

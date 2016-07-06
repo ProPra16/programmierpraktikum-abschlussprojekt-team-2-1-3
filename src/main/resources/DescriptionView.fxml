@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="root" alignment="TOP_CENTER" prefHeight="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.DescriptionController">
+   <children>
+      <Label text="Aufgabestellung" VBox.vgrow="ALWAYS">
+         <font>
+            <Font name="System Bold Italic" size="15.0" />
+         </font></Label>
+      <TextArea fx:id="descriptionTextArea" editable="false" focusTraversable="false" VBox.vgrow="ALWAYS" />
+   </children>
+</VBox>

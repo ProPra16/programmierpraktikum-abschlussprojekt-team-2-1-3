@@ -8,6 +8,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.DirectoryChooser;
 import org.xml.sax.SAXException;
 import trainer.App;
@@ -39,19 +40,22 @@ public class SelectionController extends Controller {
     public static SelectionController createWithName(String nameOfController) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(SelectionController.class.getResource("/SelectionView.fxml"));
         fxmlLoader.load();
-        SelectionController SelectionController = fxmlLoader.getController();
-        SelectionController.setName(nameOfController);
-        return SelectionController;
+        SelectionController selectionController = fxmlLoader.getController();
+        selectionController.setName(nameOfController);
+        return selectionController;
     }
 
     @FXML
-    public void showExercise() throws ParserConfigurationException, SAXException, IOException {
+    public void showExercise() throws IOException, ParserConfigurationException, SAXException, IOException {
+
         /** Aufgabenstellung der ausgewaehlten Aufgabe anzeigen */
+        // TODO: Fehler, wenn man auf unbesetztes Listenelement klickt
         selection.exercise = new Exercise(selection.catalog, exercisesListView.getSelectionModel().getSelectedItem().toString());
         exerciseTextArea.setText(selection.exercise.description);
 
         /** Doppeldefinition ?? */
         // exerciseTextArea.setText(String.valueOf(selection.exercise.exercice));
+        App.getInstance().controllers.put("trainer", TrainerController.createWithName("trainer"));
     }
 
     @FXML

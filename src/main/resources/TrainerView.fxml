@@ -1,112 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.TrainerController">
-    <children>
-        <SplitPane dividerPositions="0.2914572864321608" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0">
-            <items>
-                <VBox prefHeight="200.0" prefWidth="100.0">
-                    <children>
-                        <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="200.0">
-                            <children>
-                                <MenuBar HBox.hgrow="ALWAYS">
-                                    <menus>
-                                        <Menu mnemonicParsing="false" text="Navigate">
-                                            <items>
-                                                <MenuItem mnemonicParsing="false" text="Back" />
-                                                <MenuItem mnemonicParsing="false" text="Edit Code" />
-                                                <MenuItem mnemonicParsing="false" text="Edit Test" />
-                                                <MenuItem mnemonicParsing="false" text="Save" />
-                                                <MenuItem mnemonicParsing="false" text="Exit" />
-                                            </items>
-                                        </Menu>
-                                        <Menu mnemonicParsing="false" text="Run">
-                                            <items>
-                                                <MenuItem mnemonicParsing="false" text="Compile &amp; Run" />
-                                            </items>
-                                        </Menu>
-                                        <Menu mnemonicParsing="false" text="Help">
-                                            <items>
-                                                <MenuItem mnemonicParsing="false" text="Show Settings" />
-                                                <MenuItem mnemonicParsing="false" text="About" />
-                                                <MenuItem mnemonicParsing="false" text="Handbuch" />
-                                            </items>
-                                        </Menu>
-                                    </menus>
-                                </MenuBar>
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
-                            <children>
-                                <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <Label text="Aufgabenstellung">
-                                            <font>
-                                                <Font name="System Bold" size="15.0" />
-                                            </font>
-                                        </Label>
-                                        <TextArea fx:id="problem_definition" prefHeight="63.0" prefWidth="401.0" VBox.vgrow="ALWAYS" />
-                                    </children>
-                                </VBox>
-                                <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <TreeTableView VBox.vgrow="ALWAYS">
-                                            <columns>
-                                                <TreeTableColumn prefWidth="150.0" text="Test" />
-                                                <TreeTableColumn minWidth="0.0" prefWidth="79.0" text="Status" />
-                                            </columns>
-                                        </TreeTableView>
-                                    </children>
-                                </VBox>
-                            </children>
-                        </HBox>
-                    </children>
-                </VBox>
-                <BorderPane prefHeight="200.0" prefWidth="200.0">
-                    <bottom>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="5.0" prefWidth="600.0" spacing="30.0" BorderPane.alignment="CENTER">
-                            <children>
-                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="7.0" stroke="BLACK" strokeType="INSIDE" width="600.0" HBox.hgrow="ALWAYS" />
-                            </children>
-                        </HBox>
-                    </bottom>
-                    <center>
-                        <HBox alignment="CENTER" prefHeight="413.0" prefWidth="598.0" BorderPane.alignment="CENTER">
-                            <children>
-                                <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <Label text="Test - Editor">
-                                            <font>
-                                                <Font name="System Bold" size="15.0" />
-                                            </font>
-                                        </Label>
-                                        <TextArea fx:id="leftTextArea" VBox.vgrow="ALWAYS" />
-                                    </children>
-                                </VBox>
-                                <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <Label text="Code - Editor">
-                                            <font>
-                                                <Font name="System Bold" size="15.0" />
-                                            </font>
-                                        </Label>
-                                        <TextArea fx:id="rightTextArea" VBox.vgrow="SOMETIMES" />
-                                    </children>
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                </VBox>
-                            </children>
-                        </HBox>
-                    </center>
-                </BorderPane>
-            </items>
-        </SplitPane>
-    </children>
-</Pane>
+<BorderPane fx:id="root" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.TrainerController">
+   <bottom>
+      <Rectangle fx:id="statusBar" arcHeight="5.0" arcWidth="5.0" fill="RED" height="22.0" stroke="BLACK" strokeType="INSIDE" width="800.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+      <SplitPane dividerPositions="0.38" focusTraversable="false" orientation="VERTICAL" BorderPane.alignment="CENTER">
+         <items>
+            <GridPane alignment="CENTER" SplitPane.resizableWithParent="false">
+               <children>
+                  <StackPane fx:id="descriptionStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.hgrow="SOMETIMES" GridPane.vgrow="ALWAYS" />
+                  <StackPane fx:id="testSolutionStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="SOMETIMES" GridPane.vgrow="ALWAYS" />
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+            <StackPane fx:id="editableSolutionStackPane" focusTraversable="true" />
+         </items>
+      </SplitPane>
+   </center>
+   <top>
+      <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="29.0" prefWidth="598.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar HBox.hgrow="ALWAYS">
+               <menus>
+                  <Menu mnemonicParsing="false" text="Navigate">
+                     <items>
+                        <MenuItem fx:id="backToEditTestMenuItem" mnemonicParsing="false" onAction="#backToEditTest" text="Back" />
+                        <MenuItem fx:id="editCodeMenuItem" mnemonicParsing="false" onAction="#editCode" text="Edit Code" />
+                        <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#save" text="Save" />
+                        <MenuItem fx:id="exitMenuItem" mnemonicParsing="false" onAction="#quit" text="Exit" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Run">
+                     <items>
+                        <MenuItem fx:id="compileAndRunMenuItem" mnemonicParsing="false" onAction="#compileAndRun" text="Compile &amp; Run" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Help">
+                     <items>
+                        <MenuItem fx:id="showSettingsMenuItem" mnemonicParsing="false" text="Show Settings" />
+                        <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="About" />
+                        <MenuItem fx:id="handbuchMenuItem" mnemonicParsing="false" text="Handbuch" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+         </children>
+      </HBox>
+   </top>
+</BorderPane>

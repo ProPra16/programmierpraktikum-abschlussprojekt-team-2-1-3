@@ -2,91 +2,216 @@ package trainer.gui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Modality;
+import javafx.stage.StageStyle;
 import trainer.App;
 import trainer.gui.system.Controller;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class TrainerController extends Controller {
 
     @FXML
-    private Pane root;
+    private BorderPane root;
     @FXML
-    private TextArea leftTextArea = new TextArea("");
+    private MenuItem backToEditTestMenuItem;
     @FXML
-    private TextArea rightTextArea = new TextArea("");
+    private MenuItem editCodeMenuItem;
     @FXML
-    private TextArea problem_definition = new TextArea("");
+    private MenuItem compileAndRunMenuItem;
     @FXML
-    private Circle statusbutton;
+    private MenuItem showSettingsMenuItem;
+    @FXML
+    private MenuItem aboutMenuItem;
+    @FXML
+    private MenuItem handbuchMenuItem;
+    @FXML
+    private StackPane descriptionStackPane;
+    @FXML
+    private StackPane editableSolutionStackPane;
+    @FXML
+    private StackPane testSolutionStackPane;
+    @FXML
+    private Rectangle statusBar;
+
 
     public String task;
-    private int status = 0;
+    private boolean allTestsRun;
+
 
     public static TrainerController createWithName(String nameOfController) throws IOException {
         FXMLLoader loader = new FXMLLoader(TrainerController.class.getResource("/TrainerView.fxml"));
         loader.load();
         TrainerController trainerController = loader.getController();
         trainerController.setName(nameOfController);
+
+
+        DescriptionController descriptionController = DescriptionController.createWithName("description");
+        descriptionController.setParent(trainerController);
+        trainerController.getChildren().put("description", descriptionController);
+        trainerController.showChild("description", trainerController.getRootForDescription());
+
+        EditableSolutionController editableSolutionController = EditableSolutionController.createWithName("editableSolution");
+        editableSolutionController.setParent(trainerController);
+        trainerController.getChildren().put("editableSolution", editableSolutionController);
+        trainerController.showChild("editableSolution", trainerController.getRootForEditableSolution());
+
+        TestsStatusSolutionController testsStatusSolutionController = TestsStatusSolutionController.createWithName("testStatusSolution");
+        testsStatusSolutionController.setParent(trainerController);
+        trainerController.getChildren().put("testStatusSolution", testsStatusSolutionController);
+        trainerController.showChild("testStatusSolution", trainerController.getRootForTestSolution());
+
+        //trainerController.getGame().setMineField(descriptionController.getMinefield());*/
+
+        // TODO: StatusSoltionController
         return trainerController;
     }
 
-    public void initialize(String exercise) {
-
-        rightTextArea.setEditable(false);
-        problem_definition.setEditable(false);
-        rightTextArea.setDisable(true);
-
-        problem_definition.setText(exercise);
+    @FXML
+    public void quit() {
+        App.getInstance().showController("selection");
     }
 
-    public void disableLeftTextArea() {
-        leftTextArea.setEditable(false);
+    @FXML
+    public void editCode() {
+        saveTest();
+        ((EditableSolutionController) children.get("editableSolution")).disableTestTextArea();
+        ((EditableSolutionController) children.get("editableSolution")).enableCodeTextArea();
+        backToEditTestMenuItem.setDisable(false);
+        editCodeMenuItem.setDisable(true);
     }
 
-    public void disableRightTextArea() {
-        rightTextArea.setEditable(false);
+    @FXML
+    public void editTest() {
+        saveCode();
+        ((EditableSolutionController) children.get("editableSolution")).disableCodeTextArea();
+        ((EditableSolutionController) children.get("editableSolution")).enableTestTextArea();
+        backToEditTestMenuItem.setDisable(true);
+        editCodeMenuItem.setDisable(false);
     }
 
-    public void enableLeftTextArea() {
-        leftTextArea.setEditable(true);
+    public void saveTest() {
+        ((EditableSolutionController) children.get("editableSolution")).saveTest();
     }
 
-    public void enableRightTextArea() {
-        rightTextArea.setEditable(false);
+    public void saveCode() {
+        ((EditableSolutionController) children.get("editableSolution")).saveCode();
     }
 
-    public void colorcheck (){
-        if (status == 0){
-            statusbutton.setFill(Color.LIGHTGREEN);
-            status = 1;
+    @FXML
+    public void backToEditTest() {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Wenn du zurück gehst, wird die letzten Änderungen im Code gelöscht!", ButtonType.CANCEL, ButtonType.OK);
+            alert.setHeaderText("Wirklich zurück zum Test gehen?");
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.initOwner(App.getInstance().stage);
+            alert.initModality(Modality.WINDOW_MODAL);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.CANCEL) {
+                return;
+            } else {
+                ((EditableSolutionController) children.get("editableSolution")).deleteNewCode();
+                editTest();
+            }
+    }
+
+    @FXML
+    public void save() {
+        // TODO mit Silja
+    }
+
+    @FXML
+    public void compileAndRun() {
+        if (!((EditableSolutionController) children.get("editableSolution")).testTextArea.isDisabled() == true) { // Test wird editiert
+            // schalte TestTextArea aus;
+            // schalte CodeTextArea ein;
+        } else if (!((EditableSolutionController) children.get("editableSolution")).codeTextArea.isDisabled() == true) { // Code wird editiert
+            // kompiliere Test und Code
+            // if (Alles kompiliert == true) {
+            //      run Testmethoden;
+            //      if (Alle Testmethoden laufen) {
+            //              Balken = green;
+            //              Alert = Neue Testmethode oder Refactor?
+            //              if (Neue Testmethode) {
+            //                  speichere String aus CodeTextArea in codeInput; <- für backToTestEdit Funktion
+            //                  schalte CodeTextArea aus;
+            //                  schalte TestTextArea ein;
+            //                 }
+            //          } else {
+            //              Balken = red;
+            //              Filtere failende Testmethoden
+            //              Tabelle = Testmethoden die failen;
+            //
+            //          }
+            // } else { Balken = red; }
         }
 
-        else if (status == 1){
-            statusbutton.setFill(Color.ORANGERED);
-            status = 0;
+
+
+
+
+
+
+
+
+
+        // Zusammenhangslose Codefragmente, die man für CompileAndRun verwenden kann:
+
+       /* // TODO: Compilieren lassen.
+        // TODO: if (keine CompilerFehler) {
+        // TODO: if (alle Tests funktionieren){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Alle Tests bestanden. Möchtest du deinen Code verbessern?", ButtonType.YES, ButtonType.NO);
+        alert.setHeaderText("Refactor");
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initOwner(App.getInstance().stage);
+        alert.initModality(Modality.WINDOW_MODAL);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.YES) {
+            editCode();
+        } else if (result.isPresent() && result.get() == ButtonType.NO){
+            editTest();
         }
+
+        // TODO: else if (compiliert nicht)
+        ((TestsStatusSolutionController) children.get("testStatusSolution")).setCompilerError();
+
+        // TODO: else if (Test funktioniert nicht)
+        ((TestsStatusSolutionController) children.get("testStatusSolution")).setTestError();*/
+
     }
 
-    public String readExercise() {
-        /** Aufgabenstellung anzeigen */
-        return ((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.description;
-    }
+    private StackPane getRootForDescription() { return descriptionStackPane; }
+
+    private StackPane getRootForEditableSolution() { return editableSolutionStackPane; }
+
+    private StackPane getRootForTestSolution() { return testSolutionStackPane; }
 
     @Override
     public Pane getRoot() {
         return root;
     }
 
-    @Override
-    public void willAppear() {
-        if (((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.xmlObject == null) {
-        } else {
-            initialize(readExercise());
+    public void colorcheck (){
+        if (allTestsRun == true){
+            statusBar.setFill(Color.LIGHTGREEN);
+            //allTestsRun = false;
         }
+
+        else if (allTestsRun == false){
+            statusBar.setFill(Color.ORANGERED);
+            //allTestsRun = true;
+        }
+    }
+
+    public void  didAppear() {
+        backToEditTestMenuItem.setDisable(true);
+        statusBar.setFill(Color.GRAY);
     }
 }
