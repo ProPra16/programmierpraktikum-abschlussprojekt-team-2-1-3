@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.TestsStatusSolutionController">
+<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.TestTableController">
    <center>
       <TableView fx:id="testTableView" focusTraversable="false" nodeOrientation="LEFT_TO_RIGHT" BorderPane.alignment="TOP_RIGHT">
         <columns>

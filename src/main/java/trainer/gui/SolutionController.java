@@ -9,7 +9,7 @@ import trainer.gui.system.Controller;
 
 import java.io.IOException;
 
-public class EditableSolutionController extends Controller {
+public class SolutionController extends Controller {
 
     @FXML
     public BorderPane root;
@@ -24,12 +24,13 @@ public class EditableSolutionController extends Controller {
     private String codeInput;
 
 
-    public static EditableSolutionController createWithName(String nameOfController) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(EditableSolutionController.class.getResource("/SolutionView.fxml"));
+
+    public static SolutionController createWithName(String nameOfController) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(SolutionController.class.getResource("/SolutionView.fxml"));
         fxmlLoader.load();
-        EditableSolutionController editableSolutionController = fxmlLoader.getController();
-        editableSolutionController.setName(nameOfController);
-        return editableSolutionController;
+        SolutionController solutionController = fxmlLoader.getController();
+        solutionController.setName(nameOfController);
+        return solutionController;
     }
 
     public void disableTestTextArea() {
@@ -74,6 +75,14 @@ public class EditableSolutionController extends Controller {
 
     public void saveCode() {
         codeInput = codeTextArea.getText();
+    }
+
+    public String getSolutionInput() {
+        return codeTextArea.getText();
+    }
+
+    public String getTestInput() {
+        return testTextArea.getText();
     }
 
 }

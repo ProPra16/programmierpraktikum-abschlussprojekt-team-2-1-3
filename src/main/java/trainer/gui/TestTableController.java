@@ -13,7 +13,7 @@ import trainer.models.TableEntry;
 import java.io.IOException;
 import java.util.List;
 
-public class TestsStatusSolutionController extends Controller {
+public class TestTableController extends Controller {
 
     @FXML
     private BorderPane root;
@@ -26,10 +26,10 @@ public class TestsStatusSolutionController extends Controller {
 
     private List<TableEntry> failingTests;
 
-    public static TestsStatusSolutionController createWithName(String nameOfController) throws IOException {
-        FXMLLoader loader = new FXMLLoader(TestsStatusSolutionController.class.getResource("/TestTableView.fxml"));
+    public static TestTableController createWithName(String nameOfController) throws IOException {
+        FXMLLoader loader = new FXMLLoader(TestTableController.class.getResource("/TestTableView.fxml"));
         loader.load();
-        TestsStatusSolutionController statusSolutionController = loader.getController();
+        TestTableController statusSolutionController = loader.getController();
         statusSolutionController.setName(nameOfController);
         return statusSolutionController;
     }
