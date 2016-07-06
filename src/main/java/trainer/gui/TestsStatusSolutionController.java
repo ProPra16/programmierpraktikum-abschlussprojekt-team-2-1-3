@@ -27,7 +27,7 @@ public class TestsStatusSolutionController extends Controller {
     private List<TableEntry> failingTests;
 
     public static TestsStatusSolutionController createWithName(String nameOfController) throws IOException {
-        FXMLLoader loader = new FXMLLoader(TestsStatusSolutionController.class.getResource("/TestsStatusSolutionView.fxml"));
+        FXMLLoader loader = new FXMLLoader(TestsStatusSolutionController.class.getResource("/TestTableView.fxml"));
         loader.load();
         TestsStatusSolutionController statusSolutionController = loader.getController();
         statusSolutionController.setName(nameOfController);
