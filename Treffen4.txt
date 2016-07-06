@@ -1,0 +1,16 @@
+Treffen 4
+
+Review:
+
+- XMl-Einbindung und Template für Exercises erstellt
+- XML-Parser sowie erste Grundfunktionen des Trainers festgesetzt (Push in den master)
+- Erste Tests mit Compiler / dessen Einbindung durchgeführt
+
+
+To Do:
+	Silja: weitere Einbindung des Compilers, sowie erste logische Strukturierungen zum Umgang mit diesem
+
+	Kathrin: Einbindung des Compilers von Seiten des Trainers aus + Support Silja
+	
+	Julian: Abspeicherung der "fertigen" Lösung bzw. dem Zwischenschritt auf der Festplatte. Sowie eventuelles Laden bereits halbfertiger Code-/ Testschnipsel
+
