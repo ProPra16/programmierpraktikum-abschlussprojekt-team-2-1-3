@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import trainer.App;
-import trainer.exercise.Jclass;
 import trainer.gui.system.Controller;
 
 import java.io.IOException;
@@ -23,7 +22,7 @@ public class SolutionController extends Controller {
 
     private String testInput;
 
-    private String codeInput;
+    private String tempSavedCodeInput;
 
 
 
@@ -60,7 +59,7 @@ public class SolutionController extends Controller {
     }
 
     public void didAppear() {
-        codeInput = readSolutionTemplate();
+        tempSavedCodeInput = readSolutionTemplate();
         testTextArea.setText(readTestTemplate());
         codeTextArea.setText(readSolutionTemplate());
         testTextArea.setEditable(true);
@@ -75,14 +74,14 @@ public class SolutionController extends Controller {
 
     public void deleteNewCode() {
         codeTextArea.clear();
-        codeTextArea.setText(codeInput);
+        codeTextArea.setText(tempSavedCodeInput);
     }
 
     public void saveCode() {
-        codeInput = codeTextArea.getText();
+        tempSavedCodeInput = codeTextArea.getText();
     }
 
-    public String getSolutionInput() {
+    public String getCodeInput() {
         return codeTextArea.getText();
     }
 
@@ -98,8 +97,8 @@ public class SolutionController extends Controller {
         return ((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.codeTemplate.getCode();
     }
 
-    public String getCodeInput() {
-        return codeInput;
+    public String getTempSavedCodeInput() {
+        return tempSavedCodeInput;
     }
 
 

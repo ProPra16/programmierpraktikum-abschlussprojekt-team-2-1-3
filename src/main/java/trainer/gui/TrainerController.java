@@ -46,15 +46,13 @@ public class TrainerController extends Controller {
     @FXML
     private StackPane solutionStackPane;
     @FXML
-    private StackPane testSolutionStackPane;
+    public StackPane errorOrFailureStackPane;
     @FXML
     private Rectangle statusBar;
     @FXML
     private Label instructionLabel;
 
 
-    public String task;
-    private boolean allTestsRun;
     private boolean isRefactor = false;
 
 
@@ -75,14 +73,11 @@ public class TrainerController extends Controller {
         trainerController.getChildren().put("solution", solutionController);
         trainerController.showChild("solution", trainerController.getRootForEditableSolution());
 
-        TestTableController testTableController = TestTableController.createWithName("testStatusSolution");
-        testTableController.setParent(trainerController);
-        trainerController.getChildren().put("testStatusSolution", testTableController);
-        trainerController.showChild("testStatusSolution", trainerController.getRootForTestSolution());
+        ErrorAndFailureController errorAndFailureController = ErrorAndFailureController.createWithName("errorAndFailure");
+        errorAndFailureController.setParent(trainerController);
+        trainerController.getChildren().put("errorAndFailure", errorAndFailureController);
+        trainerController.showChild("errorAndFailure", trainerController.getRootForErrorAndFailureController());
 
-        //trainerController.getGame().setMineField(descriptionController.getMinefield());*/
-
-        // TODO: StatusSoltionController
         return trainerController;
     }
 
@@ -145,66 +140,67 @@ public class TrainerController extends Controller {
 
     @FXML
     public void save() {
-        // TODO
+        // TODO Julian
     }
 
     @FXML
     public void compileAndRun() {
-        /** Kompiliere die Eingaben und führe die Tests aus. Speichere das Ergebnis */
 
-
+        /** Hole die Eingaben */
         String testAreaInput = ((SolutionController) children.get("solution")).getTestInput();
-        String solutionAreaInput = ((SolutionController) children.get("solution")).getSolutionInput();
+        String solutionAreaInput = ((SolutionController) children.get("solution")).getCodeInput();
+
+        /** Kompiliere */
         Compilation compilation = new Compilation(testAreaInput,solutionAreaInput);
-
         CompilationUnit[] testAndSolution = compilation.getTestAndSolution();
-
         InternalCompiler compiler = compilation.initializeCompiler(testAndSolution);
-
         compiler.compileAndRunTests();
+
+        /** Hole die benoetigten Ergebnisse der Kompilierung */
         boolean hasCompileErrors = compiler.getCompilerResult().hasCompileErrors();
+        Collection<CompileError> testCompileErrors = compiler.getCompilerResult().getCompilerErrorsForCompilationUnit(testAndSolution[0]);
+        Collection<CompileError> codeCompileErrors = compiler.getCompilerResult().getCompilerErrorsForCompilationUnit(testAndSolution[1]);
 
         int numberOfFailedTests = 0;
-        if (!hasCompileErrors) numberOfFailedTests = compiler.getTestResult().getNumberOfFailedTests();
-
-        Collection<CompileError> testCompileErrors = compiler.getCompilerResult().getCompilerErrorsForCompilationUnit(testAndSolution[0]);
-        Collection<CompileError> solutionCompileErrors = compiler.getCompilerResult().getCompilerErrorsForCompilationUnit(testAndSolution[1]);
-
         Collection<TestFailure> testFailures = null;
-        if (!hasCompileErrors) testFailures = compiler.getTestResult().getTestFailures();
+        if (!hasCompileErrors) {
+            numberOfFailedTests = compiler.getTestResult().getNumberOfFailedTests();
+            testFailures = compiler.getTestResult().getTestFailures();
+        }
 
-        // TODO Funktioniert noch nicht
-        ((TestTableController)children.get("testStatusSolution")).setTableContent(testCompileErrors,solutionCompileErrors);
+        /** setze Compilefehlerliste bzw. Testfailuretabelle */
+        if (hasCompileErrors) ((ErrorAndFailureController) children.get("errorAndFailure")).setContent(testCompileErrors,codeCompileErrors);
+        else if (numberOfFailedTests > 0) ((ErrorAndFailureController) children.get("errorAndFailure")).setContent(testFailures);
+        else if (!hasCompileErrors && numberOfFailedTests == 0) ((ErrorAndFailureController) children.get("errorAndFailure")).setContent();
 
 
-
+        /** Abfrage der moeglichen Situationen und entsprechende Aktion */
         if (isRefactor) {
             if (hasCompileErrors) {
                 statusBar.setFill(Color.RED);
-                // TODO Ausgabe der CompileErrors
                 endRefactorMenuItem.setDisable(true);
             } else if (numberOfFailedTests != 0) {
                 statusBar.setFill(Color.RED);
-                // TODO Tabelle = TestFailures;
-                ((TestTableController)children.get("testStatusSolution")).setTableContent(testFailures);
                 endRefactorMenuItem.setDisable(true);
-            } else if (!hasCompileErrors || numberOfFailedTests == 0) {
+            } else if (!hasCompileErrors && numberOfFailedTests == 0) {
                 statusBar.setFill(Color.GREEN);
                 endRefactorMenuItem.setDisable(false);
             }
 
 
-
         } else {
             if (!((SolutionController) children.get("solution")).testTextArea.isDisabled()) { // Test wird editiert
 
-                if (hasCompileErrors || numberOfFailedTests == 1) {
+                if (hasCompileErrors) {
                     editCodeMenuItem.setDisable(false);
                     statusBar.setFill(Color.RED);
                     instructionLabel.setText("Um in die nächste Phase zu kommen, drücke Edit Code!");
-                    ((TestTableController)children.get("testStatusSolution")).setTableContent(testFailures);
-                    ((TestTableController)children.get("testStatusSolution")).setTableContent(testCompileErrors,solutionCompileErrors);
-
+                    ((ErrorAndFailureController) children.get("errorAndFailure")).setContent(testCompileErrors,codeCompileErrors);
+                } else if (numberOfFailedTests == 1){
+                    editCodeMenuItem.setDisable(false);
+                    statusBar.setFill(Color.RED);
+                    instructionLabel.setText("Um in die nächste Phase zu kommen, drücke Edit Code!");
+                    ((ErrorAndFailureController) children.get("errorAndFailure")).setContent(testFailures);
                 } else if (numberOfFailedTests == 0) {
                     editCodeMenuItem.setDisable(true);
                     statusBar.setFill(Color.GREEN);
@@ -214,7 +210,7 @@ public class TrainerController extends Controller {
                     editCodeMenuItem.setDisable(true);
                     statusBar.setFill(Color.RED);
                     instructionLabel.setText("Es muss genau ein Test fehlschlagen!");
-                    ((TestTableController) children.get("testStatusSolution")).setTableContent(testFailures);
+                    ((ErrorAndFailureController) children.get("errorAndFailure")).setContent(testFailures);
                 }
 
 
@@ -241,13 +237,13 @@ public class TrainerController extends Controller {
                     statusBar.setFill(Color.RED);
                     if (hasCompileErrors) {
 
-                        // TODO Tabelle = CompileError
-                        ((TestTableController)children.get("testStatusSolution")).setTableContent(testCompileErrors, solutionCompileErrors);
+                        // TODO TextField = CompileError
+
 
                     } else if (numberOfFailedTests > 0) {
 
                         // TODO Tabelle = testFailures
-                        ((TestTableController)children.get("testStatusSolution")).setTableContent(testFailures);
+                        ((ErrorAndFailureController) children.get("errorAndFailure")).setContent(testFailures);
                     }
                 }
             }
@@ -261,23 +257,11 @@ public class TrainerController extends Controller {
 
     private StackPane getRootForEditableSolution() { return solutionStackPane; }
 
-    private StackPane getRootForTestSolution() { return testSolutionStackPane; }
+    private StackPane getRootForErrorAndFailureController() { return errorOrFailureStackPane; }
 
     @Override
     public Pane getRoot() {
         return root;
-    }
-
-    public void colorcheck (){
-        if (allTestsRun == true){
-            statusBar.setFill(Color.LIGHTGREEN);
-            //allTestsRun = false;
-        }
-
-        else if (allTestsRun == false){
-            statusBar.setFill(Color.ORANGERED);
-            //allTestsRun = true;
-        }
     }
 
     public void  didAppear() {
@@ -286,6 +270,7 @@ public class TrainerController extends Controller {
         statusBar.setFill(Color.GRAY);
         endRefactorMenuItem.setDisable(true);
         instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
+
 
     }
 }

@@ -9,7 +9,7 @@
    <children>
       <StackPane prefHeight="150.0" prefWidth="200.0">
          <children>
-            <Label text="Willkomen im TDD-Trainer!" />
+            <Label text="Willkommen im TDD-Trainer!" />
          </children>
       </StackPane>
       <VBox prefHeight="54.0" prefWidth="600.0">

@@ -9,14 +9,14 @@
    <center>
       <SplitPane dividerPositions="0.38" focusTraversable="false" orientation="VERTICAL" BorderPane.alignment="CENTER">
          <items>
-            <GridPane alignment="CENTER" SplitPane.resizableWithParent="false">
+            <GridPane alignment="CENTER">
                <children>
-                  <StackPane fx:id="descriptionStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.hgrow="SOMETIMES" GridPane.vgrow="ALWAYS" />
-                  <StackPane fx:id="testSolutionStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="SOMETIMES" GridPane.vgrow="ALWAYS" />
+                  <StackPane fx:id="descriptionStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+                  <StackPane fx:id="errorOrFailureStackPane" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
                </children>
                <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="394.0" minWidth="10.0" prefWidth="260.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="545.0" minWidth="10.0" prefWidth="538.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -33,7 +33,7 @@
                <menus>
                   <Menu mnemonicParsing="false" text="Navigate">
                      <items>
-                        <MenuItem fx:id="backToEditTestMenuItem" mnemonicParsing="false" onAction="#backToEditTest" text="Back" />
+                        <MenuItem fx:id="backToEditTestMenuItem" mnemonicParsing="false" onAction="#backToEditTest" text="Back to Test" />
                         <MenuItem fx:id="editCodeMenuItem" mnemonicParsing="false" onAction="#editCode" text="Edit Code" />
                         <MenuItem fx:id="endRefactorMenuItem" mnemonicParsing="false" onAction="#endRefactor" text="End Refactor" />
                         <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#save" text="Save" />
