@@ -20,8 +20,6 @@ public class SolutionController extends Controller {
     public  TextArea codeTextArea;
 
 
-    private String testInput;
-
     private String tempSavedCodeInput;
 
 
@@ -68,16 +66,13 @@ public class SolutionController extends Controller {
         testTextArea.requestFocus();
     }
 
-    public void saveTest() {
-        testInput = testTextArea.getText();
-    }
 
     public void deleteNewCode() {
         codeTextArea.clear();
         codeTextArea.setText(tempSavedCodeInput);
     }
 
-    public void saveCode() {
+    public void tempSaveCode() {
         tempSavedCodeInput = codeTextArea.getText();
     }
 
