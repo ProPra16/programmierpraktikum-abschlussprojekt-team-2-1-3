@@ -67,7 +67,7 @@ public class SolutionController extends Controller {
     }
 
 
-    public void deleteNewCode() {
+    public void deleteNewCodeAndSetOldCode() {
         codeTextArea.clear();
         codeTextArea.setText(tempSavedCodeInput);
     }
@@ -90,10 +90,6 @@ public class SolutionController extends Controller {
 
     public  String readSolutionTemplate() {
         return ((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.codeTemplate.getCode();
-    }
-
-    public String getTempSavedCodeInput() {
-        return tempSavedCodeInput;
     }
 
 

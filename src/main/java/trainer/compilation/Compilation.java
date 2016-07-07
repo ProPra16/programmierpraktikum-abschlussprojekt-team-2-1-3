@@ -7,11 +7,6 @@ import vk.core.internal.InternalCompiler;
 
 public class Compilation {
 
-/*
-    String testFileName;
-    String solutionFileName;
-*/
-
     private String testInput;
     private String solutionInput;
     private CompilationUnit[] testAndSolution = new CompilationUnit[2];
@@ -66,20 +61,6 @@ public class Compilation {
             return true;
         else
             return false;
-    }
-
-
-
-
-
-    /** wenn der user run klickt, soll compileAndRun() ausgeführt werden */
-    public void compileAndRun() {
-
-        compiler.compileAndRunTests();
-        compiler.getCompilerResult();
-        compiler.getTestResult();
-
-
     }
 
     public InternalCompiler initializeCompiler(CompilationUnit[] testAndSolution) {

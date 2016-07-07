@@ -46,15 +46,11 @@ public class SelectionController extends Controller {
     }
 
     @FXML
-    public void showExercise() throws IOException, ParserConfigurationException, SAXException, IOException {
-
+    public void showExercise() throws ParserConfigurationException, SAXException, IOException {
         /** Aufgabenstellung der ausgewaehlten Aufgabe anzeigen */
-        // TODO: Fehler, wenn man auf unbesetztes Listenelement klickt
+        // TODO: Fehler, wenn man auf unbesetztes Listenelement klickt - Julian
         selection.exercise = new Exercise(selection.catalog, exercisesListView.getSelectionModel().getSelectedItem().toString());
         exerciseTextArea.setText(selection.exercise.description);
-
-        /** Doppeldefinition ?? */
-        // exerciseTextArea.setText(String.valueOf(selection.exercise.exercice));
         App.getInstance().controllers.put("trainer", TrainerController.createWithName("trainer"));
     }
 
@@ -88,7 +84,6 @@ public class SelectionController extends Controller {
     }
 
     public ArrayList scanForFiles() throws IOException {
-
         ArrayList listOfTextFiles = new ArrayList();
         FilenameFilter filenameFilter = new FilenameFilter() {
             @Override
@@ -122,13 +117,5 @@ public class SelectionController extends Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setSelection(Selection selection) {
-        this.selection = selection;
-    }
-
-    public Selection getSelection() {
-        return selection;
     }
 }

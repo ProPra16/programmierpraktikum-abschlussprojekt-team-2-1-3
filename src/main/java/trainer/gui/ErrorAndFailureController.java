@@ -50,14 +50,6 @@ public class ErrorAndFailureController extends Controller {
         testTableColumn.setCellValueFactory(new PropertyValueFactory<TestFailure, String>("testFailure"));
     }
 
-
-    /*public void willAppear() {
-        tableColumn.setCellValueFactory(new PropertyValueFactory<TableEntry, String>("testName"));
-        failingTests = new List<>(/** fehlschlagende Tests (Collection von internal failures) *///);
-        /*testTableView.setItems(failingTest);
-    }*/
-
-
     public void setContent(Collection<CompileError> testCompileErrors, Collection<CompileError> codeCompileErrors) {
         compileErrorTextArea.setText("Compilerfehler im Test" + "\n"+ testCompileErrors.toString() + "\n" + "Compilerfehler im Code" + "\n" + codeCompileErrors.toString());
         testTableView.getItems().clear();
@@ -83,9 +75,5 @@ public class ErrorAndFailureController extends Controller {
     public void setContent() {
         compileErrorTextArea.clear();
         testTableView.getItems().clear();
-    }
-
-    public void didAppear() {
-
     }
 }

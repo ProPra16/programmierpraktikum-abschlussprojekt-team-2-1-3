@@ -83,7 +83,17 @@ public class TrainerController extends Controller {
 
     @FXML
     public void quit() {
-        App.getInstance().showController("selection");
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Wenn du die Übung beenden möchtest, wird eine nicht gespeicherte Lösung verworfen. Möchtest du die Übung trotzdem beenden?", ButtonType.YES, ButtonType.NO);
+        alert.setHeaderText("Achtung");
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initOwner(App.getInstance().stage);
+        alert.initModality(Modality.WINDOW_MODAL);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.YES) {
+            App.getInstance().showController("selection");
+        } else if (result.isPresent() && result.get() == ButtonType.NO) {
+            return;
+        }
     }
 
     @FXML
@@ -114,7 +124,7 @@ public class TrainerController extends Controller {
             if (result.isPresent() && result.get() == ButtonType.CANCEL) {
                 return;
             } else {
-                ((SolutionController) children.get("solution")).deleteNewCode();
+                ((SolutionController) children.get("solution")).deleteNewCodeAndSetOldCode();
                 editTest();
             }
     }
