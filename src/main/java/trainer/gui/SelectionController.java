@@ -89,9 +89,6 @@ public class SelectionController extends Controller {
 
     public ArrayList scanForFiles() throws IOException {
 
-        // TODO: Wenn eine Uebung aus Description, Templates und Settings besteht (welche in einem Ordner gesammelt sind), so muss nach Ordnernamen gesucht werden, nicht nach .txt
-        // andernfalls so lassen
-
         ArrayList listOfTextFiles = new ArrayList();
         FilenameFilter filenameFilter = new FilenameFilter() {
             @Override

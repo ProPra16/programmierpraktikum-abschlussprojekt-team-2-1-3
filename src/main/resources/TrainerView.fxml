@@ -22,7 +22,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
             </GridPane>
-            <StackPane fx:id="editableSolutionStackPane" focusTraversable="true" />
+            <StackPane fx:id="solutionStackPane" focusTraversable="true" />
          </items>
       </SplitPane>
    </center>
@@ -35,6 +35,7 @@
                      <items>
                         <MenuItem fx:id="backToEditTestMenuItem" mnemonicParsing="false" onAction="#backToEditTest" text="Back" />
                         <MenuItem fx:id="editCodeMenuItem" mnemonicParsing="false" onAction="#editCode" text="Edit Code" />
+                        <MenuItem fx:id="endRefactorMenuItem" mnemonicParsing="false" onAction="#endRefactor" text="End Refactor" />
                         <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#save" text="Save" />
                         <MenuItem fx:id="exitMenuItem" mnemonicParsing="false" onAction="#quit" text="Exit" />
                      </items>
@@ -46,8 +47,8 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Help">
                      <items>
-                        <MenuItem fx:id="showSettingsMenuItem" mnemonicParsing="false" text="Show Settings" />
                         <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="About" />
+                        <MenuItem fx:id="showSettingsMenuItem" mnemonicParsing="false" text="Show Settings" />
                         <MenuItem fx:id="handbuchMenuItem" mnemonicParsing="false" text="Handbuch" />
                      </items>
                   </Menu>

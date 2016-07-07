@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import trainer.App;
+import trainer.exercise.Jclass;
 import trainer.gui.system.Controller;
 
 import java.io.IOException;
@@ -58,6 +60,9 @@ public class SolutionController extends Controller {
     }
 
     public void didAppear() {
+        codeInput = readSolutionTemplate();
+        testTextArea.setText(readTestTemplate());
+        codeTextArea.setText(readSolutionTemplate());
         testTextArea.setEditable(true);
         codeTextArea.setDisable(true);
         testTextArea.setFocusTraversable(false);
@@ -84,5 +89,18 @@ public class SolutionController extends Controller {
     public String getTestInput() {
         return testTextArea.getText();
     }
+
+    public String readTestTemplate() {
+        return ((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.testTemplate.getTest_code();
+    }
+
+    public  String readSolutionTemplate() {
+        return ((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.codeTemplate.getCode();
+    }
+
+    public String getCodeInput() {
+        return codeInput;
+    }
+
 
 }

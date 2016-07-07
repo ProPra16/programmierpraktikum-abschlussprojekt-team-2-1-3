@@ -30,7 +30,6 @@ public class CompilerTest {
 
         InternalCompiler compiler = compilation.initializeCompiler(compilation.getTestAndSolution());
 
-        TrainerController test = new TrainerController();
 
         /* Test für Umwandlung von String zu CompilationUnit:
 
@@ -43,7 +42,6 @@ public class CompilerTest {
         System.out.println(compilation.solutionUnit.isATest());
         */
 
-        //test.compileAndRun(testInput, solutionInput);
 
         //compilation.compileAndRun();
 
