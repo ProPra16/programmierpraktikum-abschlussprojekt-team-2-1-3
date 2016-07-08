@@ -1,8 +1,6 @@
 package trainer;
 
 import trainer.compilation.Compilation;
-import trainer.gui.TrainerController;
-import vk.core.api.CompilationUnit;
 import vk.core.internal.InternalCompiler;
 
 
@@ -28,7 +26,7 @@ public class CompilerTest {
         /** so werden aus den Inputs die CompilationUnits gemacht */
         Compilation compilation = new Compilation(testInput, solutionInput);
 
-        InternalCompiler compiler = compilation.initializeCompiler(compilation.getTestAndSolution());
+        InternalCompiler compiler = compilation.initializeCompiler(compilation.getTestAndCode());
 
 
         /* Test für Umwandlung von String zu CompilationUnit:

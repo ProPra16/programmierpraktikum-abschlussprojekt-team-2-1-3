@@ -19,6 +19,7 @@ import vk.core.api.CompileError;
 import vk.core.api.TestFailure;
 import vk.core.internal.InternalCompiler;
 
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
@@ -143,7 +144,7 @@ public class TrainerController extends Controller {
 
         /** Kompiliere */
         Compilation compilation = new Compilation(testAreaInput,solutionAreaInput);
-        CompilationUnit[] testAndSolution = compilation.getTestAndSolution();
+        CompilationUnit[] testAndSolution = compilation.getTestAndCode();
         InternalCompiler compiler = compilation.initializeCompiler(testAndSolution);
         compiler.compileAndRunTests();
 
@@ -157,6 +158,8 @@ public class TrainerController extends Controller {
         if (!hasCompileErrors) {
             numberOfFailedTests = compiler.getTestResult().getNumberOfFailedTests();
             testFailures = compiler.getTestResult().getTestFailures();
+
+            System.out.println();
         }
 
         /** setze Compilefehlerliste bzw. Testfailuretabelle */

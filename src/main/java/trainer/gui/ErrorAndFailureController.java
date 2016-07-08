@@ -3,6 +3,7 @@ package trainer.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -34,7 +35,9 @@ public class ErrorAndFailureController extends Controller {
     @FXML
     private TableColumn testTableColumn;
 
-    private ObservableList<TableEntry> testOrCompileErrorList;
+    private ObservableList<String> testOrCompileErrorList = FXCollections.observableArrayList();
+
+    private SortedList<String> sortedList;
 
 
     public static ErrorAndFailureController createWithName(String nameOfController) throws IOException {
@@ -57,18 +60,33 @@ public class ErrorAndFailureController extends Controller {
 
     public void setContent(Collection<TestFailure> testFailures) {
         Object[] testFailuresArray = testFailures.toArray();
-        ArrayList<String> testFailureNameArrayList = new ArrayList<>();
+        ArrayList<String> testFailureMethodNameArrayList = new ArrayList<>();
 
         for (Object o : testFailuresArray) {
             System.out.println(((TestFailure) o).getMethodName());
-            testFailureNameArrayList.add(((TestFailure) o).getMethodName());
+            testFailureMethodNameArrayList.add(((TestFailure) o).getMethodName());
         }
-        /*ObservableList<String> failureList = FXCollections.emptyObservableList();
-        for (int i = 0; i < testFailureNameArrayList.size(); i++) {
-            System.out.println(testFailureNameArrayList.get(i));
-            failureList.add(testFailureNameArrayList.get(i));
+
+        /*ArrayList<TableEntry> tableEntries = new ArrayList<>();
+        for (String methodName : testFailureMethodNameArrayList) {
+            TableEntry tableEntry = new TableEntry(methodName);
+            tableEntries.add(tableEntry);
         }
-        testTableView.setItems(failureList);*/
+       */
+
+        //testOrCompileErrorList.add(0, "hallo");
+
+        testTableView.setItems(sortedList);
+
+
+                //emptyObservableList();
+        for (int i = 0; i < testFailureMethodNameArrayList.size(); i++) {
+            //System.out.println(testFailureMethodNameArrayList.get(i));
+            //failureList.add(testFailureMethodNameArrayList.get(i));
+        }
+
+
+        //testTableView.setItems(failureList);
         compileErrorTextArea.clear();
     }
 
@@ -76,4 +94,11 @@ public class ErrorAndFailureController extends Controller {
         compileErrorTextArea.clear();
         testTableView.getItems().clear();
     }
+
+    @Override
+    public void willAppear() {
+        sortedList = new SortedList<>(testOrCompileErrorList);
+        testTableView.setItems(sortedList);
+    }
+
 }

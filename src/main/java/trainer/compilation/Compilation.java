@@ -8,35 +8,18 @@ import vk.core.internal.InternalCompiler;
 public class Compilation {
 
     private String testInput;
-    private String solutionInput;
-    private CompilationUnit[] testAndSolution = new CompilationUnit[2];
+    private String codeInput;
+    private CompilationUnit[] testAndCode = new CompilationUnit[2];
     private InternalCompiler compiler;
 
 
     public Compilation (String testInput, String solutionInput) {
         this.testInput = testInput;
-        this.solutionInput = solutionInput;
-        testAndSolution[0] = new CompilationUnit(getClassName(testInput), testInput, isATest(testInput));
-        testAndSolution[1] = new CompilationUnit(getClassName(solutionInput), solutionInput, isATest(solutionInput));
+        this.codeInput  = solutionInput;
+        testAndCode[0] = new CompilationUnit(getClassName(testInput), testInput, isATest(testInput));
+        testAndCode[1] = new CompilationUnit(getClassName(solutionInput), solutionInput, isATest(solutionInput));
     }
 
-    /*
-    public String readTextFile(String fileName) {
-        String content = "";
-        String line;
-        BufferedReader bufferedReader;
-        try {
-            bufferedReader = new BufferedReader(new FileReader(fileName));
-            while ((line = bufferedReader.readLine()) != null)
-                content += line;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return content;
-    }
-    */
 
     /** sucht den Klassennamen in dem übergebenen String, der die ganze Klasse enthält und gibt ihn zurück */
     public String getClassName(String classContent) {
@@ -49,10 +32,6 @@ public class Compilation {
             index += 1;
         }
         return className;
-    }
-
-    public String getClassContent(String classContent) {
-        return classContent;
     }
 
     public boolean isATest(String classContent) {
@@ -68,7 +47,7 @@ public class Compilation {
         return compiler;
     }
 
-    public CompilationUnit[] getTestAndSolution() {
-        return testAndSolution;
+    public CompilationUnit[] getTestAndCode() {
+        return testAndCode;
     }
 }
