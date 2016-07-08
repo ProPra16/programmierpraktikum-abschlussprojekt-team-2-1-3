@@ -44,7 +44,6 @@ public class Exercise {
 
         this.path = Paths.get(this.catalog.folder.getAbsolutePath() + "/" + this.xmlObject.toString());
         readExercise();
-
     }
 
     public void readExercise() throws ParserConfigurationException, IOException, SAXException {
@@ -70,7 +69,7 @@ public class Exercise {
 
             Element element = (Element) node;
 
-            name =  element.getAttribute("xmlObject");
+            name =  element.getAttribute("name");
 
             codeTemplate.initalizeJclass(element.getElementsByTagName("class_name").item(0).getTextContent(), element.getElementsByTagName("class_code").item(0).getTextContent());
 

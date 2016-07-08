@@ -16,7 +16,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TableView fx:id="testTableView" focusTraversable="false" nodeOrientation="LEFT_TO_RIGHT" GridPane.columnIndex="1" GridPane.hgrow="SOMETIMES" GridPane.vgrow="ALWAYS">
+            <TableView fx:id="testTableView" focusTraversable="false" nodeOrientation="LEFT_TO_RIGHT" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="testTableColumn" minWidth="-1.0" prefWidth="75.0" text="Fehlgeschlagene Tests" />
               </columns>
@@ -24,7 +24,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <BorderPane>
+            <BorderPane GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <top>
                   <Label text="Compilerfehler" BorderPane.alignment="CENTER">
                      <font>
