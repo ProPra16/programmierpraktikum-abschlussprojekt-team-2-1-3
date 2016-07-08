@@ -28,7 +28,7 @@
                <top>
                   <Label text="Compilerfehler" BorderPane.alignment="CENTER">
                      <font>
-                        <Font name="System Bold" size="14.0" />
+                        <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
                </top>

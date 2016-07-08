@@ -78,8 +78,8 @@ public class Exercise {
 
             description = element.getElementsByTagName("description").item(0).getTextContent();
 
-            settingList.put("babysteps_value",Boolean.getBoolean(element.getElementsByTagName("babysteps_value").item(0).getTextContent()));
-            settingList.put("timetracking_value",Boolean.getBoolean(element.getElementsByTagName("timetracking_value").item(0).getTextContent()));
+            settingList.put("babysteps_value", Boolean.valueOf(element.getElementsByTagName("babysteps_value").item(0).getTextContent()));
+            settingList.put("timetracking_value", Boolean.valueOf(element.getElementsByTagName("timetracking_value").item(0).getTextContent()));
         }
     }
 }

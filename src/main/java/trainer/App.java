@@ -30,6 +30,7 @@ public class App extends Application {
         stage.setTitle("Hauptmenü");
         stage.setScene(new Scene(new Pane()));
 
+
         controllers.put("selection", SelectionController.createWithName("selection"));
         // controllers.put("trainer", TrainerController.createWithName("trainer"));
         // wurde zu showExercise() im SelectionController ausgelagert, da eine Aufgabe schon ausgewaehlt sein muss um den TrainerController zu erstellen

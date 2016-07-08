@@ -1,11 +1,9 @@
 package trainer.gui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -20,6 +18,8 @@ import vk.core.api.TestFailure;
 import vk.core.internal.InternalCompiler;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -51,9 +51,24 @@ public class TrainerController extends Controller {
     private Rectangle statusBar;
     @FXML
     private Label instructionLabel;
+    @FXML
+    private MenuItem twoMenuItem;
+    @FXML
+    private MenuItem threeMenuItem;
+    @FXML
+    private MenuItem fiveMenuItem;
+    @FXML
+    private TextField timerTextField;
 
 
     private boolean isRefactor = false;
+
+    public static boolean running = false;
+    LocalTime now;
+    private boolean isBabysteps = false;
+
+    private long chosenTime;
+
 
 
     public static TrainerController createWithName(String nameOfController) throws IOException {
@@ -98,11 +113,17 @@ public class TrainerController extends Controller {
 
     @FXML
     public void editCode() {
+        running = false;
+        if (isBabysteps) {
+            timerTextField.setText(chosenTime + ":00");
+            startTimer();
+        }
         ((SolutionController) children.get("solution")).disableTestTextArea();
         ((SolutionController) children.get("solution")).enableCodeTextArea();
         backToEditTestMenuItem.setDisable(false);
         editCodeMenuItem.setDisable(true);
         instructionLabel.setText("Mache den Test funktionsfähig!");
+        tempSaveTest();
     }
 
     @FXML
@@ -113,21 +134,7 @@ public class TrainerController extends Controller {
         editTest();
     }
 
-    @FXML
-    public void backToEditTest() {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Wenn du zurück gehst, werden die letzten Änderungen im Code gelöscht!", ButtonType.CANCEL, ButtonType.OK);
-            alert.setHeaderText("Wirklich zurück zum Test?");
-            alert.initStyle(StageStyle.UNDECORATED);
-            alert.initOwner(App.getInstance().stage);
-            alert.initModality(Modality.WINDOW_MODAL);
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.CANCEL) {
-                return;
-            } else {
-                ((SolutionController) children.get("solution")).deleteNewCodeAndSetOldCode();
-                editTest();
-            }
-    }
+
 
     @FXML
     public void save() {
@@ -201,6 +208,8 @@ public class TrainerController extends Controller {
             } else if (!((SolutionController) children.get("solution")).codeTextArea.isDisabled()) {
 
                 if (!hasCompileErrors && numberOfFailedTests == 0) {
+                    running = false;
+                    timerTextField.setText("00:00");
                     statusBar.setFill(Color.GREEN);
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Alle Tests bestanden. Möchtest du deinen Code verbessern?", ButtonType.YES, ButtonType.NO);
                     alert.setHeaderText("Refactor");
@@ -224,6 +233,100 @@ public class TrainerController extends Controller {
         }
     }
 
+    @FXML
+    public void bsTwoChosen() {
+        chosenTime = 2;
+        ((SolutionController) getChildren().get("solution")).enableTestTextArea();
+        compileAndRunMenuItem.setDisable(false);
+        startTimer();
+        instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
+    }
+
+    @FXML
+    public void bsThreeChosen() {
+        chosenTime = 3;
+        ((SolutionController) getChildren().get("solution")).enableTestTextArea();
+        compileAndRunMenuItem.setDisable(false);
+        startTimer();
+        instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
+    }
+
+    @FXML
+    public void bsFiveChosen() {
+        chosenTime = 5;
+        ((SolutionController) getChildren().get("solution")).enableTestTextArea();
+        compileAndRunMenuItem.setDisable(false);
+        startTimer();
+        instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
+    }
+
+    @FXML
+    public void backToEditTest() {
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Wenn du zurück gehst, werden die letzten Änderungen im Code gelöscht!", ButtonType.CANCEL, ButtonType.OK);
+        alert.setHeaderText("Wirklich zurück zum Test?");
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initOwner(App.getInstance().stage);
+        alert.initModality(Modality.WINDOW_MODAL);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.CANCEL) {
+            return;
+        } else {
+            ((SolutionController) children.get("solution")).deleteNewCodeAndSetOldCode();
+            editTest();
+        }
+    }
+
+    public void startTimer() {
+        now = LocalTime.now();
+        running = true;
+
+        Thread timer = new Thread(() -> {
+            while (running) {
+                try {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            Duration diff = Duration.between(LocalTime.now(), now.plusMinutes(chosenTime));
+                            long minutes = diff.getSeconds()/60;
+                            long seconds = diff.getSeconds() % 60;
+                            if (seconds < 10) timerTextField.setText("0" + minutes + ":" + "0" + seconds);
+                            else timerTextField.setText("0" + minutes + ":" + seconds);
+                            if ((minutes == 0 && seconds == 0)){
+                                running = false;
+                                if (!((SolutionController) children.get("solution")).testTextArea.isDisabled()) {
+                                    if (((SolutionController) children.get("solution")).getTempSavedTestInput() == null) {
+                                        ((SolutionController) children.get("solution")).testTextArea.setText(((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.testTemplate.getTest_code());
+                                        editTest();
+                                    } else {
+                                        ((SolutionController) children.get("solution")).testTextArea.setText(((SolutionController) children.get("solution")).getTempSavedTestInput());
+                                        ((SolutionController) children.get("solution")).disableTestTextArea();
+                                        editCode();
+                                    }
+
+                                } else {
+                                    if (((SolutionController) children.get("solution")).getTempSavedCodeInput() == null) {
+                                        ((SolutionController) children.get("solution")).codeTextArea.setText(((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.codeTemplate.getCode());
+                                    } else {
+                                        ((SolutionController) children.get("solution")).codeTextArea.setText(((SolutionController) children.get("solution")).getTempSavedCodeInput());
+                                        ((SolutionController) children.get("solution")).disableCodeTextArea();
+                                    }
+                                    editTest();
+                                }
+
+                            }
+                        }
+                    });
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        timer.start();
+    }
+
+
+
     private StackPane getRootForDescription() { return descriptionStackPane; }
 
     private StackPane getRootForSolution() { return solutionStackPane; }
@@ -231,14 +334,33 @@ public class TrainerController extends Controller {
     private StackPane getRootForErrorAndFailureController() { return errorOrFailureStackPane; }
 
     public void  didAppear() {
+
         backToEditTestMenuItem.setDisable(true);
         editCodeMenuItem.setDisable(true);
         statusBar.setFill(Color.GRAY);
         endRefactorMenuItem.setDisable(true);
-        instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
+
+
+        /** falls Babysteps eingeschaltet */
+        if (((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.settingList.get("babysteps_value")) {
+            isBabysteps = true;
+            ((SolutionController) getChildren().get("solution")).disableTestTextArea();
+            compileAndRunMenuItem.setDisable(true);
+            instructionLabel.setText("Wähle in den Babysteps-Settings eine Zeitspanne aus!");
+        } else {
+            instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
+            twoMenuItem.setDisable(true);
+            threeMenuItem.setDisable(true);
+            fiveMenuItem.setDisable(true);
+        }
     }
 
     public void editTest() {
+        running = false;
+        if (isBabysteps) {
+            timerTextField.setText(chosenTime + ":00");
+            startTimer();
+        }
         tempSaveCode();
         ((SolutionController) children.get("solution")).disableCodeTextArea();
         ((SolutionController) children.get("solution")).enableTestTextArea();
@@ -249,4 +371,9 @@ public class TrainerController extends Controller {
     public void tempSaveCode() {
         ((SolutionController) children.get("solution")).tempSaveCode();
     }
+
+    public void tempSaveTest() {
+        ((SolutionController) children.get("solution")).tempSaveTest();
+    }
+
 }
