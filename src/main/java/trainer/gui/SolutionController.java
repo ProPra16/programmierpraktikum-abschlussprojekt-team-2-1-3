@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import trainer.App;
 import trainer.gui.system.Controller;
 
@@ -13,7 +14,7 @@ import java.io.IOException;
 public class SolutionController extends Controller {
 
     @FXML
-    public BorderPane root;
+    public HBox root;
     @FXML
     public TextArea testTextArea;
     @FXML
