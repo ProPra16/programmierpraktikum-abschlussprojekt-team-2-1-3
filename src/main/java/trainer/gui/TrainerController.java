@@ -14,12 +14,20 @@ import javafx.stage.StageStyle;
 import trainer.App;
 import trainer.compilation.Compilation;
 import trainer.gui.system.Controller;
+import trainer.models.Exercise;
+import trainer.time.Time;
 import vk.core.api.CompilationUnit;
 import vk.core.api.CompileError;
 import vk.core.api.TestFailure;
 import vk.core.internal.InternalCompiler;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -54,6 +62,7 @@ public class TrainerController extends Controller {
 
 
     private boolean isRefactor = false;
+    private Exercise exercise;
 
 
     public static TrainerController createWithName(String nameOfController) throws IOException {
@@ -115,23 +124,43 @@ public class TrainerController extends Controller {
 
     @FXML
     public void backToEditTest() {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Wenn du zurück gehst, werden die letzten Änderungen im Code gelöscht!", ButtonType.CANCEL, ButtonType.OK);
-            alert.setHeaderText("Wirklich zurück zum Test?");
-            alert.initStyle(StageStyle.UNDECORATED);
-            alert.initOwner(App.getInstance().stage);
-            alert.initModality(Modality.WINDOW_MODAL);
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.CANCEL) {
-                return;
-            } else {
-                ((SolutionController) children.get("solution")).deleteNewCodeAndSetOldCode();
-                editTest();
-            }
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Wenn du zurück gehst, werden die letzten Änderungen im Code gelöscht!", ButtonType.CANCEL, ButtonType.OK);
+        alert.setHeaderText("Wirklich zurück zum Test?");
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initOwner(App.getInstance().stage);
+        alert.initModality(Modality.WINDOW_MODAL);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.CANCEL) {
+            return;
+        } else {
+            ((SolutionController) children.get("solution")).deleteNewCodeAndSetOldCode();
+            editTest();
+        }
     }
 
     @FXML
-    public void save() {
-        // TODO Julian
+    public void save() throws IOException {
+
+        SelectionController controller = (SelectionController) App.getInstance().getController("selection");
+
+        String pathString = controller.selection.catalog.folder.getAbsolutePath();
+        pathString += "/" + controller.selection.exercise.name;
+
+        Path folderPath = Paths.get(pathString);
+        Path codePath = Paths.get(pathString + "/" + controller.selection.exercise.name + ".java");
+        Path testPath = Paths.get(pathString + "/" + controller.selection.exercise.name + "Tests.java");
+
+        if (!Files.exists(folderPath) && Files.notExists(folderPath)) {
+            Files.createDirectory(folderPath);
+            Files.createFile(codePath);
+            Files.createFile(testPath);
+
+            Files.write(codePath, controller.selection.exercise.codeTemplate.getCode().getBytes(), StandardOpenOption.WRITE);
+            Files.write(testPath, controller.selection.exercise.testTemplate.getTest_code().getBytes(), StandardOpenOption.WRITE);
+        } else {
+            Files.write(codePath, controller.selection.exercise.codeTemplate.getCode().getBytes(), StandardOpenOption.WRITE);
+            Files.write(testPath, controller.selection.exercise.testTemplate.getTest_code().getBytes(), StandardOpenOption.WRITE);
+        }
     }
 
     @FXML
@@ -142,7 +171,7 @@ public class TrainerController extends Controller {
         String solutionAreaInput = ((SolutionController) children.get("solution")).getCodeInput();
 
         /** Kompiliere */
-        Compilation compilation = new Compilation(testAreaInput,solutionAreaInput);
+        Compilation compilation = new Compilation(testAreaInput, solutionAreaInput);
         CompilationUnit[] testAndSolution = compilation.getTestAndSolution();
         InternalCompiler compiler = compilation.initializeCompiler(testAndSolution);
         compiler.compileAndRunTests();
@@ -160,9 +189,12 @@ public class TrainerController extends Controller {
         }
 
         /** setze Compilefehlerliste bzw. Testfailuretabelle */
-        if (hasCompileErrors) ((ErrorAndFailureController) children.get("errorAndFailure")).setContent(testCompileErrors,codeCompileErrors);
-        else if (numberOfFailedTests > 0) ((ErrorAndFailureController) children.get("errorAndFailure")).setContent(testFailures);
-        else if (!hasCompileErrors && numberOfFailedTests == 0) ((ErrorAndFailureController) children.get("errorAndFailure")).setContent();
+        if (hasCompileErrors)
+            ((ErrorAndFailureController) children.get("errorAndFailure")).setContent(testCompileErrors, codeCompileErrors);
+        else if (numberOfFailedTests > 0)
+            ((ErrorAndFailureController) children.get("errorAndFailure")).setContent(testFailures);
+        else if (!hasCompileErrors && numberOfFailedTests == 0)
+            ((ErrorAndFailureController) children.get("errorAndFailure")).setContent();
 
 
         /** Abfrage der moeglichen Situationen und entsprechende Aktion */
@@ -197,7 +229,7 @@ public class TrainerController extends Controller {
                 }
 
 
-            /** Man befindet sich im Code - Editor */
+                /** Man befindet sich im Code - Editor */
             } else if (!((SolutionController) children.get("solution")).codeTextArea.isDisabled()) {
 
                 if (!hasCompileErrors && numberOfFailedTests == 0) {
@@ -224,13 +256,19 @@ public class TrainerController extends Controller {
         }
     }
 
-    private StackPane getRootForDescription() { return descriptionStackPane; }
+    private StackPane getRootForDescription() {
+        return descriptionStackPane;
+    }
 
-    private StackPane getRootForSolution() { return solutionStackPane; }
+    private StackPane getRootForSolution() {
+        return solutionStackPane;
+    }
 
-    private StackPane getRootForErrorAndFailureController() { return errorOrFailureStackPane; }
+    private StackPane getRootForErrorAndFailureController() {
+        return errorOrFailureStackPane;
+    }
 
-    public void  didAppear() {
+    public void didAppear() {
         backToEditTestMenuItem.setDisable(true);
         editCodeMenuItem.setDisable(true);
         statusBar.setFill(Color.GRAY);
@@ -249,4 +287,5 @@ public class TrainerController extends Controller {
     public void tempSaveCode() {
         ((SolutionController) children.get("solution")).tempSaveCode();
     }
+
 }

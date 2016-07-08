@@ -48,10 +48,18 @@ public class SelectionController extends Controller {
     @FXML
     public void showExercise() throws ParserConfigurationException, SAXException, IOException {
         /** Aufgabenstellung der ausgewaehlten Aufgabe anzeigen */
+
+        // -- Julian: Check --
         // TODO: Fehler, wenn man auf unbesetztes Listenelement klickt - Julian
-        selection.exercise = new Exercise(selection.catalog, exercisesListView.getSelectionModel().getSelectedItem().toString());
-        exerciseTextArea.setText(selection.exercise.description);
-        App.getInstance().controllers.put("trainer", TrainerController.createWithName("trainer"));
+
+        if (exercisesListView.getSelectionModel().getSelectedItem() != null) {
+
+            selection.exercise = new Exercise(selection.catalog, exercisesListView.getSelectionModel().getSelectedItem().toString());
+            exerciseTextArea.setText(selection.exercise.description);
+            App.getInstance().controllers.put("trainer", TrainerController.createWithName("trainer"));
+
+        }
+
     }
 
     @FXML
@@ -60,7 +68,7 @@ public class SelectionController extends Controller {
     }
 
     @FXML
-    public void startTrainer() throws IOException {
+    public void startTrainer() throws IOException, ParserConfigurationException, SAXException {
         /** Trainer starten */
         selection.exercise.xmlObject = exercisesListView.getSelectionModel().getSelectedItem();
         App.getInstance().startTrainer();

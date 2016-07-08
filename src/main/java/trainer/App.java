@@ -87,4 +87,8 @@ public class App extends Application {
     public Stage getStage(){
         return this.stage;
     }
+
+    public Controller getController (String name){
+        return controllers.get(name);
+    }
 }
