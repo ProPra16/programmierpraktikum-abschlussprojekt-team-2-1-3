@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.shape.*?>
 <?import java.lang.*?>
@@ -29,7 +30,7 @@
    <top>
       <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="29.0" prefWidth="598.0" BorderPane.alignment="CENTER">
          <children>
-            <MenuBar HBox.hgrow="ALWAYS">
+            <MenuBar prefHeight="18.0" prefWidth="715.0" HBox.hgrow="ALWAYS">
                <menus>
                   <Menu mnemonicParsing="false" text="Navigate">
                      <items>
@@ -48,12 +49,19 @@
                   <Menu mnemonicParsing="false" text="Help">
                      <items>
                         <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="About" />
-                        <MenuItem fx:id="showSettingsMenuItem" mnemonicParsing="false" text="Show Settings" />
                         <MenuItem fx:id="handbuchMenuItem" mnemonicParsing="false" text="Handbuch" />
                      </items>
                   </Menu>
+                  <Menu mnemonicParsing="false" text="Babysteps Settings">
+                    <items>
+                      <MenuItem fx:id="twoMenuItem" mnemonicParsing="false" onAction="#bsTwoChosen" text="2 Minutes" />
+                        <MenuItem fx:id="threeMenuItem" mnemonicParsing="false" onAction="#bsThreeChosen" text="3 Minutes" />
+                        <MenuItem fx:id="fiveMenuItem" mnemonicParsing="false" onAction="#bsFiveChosen" text="5 Minutes" />
+                    </items>
+                  </Menu>
                </menus>
             </MenuBar>
+            <TextField fx:id="timerTextField" alignment="CENTER" editable="false" focusTraversable="false" prefHeight="34.0" prefWidth="75.0" text="00:00" />
          </children>
       </HBox>
    </top>
@@ -61,7 +69,10 @@
       <StackPane prefHeight="5.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
             <Rectangle fx:id="statusBar" arcHeight="5.0" arcWidth="5.0" fill="RED" height="22.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
-            <Label fx:id="instructionLabel" text="Label" />
+            <Label fx:id="instructionLabel" text="Label">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
          </children>
       </StackPane>
    </bottom>

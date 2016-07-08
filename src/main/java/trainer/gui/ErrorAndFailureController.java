@@ -34,7 +34,7 @@ public class ErrorAndFailureController extends Controller {
     @FXML
     private TableColumn testTableColumn;
 
-    private ObservableList<TableEntry> testOrCompileErrorList;
+    private ObservableList<String > testOrCompileErrorList;
 
 
     public static ErrorAndFailureController createWithName(String nameOfController) throws IOException {
@@ -57,16 +57,21 @@ public class ErrorAndFailureController extends Controller {
 
     public void setContent(Collection<TestFailure> testFailures) {
         Object[] testFailuresArray = testFailures.toArray();
-        ArrayList<String> testFailureNameArrayList = new ArrayList<>();
+        ArrayList<String> testFailureMethodNameArrayList = new ArrayList<>();
 
         for (Object o : testFailuresArray) {
-            System.out.println(((TestFailure) o).getMethodName());
-            testFailureNameArrayList.add(((TestFailure) o).getMethodName());
+            testFailureMethodNameArrayList.add(((TestFailure) o).getMethodName());
         }
+
+        testOrCompileErrorList = FXCollections.observableList(testFailureMethodNameArrayList);
+
+        System.out.println(testOrCompileErrorList.toString());
+        testTableView.setItems(testOrCompileErrorList);
+
         /*ObservableList<String> failureList = FXCollections.emptyObservableList();
-        for (int i = 0; i < testFailureNameArrayList.size(); i++) {
-            System.out.println(testFailureNameArrayList.get(i));
-            failureList.add(testFailureNameArrayList.get(i));
+        for (int i = 0; i < testFailureMethodNameArrayList.size(); i++) {
+            System.out.println(testFailureMethodNameArrayList.get(i));
+            failureList.add(testFailureMethodNameArrayList.get(i));
         }
         testTableView.setItems(failureList);*/
         compileErrorTextArea.clear();

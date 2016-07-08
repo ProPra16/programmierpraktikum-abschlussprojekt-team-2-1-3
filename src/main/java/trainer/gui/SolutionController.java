@@ -22,6 +22,8 @@ public class SolutionController extends Controller {
 
     private String tempSavedCodeInput;
 
+    private String tempSavedTestInput;
+
 
 
     public static SolutionController createWithName(String nameOfController) throws IOException {
@@ -76,6 +78,11 @@ public class SolutionController extends Controller {
         tempSavedCodeInput = codeTextArea.getText();
     }
 
+    public void tempSaveTest() {
+        tempSavedTestInput = testTextArea.getText();
+    }
+
+
     public String getCodeInput() {
         return codeTextArea.getText();
     }
@@ -92,5 +99,12 @@ public class SolutionController extends Controller {
         return ((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.codeTemplate.getCode();
     }
 
+    public String getTempSavedTestInput() {
+        return tempSavedTestInput;
+    }
+
+    public String getTempSavedCodeInput() {
+        return tempSavedCodeInput;
+    }
 
 }

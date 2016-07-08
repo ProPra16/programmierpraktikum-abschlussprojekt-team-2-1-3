@@ -60,6 +60,12 @@ public class SelectionController extends Controller {
 
         }
 
+        selection.exercise = new Exercise(selection.catalog, exercisesListView.getSelectionModel().getSelectedItem().toString());
+        exerciseTextArea.setText(selection.exercise.description);
+        App.getInstance().controllers.put("trainer", TrainerController.createWithName("trainer"));
+        App.getInstance().stage.setOnCloseRequest(event -> {
+            ((TrainerController) App.getInstance().controllers.get("trainer")).running = false;
+        });
     }
 
     @FXML
