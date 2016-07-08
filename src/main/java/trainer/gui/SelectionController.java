@@ -59,10 +59,6 @@ public class SelectionController extends Controller {
             App.getInstance().controllers.put("trainer", TrainerController.createWithName("trainer"));
 
         }
-
-        selection.exercise = new Exercise(selection.catalog, exercisesListView.getSelectionModel().getSelectedItem().toString());
-        exerciseTextArea.setText(selection.exercise.description);
-        App.getInstance().controllers.put("trainer", TrainerController.createWithName("trainer"));
         App.getInstance().stage.setOnCloseRequest(event -> {
             ((TrainerController) App.getInstance().controllers.get("trainer")).running = false;
         });
@@ -76,8 +72,10 @@ public class SelectionController extends Controller {
     @FXML
     public void startTrainer() throws IOException, ParserConfigurationException, SAXException {
         /** Trainer starten */
-        selection.exercise.xmlObject = exercisesListView.getSelectionModel().getSelectedItem();
-        App.getInstance().startTrainer();
+        if (exercisesListView.getSelectionModel().getSelectedItem() != null) {
+            selection.exercise.xmlObject = exercisesListView.getSelectionModel().getSelectedItem();
+            App.getInstance().startTrainer();
+        }
     }
 
     @FXML

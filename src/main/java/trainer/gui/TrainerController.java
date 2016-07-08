@@ -309,21 +309,6 @@ public class TrainerController extends Controller {
         instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
     }
 
-    @FXML
-    public void backToEditTest() {
-        Alert alert = new Alert(Alert.AlertType.WARNING, "Wenn du zurück gehst, werden die letzten Änderungen im Code gelöscht!", ButtonType.CANCEL, ButtonType.OK);
-        alert.setHeaderText("Wirklich zurück zum Test?");
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.initOwner(App.getInstance().stage);
-        alert.initModality(Modality.WINDOW_MODAL);
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.CANCEL) {
-            return;
-        } else {
-            ((SolutionController) children.get("solution")).deleteNewCodeAndSetOldCode();
-            editTest();
-        }
-    }
 
     public void startTimer() {
         now = LocalTime.now();
@@ -375,8 +360,6 @@ public class TrainerController extends Controller {
     }
 
 
-
-    private StackPane getRootForDescription() { return descriptionStackPane; }
 
     private StackPane getRootForSolution() {
         return solutionStackPane;
