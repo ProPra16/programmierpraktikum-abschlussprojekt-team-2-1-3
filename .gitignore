@@ -9,4 +9,5 @@ settings.gradle
 .idea/
 gradle/
 task_switch
+tasks
 

@@ -50,12 +50,16 @@ public class SelectionController extends Controller {
 
         /** Aufgabenstellung der ausgewaehlten Aufgabe anzeigen */
         // TODO: Fehler, wenn man auf unbesetztes Listenelement klickt
-        selection.exercise = new Exercise(selection.catalog, exercisesListView.getSelectionModel().getSelectedItem().toString());
-        exerciseTextArea.setText(selection.exercise.description);
+        if (exercisesListView.getSelectionModel().getSelectedItem() != null) {
+            selection.exercise = new Exercise(selection.catalog, exercisesListView.getSelectionModel().getSelectedItem().toString());
+            exerciseTextArea.setText(selection.exercise.description);
 
-        /** Doppeldefinition ?? */
-        // exerciseTextArea.setText(String.valueOf(selection.exercise.exercice));
-        App.getInstance().controllers.put("trainer", TrainerController.createWithName("trainer"));
+            /** Doppeldefinition ?? */
+            // exerciseTextArea.setText(String.valueOf(selection.exercise.exercice));
+            App.getInstance().controllers.put("trainer", TrainerController.createWithName("trainer"));
+        }
+
+
     }
 
     @FXML
