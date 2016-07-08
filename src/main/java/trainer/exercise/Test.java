@@ -12,5 +12,11 @@ public class Test {
         test_code = code;
     }
 
+    public String getTest_code() {
+        return test_code;
+    }
 
+    public String getTest_name() {
+        return test_name;
+    }
 }

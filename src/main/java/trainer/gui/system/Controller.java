@@ -16,7 +16,7 @@ public class Controller {
     protected Pane root = new Pane();
 
     @FXML
-    protected void initialise() {
+    protected void initialize() {
 
     }
 

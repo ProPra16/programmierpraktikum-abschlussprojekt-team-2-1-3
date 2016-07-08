@@ -3,8 +3,8 @@ package trainer.gui;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -12,9 +12,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 import trainer.App;
+import trainer.compilation.Compilation;
 import trainer.gui.system.Controller;
+import vk.core.api.CompilationUnit;
+import vk.core.api.CompileError;
+import vk.core.api.TestFailure;
+import vk.core.internal.InternalCompiler;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Optional;
 
 public class TrainerController extends Controller {
@@ -28,6 +34,8 @@ public class TrainerController extends Controller {
     @FXML
     private MenuItem compileAndRunMenuItem;
     @FXML
+    private MenuItem endRefactorMenuItem;
+    @FXML
     private MenuItem showSettingsMenuItem;
     @FXML
     private MenuItem aboutMenuItem;
@@ -36,15 +44,16 @@ public class TrainerController extends Controller {
     @FXML
     private StackPane descriptionStackPane;
     @FXML
-    private StackPane editableSolutionStackPane;
+    private StackPane solutionStackPane;
     @FXML
-    private StackPane testSolutionStackPane;
+    public StackPane errorOrFailureStackPane;
     @FXML
     private Rectangle statusBar;
+    @FXML
+    private Label instructionLabel;
 
 
-    public String task;
-    private boolean allTestsRun;
+    private boolean isRefactor = false;
 
 
     public static TrainerController createWithName(String nameOfController) throws IOException {
@@ -59,57 +68,55 @@ public class TrainerController extends Controller {
         trainerController.getChildren().put("description", descriptionController);
         trainerController.showChild("description", trainerController.getRootForDescription());
 
-        EditableSolutionController editableSolutionController = EditableSolutionController.createWithName("editableSolution");
-        editableSolutionController.setParent(trainerController);
-        trainerController.getChildren().put("editableSolution", editableSolutionController);
-        trainerController.showChild("editableSolution", trainerController.getRootForEditableSolution());
+        SolutionController solutionController = SolutionController.createWithName("solution");
+        solutionController.setParent(trainerController);
+        trainerController.getChildren().put("solution", solutionController);
+        trainerController.showChild("solution", trainerController.getRootForSolution());
 
-        TestsStatusSolutionController testsStatusSolutionController = TestsStatusSolutionController.createWithName("testStatusSolution");
-        testsStatusSolutionController.setParent(trainerController);
-        trainerController.getChildren().put("testStatusSolution", testsStatusSolutionController);
-        trainerController.showChild("testStatusSolution", trainerController.getRootForTestSolution());
+        ErrorAndFailureController errorAndFailureController = ErrorAndFailureController.createWithName("errorAndFailure");
+        errorAndFailureController.setParent(trainerController);
+        trainerController.getChildren().put("errorAndFailure", errorAndFailureController);
+        trainerController.showChild("errorAndFailure", trainerController.getRootForErrorAndFailureController());
 
-        //trainerController.getGame().setMineField(descriptionController.getMinefield());*/
-
-        // TODO: StatusSoltionController
         return trainerController;
     }
 
     @FXML
     public void quit() {
-        App.getInstance().showController("selection");
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Wenn du die Übung beenden möchtest, wird eine nicht gespeicherte Lösung verworfen. Möchtest du die Übung trotzdem beenden?", ButtonType.YES, ButtonType.NO);
+        alert.setHeaderText("Achtung");
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.initOwner(App.getInstance().stage);
+        alert.initModality(Modality.WINDOW_MODAL);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.YES) {
+            App.getInstance().showController("selection");
+        } else if (result.isPresent() && result.get() == ButtonType.NO) {
+            return;
+        }
     }
 
     @FXML
     public void editCode() {
-        saveTest();
-        ((EditableSolutionController) children.get("editableSolution")).disableTestTextArea();
-        ((EditableSolutionController) children.get("editableSolution")).enableCodeTextArea();
+        ((SolutionController) children.get("solution")).disableTestTextArea();
+        ((SolutionController) children.get("solution")).enableCodeTextArea();
         backToEditTestMenuItem.setDisable(false);
         editCodeMenuItem.setDisable(true);
+        instructionLabel.setText("Mache den Test funktionsfähig!");
     }
 
     @FXML
-    public void editTest() {
-        saveCode();
-        ((EditableSolutionController) children.get("editableSolution")).disableCodeTextArea();
-        ((EditableSolutionController) children.get("editableSolution")).enableTestTextArea();
-        backToEditTestMenuItem.setDisable(true);
-        editCodeMenuItem.setDisable(false);
-    }
-
-    public void saveTest() {
-        ((EditableSolutionController) children.get("editableSolution")).saveTest();
-    }
-
-    public void saveCode() {
-        ((EditableSolutionController) children.get("editableSolution")).saveCode();
+    public void endRefactor() {
+        isRefactor = false;
+        instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
+        endRefactorMenuItem.setDisable(true);
+        editTest();
     }
 
     @FXML
     public void backToEditTest() {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Wenn du zurück gehst, wird die letzten Änderungen im Code gelöscht!", ButtonType.CANCEL, ButtonType.OK);
-            alert.setHeaderText("Wirklich zurück zum Test gehen?");
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Wenn du zurück gehst, werden die letzten Änderungen im Code gelöscht!", ButtonType.CANCEL, ButtonType.OK);
+            alert.setHeaderText("Wirklich zurück zum Test?");
             alert.initStyle(StageStyle.UNDECORATED);
             alert.initOwner(App.getInstance().stage);
             alert.initModality(Modality.WINDOW_MODAL);
@@ -117,101 +124,129 @@ public class TrainerController extends Controller {
             if (result.isPresent() && result.get() == ButtonType.CANCEL) {
                 return;
             } else {
-                ((EditableSolutionController) children.get("editableSolution")).deleteNewCode();
+                ((SolutionController) children.get("solution")).deleteNewCodeAndSetOldCode();
                 editTest();
             }
     }
 
     @FXML
     public void save() {
-        // TODO mit Silja
+        // TODO Julian
     }
 
     @FXML
     public void compileAndRun() {
-        if (!((EditableSolutionController) children.get("editableSolution")).testTextArea.isDisabled() == true) { // Test wird editiert
-            // schalte TestTextArea aus;
-            // schalte CodeTextArea ein;
-        } else if (!((EditableSolutionController) children.get("editableSolution")).codeTextArea.isDisabled() == true) { // Code wird editiert
-            // kompiliere Test und Code
-            // if (Alles kompiliert == true) {
-            //      run Testmethoden;
-            //      if (Alle Testmethoden laufen) {
-            //              Balken = green;
-            //              Alert = Neue Testmethode oder Refactor?
-            //              if (Neue Testmethode) {
-            //                  speichere String aus CodeTextArea in codeInput; <- für backToTestEdit Funktion
-            //                  schalte CodeTextArea aus;
-            //                  schalte TestTextArea ein;
-            //                 }
-            //          } else {
-            //              Balken = red;
-            //              Filtere failende Testmethoden
-            //              Tabelle = Testmethoden die failen;
-            //
-            //          }
-            // } else { Balken = red; }
+
+        /** Hole die Eingaben */
+        String testAreaInput = ((SolutionController) children.get("solution")).getTestInput();
+        String solutionAreaInput = ((SolutionController) children.get("solution")).getCodeInput();
+
+        /** Kompiliere */
+        Compilation compilation = new Compilation(testAreaInput,solutionAreaInput);
+        CompilationUnit[] testAndSolution = compilation.getTestAndSolution();
+        InternalCompiler compiler = compilation.initializeCompiler(testAndSolution);
+        compiler.compileAndRunTests();
+
+        /** Hole die benoetigten Ergebnisse der Kompilierung */
+        boolean hasCompileErrors = compiler.getCompilerResult().hasCompileErrors();
+        Collection<CompileError> testCompileErrors = compiler.getCompilerResult().getCompilerErrorsForCompilationUnit(testAndSolution[0]);
+        Collection<CompileError> codeCompileErrors = compiler.getCompilerResult().getCompilerErrorsForCompilationUnit(testAndSolution[1]);
+
+        int numberOfFailedTests = 0;
+        Collection<TestFailure> testFailures = null;
+        if (!hasCompileErrors) {
+            numberOfFailedTests = compiler.getTestResult().getNumberOfFailedTests();
+            testFailures = compiler.getTestResult().getTestFailures();
         }
 
+        /** setze Compilefehlerliste bzw. Testfailuretabelle */
+        if (hasCompileErrors) ((ErrorAndFailureController) children.get("errorAndFailure")).setContent(testCompileErrors,codeCompileErrors);
+        else if (numberOfFailedTests > 0) ((ErrorAndFailureController) children.get("errorAndFailure")).setContent(testFailures);
+        else if (!hasCompileErrors && numberOfFailedTests == 0) ((ErrorAndFailureController) children.get("errorAndFailure")).setContent();
 
 
+        /** Abfrage der moeglichen Situationen und entsprechende Aktion */
+        if (isRefactor) {
+            if (hasCompileErrors) {
+                statusBar.setFill(Color.RED);
+                endRefactorMenuItem.setDisable(true);
+            } else if (numberOfFailedTests != 0) {
+                statusBar.setFill(Color.RED);
+                endRefactorMenuItem.setDisable(true);
+            } else if (!hasCompileErrors && numberOfFailedTests == 0) {
+                statusBar.setFill(Color.GREEN);
+                endRefactorMenuItem.setDisable(false);
+            }
+
+        } else {
+            /** Man befindet sich im Test - Editor */
+            if (!((SolutionController) children.get("solution")).testTextArea.isDisabled()) {
+
+                if (hasCompileErrors || numberOfFailedTests == 1) {
+                    statusBar.setFill(Color.RED);
+                    editCodeMenuItem.setDisable(false);
+                    instructionLabel.setText("Um in die nächste Phase zu kommen, drücke Edit Code!");
+                } else if (numberOfFailedTests == 0) {
+                    statusBar.setFill(Color.GREEN);
+                    editCodeMenuItem.setDisable(true);
+                    instructionLabel.setText("Alle Tests laufen. Füge weiteren Test hinzu oder speichere deine Lösung!");
+                } else if (numberOfFailedTests > 1) {
+                    statusBar.setFill(Color.RED);
+                    editCodeMenuItem.setDisable(true);
+                    instructionLabel.setText("Es muss genau ein Test fehlschlagen!");
+                }
 
 
+            /** Man befindet sich im Code - Editor */
+            } else if (!((SolutionController) children.get("solution")).codeTextArea.isDisabled()) {
 
-
-
-
-
-        // Zusammenhangslose Codefragmente, die man für CompileAndRun verwenden kann:
-
-       /* // TODO: Compilieren lassen.
-        // TODO: if (keine CompilerFehler) {
-        // TODO: if (alle Tests funktionieren){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Alle Tests bestanden. Möchtest du deinen Code verbessern?", ButtonType.YES, ButtonType.NO);
-        alert.setHeaderText("Refactor");
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.initOwner(App.getInstance().stage);
-        alert.initModality(Modality.WINDOW_MODAL);
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.YES) {
-            editCode();
-        } else if (result.isPresent() && result.get() == ButtonType.NO){
-            editTest();
+                if (!hasCompileErrors && numberOfFailedTests == 0) {
+                    statusBar.setFill(Color.GREEN);
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Alle Tests bestanden. Möchtest du deinen Code verbessern?", ButtonType.YES, ButtonType.NO);
+                    alert.setHeaderText("Refactor");
+                    alert.initStyle(StageStyle.UNDECORATED);
+                    alert.initOwner(App.getInstance().stage);
+                    alert.initModality(Modality.WINDOW_MODAL);
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.YES) {
+                        isRefactor = true;
+                        instructionLabel.setText("REFACTOR");
+                        endRefactorMenuItem.setDisable(true);
+                        backToEditTestMenuItem.setDisable(true);
+                        editCodeMenuItem.setDisable(true);
+                    } else if (result.isPresent() && result.get() == ButtonType.NO) {
+                        editTest();
+                    }
+                } else {
+                    statusBar.setFill(Color.RED);
+                }
+            }
         }
-
-        // TODO: else if (compiliert nicht)
-        ((TestsStatusSolutionController) children.get("testStatusSolution")).setCompilerError();
-
-        // TODO: else if (Test funktioniert nicht)
-        ((TestsStatusSolutionController) children.get("testStatusSolution")).setTestError();*/
-
     }
 
     private StackPane getRootForDescription() { return descriptionStackPane; }
 
-    private StackPane getRootForEditableSolution() { return editableSolutionStackPane; }
+    private StackPane getRootForSolution() { return solutionStackPane; }
 
-    private StackPane getRootForTestSolution() { return testSolutionStackPane; }
-
-    @Override
-    public Pane getRoot() {
-        return root;
-    }
-
-    public void colorcheck (){
-        if (allTestsRun == true){
-            statusBar.setFill(Color.LIGHTGREEN);
-            //allTestsRun = false;
-        }
-
-        else if (allTestsRun == false){
-            statusBar.setFill(Color.ORANGERED);
-            //allTestsRun = true;
-        }
-    }
+    private StackPane getRootForErrorAndFailureController() { return errorOrFailureStackPane; }
 
     public void  didAppear() {
         backToEditTestMenuItem.setDisable(true);
+        editCodeMenuItem.setDisable(true);
         statusBar.setFill(Color.GRAY);
+        endRefactorMenuItem.setDisable(true);
+        instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
+    }
+
+    public void editTest() {
+        tempSaveCode();
+        ((SolutionController) children.get("solution")).disableCodeTextArea();
+        ((SolutionController) children.get("solution")).enableTestTextArea();
+        backToEditTestMenuItem.setDisable(true);
+        instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
+    }
+
+    public void tempSaveCode() {
+        ((SolutionController) children.get("solution")).tempSaveCode();
     }
 }
