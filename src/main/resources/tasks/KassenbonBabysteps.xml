@@ -1,0 +1,35 @@
+<exercises>
+    <exercise name="Kassenbon">
+
+        <description>
+        Erstelle eine Art Kassenbon, welcher Waren
+        mit entsprechendem Preis auflistet und eine Endsumme berechnet.
+        Falls fälschicherweise Waren eingescannt worden sind, so
+        soll man diese auch wieder Stornieren können.
+
+        Babysteps: on
+        Tracking: off</description>
+
+        <class_name>Kassenbon</class_name>
+        <class_code>public class Kassenbon {
+
+
+            }</class_code>
+
+        <test_name>KassenbonTest</test_name>
+        <test_code>import static org.junit.Assert.*;
+            import org.junit.Test;
+            public class KassenbonTest {
+            @Test
+            public void testSomething() {
+            }
+            }
+        </test_code>
+
+        <babysteps_value>True</babysteps_value>
+
+        <timetracking_value>False</timetracking_value>
+
+    </exercise>
+
+</exercises>
