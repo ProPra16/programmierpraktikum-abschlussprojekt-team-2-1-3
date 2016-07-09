@@ -17,4 +17,3 @@ Enorme GitHub Probleme wurden größtenteils behoben (auch nach Anleitung im Int
 - Julian: MVC-Modell für den Trainer entwerfen
 - Silja: Gegebenen Compiler studieren
 - Kathrin: Startmenü vervollständigen, bzw Layouts aktualisieren, MVC weiter ausarbeiten
-
