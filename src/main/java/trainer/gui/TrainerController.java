@@ -4,6 +4,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -197,7 +200,7 @@ public class TrainerController extends Controller {
 
         /** Kompiliere */
         Compilation compilation = new Compilation(testAreaInput, solutionAreaInput);
-        CompilationUnit[] testAndSolution = compilation.getTestAndSolution();
+        CompilationUnit[] testAndSolution = compilation.getTestAndCode();
         InternalCompiler compiler = compilation.initializeCompiler(testAndSolution);
         compiler.compileAndRunTests();
 
