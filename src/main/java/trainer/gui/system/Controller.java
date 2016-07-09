@@ -3,8 +3,6 @@ package trainer.gui.system;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
-
-import java.io.IOException;
 import java.util.LinkedHashMap;
 
 public class Controller {

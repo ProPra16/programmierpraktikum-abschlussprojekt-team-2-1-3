@@ -8,7 +8,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import trainer.App;
 import trainer.gui.system.Controller;
-
 import java.io.IOException;
 
 public class SolutionController extends Controller {

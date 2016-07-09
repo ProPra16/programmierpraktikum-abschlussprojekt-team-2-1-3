@@ -1,24 +1,16 @@
 package trainer.gui;
 
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-import trainer.App;
 import trainer.gui.system.Controller;
 import vk.core.api.CompileError;
 import vk.core.api.TestFailure;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
 
 public class ErrorAndFailureController extends Controller {
 

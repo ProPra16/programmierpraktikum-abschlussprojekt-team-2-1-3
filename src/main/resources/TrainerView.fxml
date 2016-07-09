@@ -39,12 +39,6 @@
                         <MenuItem fx:id="compileAndRunMenuItem" mnemonicParsing="false" onAction="#compileAndRun" text="Compile &amp; Run" />
                      </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Help">
-                     <items>
-                        <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="About" />
-                        <MenuItem fx:id="handbuchMenuItem" mnemonicParsing="false" onAction="#showHandbuch" text="Handbuch" />
-                     </items>
-                  </Menu>
                   <Menu mnemonicParsing="false" text="Babysteps Settings">
                     <items>
                       <MenuItem fx:id="twoMenuItem" mnemonicParsing="false" onAction="#bsTwoChosen" text="2 Minutes" />

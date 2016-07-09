@@ -16,22 +16,15 @@ import trainer.App;
 import trainer.compilation.Compilation;
 import trainer.gui.system.Controller;
 import trainer.models.Exercise;
-import trainer.time.Time;
 import vk.core.api.CompilationUnit;
 import vk.core.api.CompileError;
 import vk.core.api.TestFailure;
 import vk.core.internal.InternalCompiler;
-
-
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Collection;
@@ -49,8 +42,6 @@ public class TrainerController extends Controller {
     private MenuItem compileAndRunMenuItem;
     @FXML
     private MenuItem endRefactorMenuItem;
-    @FXML
-    private MenuItem aboutMenuItem;
     @FXML
     private StackPane descriptionStackPane;
     @FXML
@@ -107,10 +98,6 @@ public class TrainerController extends Controller {
         return trainerController;
     }
 
-    @FXML
-    public void showHandbuch() {
-
-    }
 
     @FXML
     public void quit() {

@@ -8,14 +8,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.DirectoryChooser;
 import org.xml.sax.SAXException;
 import trainer.App;
 import trainer.gui.system.Controller;
 import trainer.models.Exercise;
 import trainer.models.Selection;
-
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FilenameFilter;
@@ -96,7 +94,7 @@ public class SelectionController extends Controller {
     }
 
     public ArrayList scanForFiles() throws IOException {
-        ArrayList listOfTextFiles = new ArrayList();
+        ArrayList listOfXMLFiles = new ArrayList();
         FilenameFilter filenameFilter = new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -106,10 +104,10 @@ public class SelectionController extends Controller {
         File[] listOfAllFiles = selection.catalog.folder.listFiles(filenameFilter);
         for (File file : listOfAllFiles) {
             if (file.isFile()) {
-                listOfTextFiles.add(file.getName());
+                listOfXMLFiles.add(file.getName());
             }
         }
-        return listOfTextFiles;
+        return listOfXMLFiles;
     }
 
     public void loadFiles() throws IOException {

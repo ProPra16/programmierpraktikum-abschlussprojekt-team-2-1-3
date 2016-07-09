@@ -49,9 +49,6 @@ public class Exercise {
     public void readExercise() throws ParserConfigurationException, IOException, SAXException {
         /** Aufgabe wird mit dem Reader als String eingelesen*/
 
-        // TODO: Wenn eine Uebung aus Description, Templates und Settings besteht, so muss zunaechst die Description.txt geoeffnet werden
-        // Falls eine Uebung aus einer .txt besteht, die Description, Templates und Settings beinhaltet, muss nach der Description gefiltert werden
-
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();

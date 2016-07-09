@@ -6,7 +6,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import trainer.gui.*;
 import trainer.gui.system.Controller;
-
 import java.io.IOException;
 import java.util.LinkedHashMap;
 

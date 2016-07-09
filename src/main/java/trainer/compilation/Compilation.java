@@ -7,17 +7,13 @@ import vk.core.internal.InternalCompiler;
 
 public class Compilation {
 
-    private String testInput;
-    private String codeInput;
     private CompilationUnit[] testAndCode = new CompilationUnit[2];
     private InternalCompiler compiler;
 
 
-    public Compilation (String testInput, String solutionInput) {
-        this.testInput = testInput;
-        this.codeInput  = solutionInput;
+    public Compilation (String testInput, String codeInput) {
         testAndCode[0] = new CompilationUnit(getClassName(testInput), testInput, isATest(testInput));
-        testAndCode[1] = new CompilationUnit(getClassName(solutionInput), solutionInput, isATest(solutionInput));
+        testAndCode[1] = new CompilationUnit(getClassName(codeInput), codeInput, isATest(codeInput));
     }
 
 
@@ -42,8 +38,8 @@ public class Compilation {
             return false;
     }
 
-    public InternalCompiler initializeCompiler(CompilationUnit[] testAndSolution) {
-        compiler = (InternalCompiler) CompilerFactory.getCompiler(testAndSolution);
+    public InternalCompiler initializeCompiler(CompilationUnit[] testAndCdoe) {
+        compiler = (InternalCompiler) CompilerFactory.getCompiler(testAndCdoe);
         return compiler;
     }
 
