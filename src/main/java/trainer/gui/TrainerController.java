@@ -131,7 +131,7 @@ public class TrainerController extends Controller {
         ((SolutionController) children.get("solution")).enableCodeTextArea();
         backToEditTestMenuItem.setDisable(false);
         editCodeMenuItem.setDisable(true);
-        instructionLabel.setText("Mache den Test funktionsfähig!");
+        instructionLabel.setText("Ergänze Code, sodass der Test erfüllt wird!");
         tempSaveTest();
     }
 
