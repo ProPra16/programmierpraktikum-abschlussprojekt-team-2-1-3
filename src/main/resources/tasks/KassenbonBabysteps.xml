@@ -4,8 +4,8 @@
         <description>
         Erstelle eine Art Kassenbon, welcher Waren
         mit entsprechendem Preis auflistet und eine Endsumme berechnet.
-        Falls fälschicherweise Waren eingescannt worden sind, so
-        soll man diese auch wieder Stornieren können.
+        Falls fälschlicherweise Waren eingescannt worden sind, so
+        soll man diese auch wieder stornieren können.
 
         Babysteps: on
         Tracking: off</description>
