@@ -4,6 +4,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -19,6 +22,8 @@ import vk.core.api.CompileError;
 import vk.core.api.TestFailure;
 import vk.core.internal.InternalCompiler;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.nio.file.Files;
@@ -44,11 +49,7 @@ public class TrainerController extends Controller {
     @FXML
     private MenuItem endRefactorMenuItem;
     @FXML
-    private MenuItem showSettingsMenuItem;
-    @FXML
     private MenuItem aboutMenuItem;
-    @FXML
-    private MenuItem handbuchMenuItem;
     @FXML
     private StackPane descriptionStackPane;
     @FXML
@@ -103,6 +104,11 @@ public class TrainerController extends Controller {
         trainerController.showChild("errorAndFailure", trainerController.getRootForErrorAndFailureController());
 
         return trainerController;
+    }
+
+    @FXML
+    public void showHandbuch() {
+        
     }
 
     @FXML
