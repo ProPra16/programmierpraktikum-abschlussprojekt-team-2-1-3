@@ -42,7 +42,7 @@
                   <Menu mnemonicParsing="false" text="Help">
                      <items>
                         <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="About" />
-                        <MenuItem fx:id="handbuchMenuItem" mnemonicParsing="false" text="Handbuch" />
+                        <MenuItem fx:id="handbuchMenuItem" mnemonicParsing="false" onAction="#showHandbuch" text="Handbuch" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Babysteps Settings">

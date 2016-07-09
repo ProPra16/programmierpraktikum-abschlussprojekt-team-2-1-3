@@ -20,6 +20,8 @@ import vk.core.api.TestFailure;
 import vk.core.internal.InternalCompiler;
 
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.nio.file.Files;
@@ -45,11 +47,7 @@ public class TrainerController extends Controller {
     @FXML
     private MenuItem endRefactorMenuItem;
     @FXML
-    private MenuItem showSettingsMenuItem;
-    @FXML
     private MenuItem aboutMenuItem;
-    @FXML
-    private MenuItem handbuchMenuItem;
     @FXML
     private StackPane descriptionStackPane;
     @FXML
@@ -104,6 +102,11 @@ public class TrainerController extends Controller {
         trainerController.showChild("errorAndFailure", trainerController.getRootForErrorAndFailureController());
 
         return trainerController;
+    }
+
+    @FXML
+    public void showHandbuch() {
+
     }
 
     @FXML
@@ -193,8 +196,8 @@ public class TrainerController extends Controller {
         String solutionAreaInput = ((SolutionController) children.get("solution")).getCodeInput();
 
         /** Kompiliere */
-        Compilation compilation = new Compilation(testAreaInput,solutionAreaInput);
-        CompilationUnit[] testAndSolution = compilation.getTestAndCode();
+        Compilation compilation = new Compilation(testAreaInput, solutionAreaInput);
+        CompilationUnit[] testAndSolution = compilation.getTestAndSolution();
         InternalCompiler compiler = compilation.initializeCompiler(testAndSolution);
         compiler.compileAndRunTests();
 
@@ -208,8 +211,6 @@ public class TrainerController extends Controller {
         if (!hasCompileErrors) {
             numberOfFailedTests = compiler.getTestResult().getNumberOfFailedTests();
             testFailures = compiler.getTestResult().getTestFailures();
-
-            System.out.println();
         }
 
         /** setze Compilefehlerliste bzw. Testfailuretabelle */
