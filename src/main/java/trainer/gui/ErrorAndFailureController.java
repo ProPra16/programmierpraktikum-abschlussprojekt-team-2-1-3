@@ -10,7 +10,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import trainer.App;
 import trainer.gui.system.Controller;
-import trainer.models.TableEntry;
 import vk.core.api.CompileError;
 import vk.core.api.TestFailure;
 
