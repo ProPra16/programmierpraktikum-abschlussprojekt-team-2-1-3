@@ -289,6 +289,9 @@ public class TrainerController extends Controller {
         compileAndRunMenuItem.setDisable(false);
         startTimer();
         instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
+        twoMenuItem.setDisable(true);
+        threeMenuItem.setDisable(true);
+        fiveMenuItem.setDisable(true);
     }
 
     @FXML
@@ -298,6 +301,9 @@ public class TrainerController extends Controller {
         compileAndRunMenuItem.setDisable(false);
         startTimer();
         instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
+        twoMenuItem.setDisable(true);
+        threeMenuItem.setDisable(true);
+        fiveMenuItem.setDisable(true);
     }
 
     @FXML
@@ -307,6 +313,9 @@ public class TrainerController extends Controller {
         compileAndRunMenuItem.setDisable(false);
         startTimer();
         instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
+        twoMenuItem.setDisable(true);
+        threeMenuItem.setDisable(true);
+        fiveMenuItem.setDisable(true);
     }
 
 
