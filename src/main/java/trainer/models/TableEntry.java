@@ -4,25 +4,23 @@ package trainer.models;
 import javafx.beans.property.SimpleStringProperty;
 import vk.core.api.CompileError;
 
-import java.util.ArrayList;
-
 public class TableEntry {
-        private SimpleStringProperty testName = new SimpleStringProperty();
+        private SimpleStringProperty testMethodName = new SimpleStringProperty();
 
         public TableEntry(String name) {
-            testName.set(name);
+            testMethodName.set(name);
         }
 
         public TableEntry(CompileError compileError) {
-            testName.set(compileError.toString());
+            testMethodName.set(compileError.toString());
         }
 
-        public String getTestName() {
-            return testName.get();
+        public String getTestMethodName() {
+            return testMethodName.get();
         }
 
         public SimpleStringProperty testProperty() {
-            return testName;
+            return testMethodName;
         }
 
 }

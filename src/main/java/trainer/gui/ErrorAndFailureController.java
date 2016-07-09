@@ -3,6 +3,7 @@ package trainer.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -31,6 +32,9 @@ public class ErrorAndFailureController extends Controller {
 
 
     private ObservableList<String> testOrCompileErrorList = FXCollections.observableArrayList();
+    private ObservableList<String> testOrCompileErrorList = FXCollections.observableArrayList();
+
+    private SortedList<String> sortedList;
 
 
     public static ErrorAndFailureController createWithName(String nameOfController) throws IOException {
@@ -67,4 +71,11 @@ public class ErrorAndFailureController extends Controller {
         compileErrorTextArea.clear();
         testOrCompileErrorList.clear();
     }
+
+    @Override
+    public void willAppear() {
+        sortedList = new SortedList<>(testOrCompileErrorList);
+        testTableView.setItems(sortedList);
+    }
+
 }
