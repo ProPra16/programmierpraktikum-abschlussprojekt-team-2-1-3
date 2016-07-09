@@ -64,6 +64,13 @@ public class TrainerController extends Controller {
     private boolean isRefactor = false;
     private Exercise exercise;
 
+    private ArrayList<Time> testTime = new ArrayList<>();
+    private ArrayList<Time> codeTime = new ArrayList<>();
+    private ArrayList<Time> refactorTime = new ArrayList<>();
+
+    private long start;
+    private long stop;
+
 
     public static TrainerController createWithName(String nameOfController) throws IOException {
         FXMLLoader loader = new FXMLLoader(TrainerController.class.getResource("/TrainerView.fxml"));
@@ -91,7 +98,7 @@ public class TrainerController extends Controller {
     }
 
     @FXML
-    public void quit() {
+    public void quit() throws IOException {
         Alert alert = new Alert(Alert.AlertType.WARNING, "Wenn du die Übung beenden möchtest, wird eine nicht gespeicherte Lösung verworfen. Möchtest du die Übung trotzdem beenden?", ButtonType.YES, ButtonType.NO);
         alert.setHeaderText("Achtung");
         alert.initStyle(StageStyle.UNDECORATED);
@@ -99,7 +106,7 @@ public class TrainerController extends Controller {
         alert.initModality(Modality.WINDOW_MODAL);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.YES) {
-            App.getInstance().showController("selection");
+            displayResult();
         } else if (result.isPresent() && result.get() == ButtonType.NO) {
             return;
         }
@@ -215,10 +222,15 @@ public class TrainerController extends Controller {
             if (!((SolutionController) children.get("solution")).testTextArea.isDisabled()) {
 
                 if (hasCompileErrors || numberOfFailedTests == 1) {
+                    stop = System.currentTimeMillis();
+                    testTime.add(new Time(start, stop));
+                    start = System.currentTimeMillis();
+
                     statusBar.setFill(Color.RED);
                     editCodeMenuItem.setDisable(false);
                     instructionLabel.setText("Um in die nächste Phase zu kommen, drücke Edit Code!");
                 } else if (numberOfFailedTests == 0) {
+
                     statusBar.setFill(Color.GREEN);
                     editCodeMenuItem.setDisable(true);
                     instructionLabel.setText("Alle Tests laufen. Füge weiteren Test hinzu oder speichere deine Lösung!");
@@ -233,6 +245,10 @@ public class TrainerController extends Controller {
             } else if (!((SolutionController) children.get("solution")).codeTextArea.isDisabled()) {
 
                 if (!hasCompileErrors && numberOfFailedTests == 0) {
+                    stop = System.currentTimeMillis();
+                    codeTime.add(new Time(start, stop));
+                    start = System.currentTimeMillis();
+
                     statusBar.setFill(Color.GREEN);
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Alle Tests bestanden. Möchtest du deinen Code verbessern?", ButtonType.YES, ButtonType.NO);
                     alert.setHeaderText("Refactor");
@@ -286,6 +302,33 @@ public class TrainerController extends Controller {
 
     public void tempSaveCode() {
         ((SolutionController) children.get("solution")).tempSaveCode();
+    }
+
+    public void initialize() {
+        start = System.currentTimeMillis();
+    }
+
+    public void displayResult() throws IOException {
+
+        App.getInstance().controllers.put("result", ResultController.createWithName("result"));
+        App.getInstance().showController("result");
+        App.getInstance().stage.setTitle("Zusammenfasung");
+
+
+        //App.getInstance().showController("selection");
+
+    }
+
+    public ArrayList<Time> getTestTime() {
+        return testTime;
+    }
+
+    public ArrayList<Time> getCodeTime() {
+        return codeTime;
+    }
+
+    public ArrayList<Time> getRefactorTime() {
+        return refactorTime;
     }
 
 }
