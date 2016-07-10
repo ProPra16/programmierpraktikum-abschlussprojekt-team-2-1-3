@@ -1,8 +1,5 @@
 language: java
-jdk: oraclejdk8
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
-      script:
-      ls
+jdk:
+- oraclejdk8
+before_install:
+ - chmod +x gradlew
