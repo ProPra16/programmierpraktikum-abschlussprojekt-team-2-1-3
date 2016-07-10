@@ -67,6 +67,9 @@ public class TrainerController extends Controller {
     private ArrayList<Time> testTime = new ArrayList<>();
     private ArrayList<Time> codeTime = new ArrayList<>();
     private ArrayList<Time> refactorTime = new ArrayList<>();
+    private ArrayList<String> testErrors = new ArrayList<>();
+    private ArrayList<String> codeErrors = new ArrayList<>();
+    private ArrayList<String> refactorErrors = new ArrayList<>();
 
     private long start;
     private long stop;
@@ -123,6 +126,11 @@ public class TrainerController extends Controller {
 
     @FXML
     public void endRefactor() {
+
+        stop = System.currentTimeMillis();
+        refactorTime.add(new Time(start, stop));
+        start = System.currentTimeMillis();
+
         isRefactor = false;
         instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
         endRefactorMenuItem.setDisable(true);
@@ -154,19 +162,26 @@ public class TrainerController extends Controller {
         pathString += "/" + controller.selection.exercise.name;
 
         Path folderPath = Paths.get(pathString);
-        Path codePath = Paths.get(pathString + "/" + controller.selection.exercise.name + ".java");
-        Path testPath = Paths.get(pathString + "/" + controller.selection.exercise.name + "Tests.java");
+        Path codePath = Paths.get(pathString + "/" + controller.selection.exercise.codeTemplate.getName() + ".java");
+        Path testPath = Paths.get(pathString + "/" + controller.selection.exercise.testTemplate.getTest_name() + ".java");
 
         if (!Files.exists(folderPath) && Files.notExists(folderPath)) {
             Files.createDirectory(folderPath);
             Files.createFile(codePath);
             Files.createFile(testPath);
 
-            Files.write(codePath, controller.selection.exercise.codeTemplate.getCode().getBytes(), StandardOpenOption.WRITE);
-            Files.write(testPath, controller.selection.exercise.testTemplate.getTest_code().getBytes(), StandardOpenOption.WRITE);
+            TrainerController activeController = (TrainerController) App.getInstance().getController("trainer");
+            SolutionController solutionController = (SolutionController) activeController.getChildren().get("solution");
+
+            Files.write(codePath, solutionController.getCodeInput().getBytes(), StandardOpenOption.WRITE);
+            Files.write(testPath, solutionController.getTestInput().getBytes(), StandardOpenOption.WRITE);
         } else {
-            Files.write(codePath, controller.selection.exercise.codeTemplate.getCode().getBytes(), StandardOpenOption.WRITE);
-            Files.write(testPath, controller.selection.exercise.testTemplate.getTest_code().getBytes(), StandardOpenOption.WRITE);
+
+            TrainerController activeController = (TrainerController) App.getInstance().getController("trainer");
+            SolutionController solutionController = (SolutionController) activeController.getChildren().get("solution");
+
+            Files.write(codePath, solutionController.getCodeInput().getBytes());
+            Files.write(testPath, solutionController.getTestInput().getBytes());
         }
     }
 
@@ -207,6 +222,13 @@ public class TrainerController extends Controller {
         /** Abfrage der moeglichen Situationen und entsprechende Aktion */
         if (isRefactor) {
             if (hasCompileErrors) {
+
+                if (!testCompileErrors.isEmpty())
+                    refactorErrors.add(testCompileErrors.toString());
+
+                if (!codeCompileErrors.isEmpty())
+                    refactorErrors.add(codeCompileErrors.toString());
+
                 statusBar.setFill(Color.RED);
                 endRefactorMenuItem.setDisable(true);
             } else if (numberOfFailedTests != 0) {
@@ -225,6 +247,13 @@ public class TrainerController extends Controller {
                     stop = System.currentTimeMillis();
                     testTime.add(new Time(start, stop));
                     start = System.currentTimeMillis();
+
+
+                    if (!testCompileErrors.isEmpty())
+                        testErrors.add(testCompileErrors.toString());
+
+                    if (!codeCompileErrors.isEmpty())
+                        testErrors.add(codeCompileErrors.toString());
 
                     statusBar.setFill(Color.RED);
                     editCodeMenuItem.setDisable(false);
@@ -262,10 +291,21 @@ public class TrainerController extends Controller {
                         endRefactorMenuItem.setDisable(true);
                         backToEditTestMenuItem.setDisable(true);
                         editCodeMenuItem.setDisable(true);
+
+                        stop = System.currentTimeMillis();
+                        codeTime.add(new Time(start, stop));
+                        start = System.currentTimeMillis();
                     } else if (result.isPresent() && result.get() == ButtonType.NO) {
                         editTest();
                     }
                 } else {
+
+                    if (!testCompileErrors.isEmpty())
+                        codeErrors.add(testCompileErrors.toString());
+
+                    if (!codeCompileErrors.isEmpty())
+                        codeErrors.add(codeCompileErrors.toString());
+
                     statusBar.setFill(Color.RED);
                 }
             }
@@ -314,9 +354,6 @@ public class TrainerController extends Controller {
         App.getInstance().showController("result");
         App.getInstance().stage.setTitle("Zusammenfasung");
 
-
-        //App.getInstance().showController("selection");
-
     }
 
     public ArrayList<Time> getTestTime() {
@@ -329,6 +366,18 @@ public class TrainerController extends Controller {
 
     public ArrayList<Time> getRefactorTime() {
         return refactorTime;
+    }
+
+    public ArrayList<String> getTestErrors(){
+        return testErrors;
+    }
+
+    public ArrayList<String> getCodeErrors(){
+        return codeErrors;
+    }
+
+    public ArrayList<String> getRefactorErrors(){
+        return refactorErrors;
     }
 
 }

@@ -12,6 +12,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
@@ -26,13 +27,13 @@ public class Exercise {
 
     public Catalog catalog;
     public final Path path;
+    public final Path catalogPath;
 
     public String name;
     public String description;
     public Jclass codeTemplate = new Jclass();
     public Test testTemplate = new Test();
     public LinkedHashMap<String, Boolean> settingList = new LinkedHashMap<>();
-
 
 
     public Exercise(Catalog catalog, Object object) throws IOException, SAXException, ParserConfigurationException {
@@ -43,6 +44,7 @@ public class Exercise {
         /** Anhand des Namens wird ein Objekt der ausgewählten Aufgabe erstellt */
 
         this.path = Paths.get(this.catalog.folder.getAbsolutePath() + "/" + this.xmlObject.toString());
+        this.catalogPath = Paths.get(this.catalog.folder.getAbsolutePath());
         readExercise();
     }
 
@@ -69,16 +71,32 @@ public class Exercise {
 
             Element element = (Element) node;
 
-            name =  element.getAttribute("name");
+            name = element.getAttribute("name");
 
-            codeTemplate.initalizeJclass(element.getElementsByTagName("class_name").item(0).getTextContent(), element.getElementsByTagName("class_code").item(0).getTextContent());
+            String pathString = catalogPath.toString();
+            pathString += "/" + name;
 
-            testTemplate.initalizeTest(element.getElementsByTagName("test_name").item(0).getTextContent(), element.getElementsByTagName("test_code").item(0).getTextContent());
+            Path codePath = Paths.get(pathString + "/" + element.getElementsByTagName("class_name").item(0).getTextContent() + ".java");
+            Path testPath = Paths.get(pathString + "/" + element.getElementsByTagName("test_name").item(0).getTextContent() + ".java");
+
+            if (Files.exists(codePath) && !Files.notExists(codePath) && Files.exists(testPath) && !Files.notExists(testPath)) {
+
+                codeTemplate.initalizeJclass(element.getElementsByTagName("class_name").item(0).getTextContent(), new String(Files.readAllBytes(codePath)));
+
+                testTemplate.initalizeTest(element.getElementsByTagName("test_name").item(0).getTextContent(), new String(Files.readAllBytes(testPath)));
+
+
+            } else {
+                codeTemplate.initalizeJclass(element.getElementsByTagName("class_name").item(0).getTextContent(), element.getElementsByTagName("class_code").item(0).getTextContent());
+
+                testTemplate.initalizeTest(element.getElementsByTagName("test_name").item(0).getTextContent(), element.getElementsByTagName("test_code").item(0).getTextContent());
+            }
+
 
             description = element.getElementsByTagName("description").item(0).getTextContent();
 
-            settingList.put("babysteps_value",Boolean.getBoolean(element.getElementsByTagName("babysteps_value").item(0).getTextContent()));
-            settingList.put("timetracking_value",Boolean.getBoolean(element.getElementsByTagName("timetracking_value").item(0).getTextContent()));
+            settingList.put("babysteps_value", Boolean.getBoolean(element.getElementsByTagName("babysteps_value").item(0).getTextContent()));
+            settingList.put("timetracking_value", Boolean.getBoolean(element.getElementsByTagName("timetracking_value").item(0).getTextContent()));
         }
     }
 }

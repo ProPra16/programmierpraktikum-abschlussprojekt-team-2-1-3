@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -17,25 +18,47 @@
    <center>
       <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+            <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
                <children>
-                  <Label prefHeight="36.0" prefWidth="64.0" text="Fehler:">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font></Label>
-                  <ListView fx:id="errorView" />
+                  <HBox alignment="CENTER" spacing="60.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Testfehler" />
+                        <Label layoutX="10.0" layoutY="10.0" text="Codefehler" />
+                        <Label layoutX="10.0" layoutY="10.0" text="Refactorfehler" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <ListView fx:id="testList" HBox.hgrow="ALWAYS" />
+                        <ListView fx:id="codeList" HBox.hgrow="ALWAYS" />
+                        <ListView fx:id="refactorList" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <Label text="Chart:">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font></Label>
-                  <PieChart fx:id="timeChart" />
-               </children>
-            </VBox>
+            <BarChart fx:id="timeChart" HBox.hgrow="ALWAYS">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
          </children>
       </HBox>
    </center>
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#back" text="Back">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </HBox>
+   </bottom>
 </BorderPane>

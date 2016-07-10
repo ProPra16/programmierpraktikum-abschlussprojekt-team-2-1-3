@@ -4,7 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.ListView;
 import trainer.App;
 import trainer.gui.system.Controller;
@@ -12,17 +14,25 @@ import trainer.time.Time;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ResultController extends Controller {
 
     @FXML
-    PieChart timeChart;
+    BarChart timeChart;
 
     @FXML
-    ListView errorView;
+    ListView testList;
+
+    @FXML
+    ListView codeList;
+
+    @FXML
+    ListView refactorList;
 
     public void initialize() {
         setTimeChart();
+        setErrorView();
     }
 
     public static ResultController createWithName(String nameOfController) throws IOException {
@@ -57,18 +67,48 @@ public class ResultController extends Controller {
             refactorduration += duration.getDuration();
         }
 
+        codeduration = codeduration/1000;
+        testduration = testduration/1000;
+        refactorduration = refactorduration/1000;
+
+        XYChart.Series testseries = new XYChart.Series();
+        XYChart.Series codeseries = new XYChart.Series();
+        XYChart.Series refactorseries = new XYChart.Series();
+
+        testseries.setName("Testphase");
+        testseries.getData().add(new XYChart.Data<>("",testduration));
+
+        codeseries.setName("Codephase");
+        codeseries.getData().add(new XYChart.Data<>("",codeduration));
+
+        refactorseries.setName("Refactorphase");
+        refactorseries.getData().add(new XYChart.Data<>("",refactorduration));
+
         System.out.println(codeduration);
         System.out.println(testduration);
         System.out.println(refactorduration);
 
-        ObservableList<PieChart.Data> data = FXCollections.observableArrayList(
-                new PieChart.Data("Code", codeduration),
-                new PieChart.Data("Test", testduration),
-                new PieChart.Data("Refactor", refactorduration)
-        );
+        timeChart.getData().addAll(testseries, codeseries, refactorseries);
+        timeChart.setTitle("Zeitverteilung");
 
-        timeChart = new PieChart(data);
+    }
 
+    public void setErrorView(){
+
+        TrainerController trainerController = (TrainerController) App.getInstance().getController("trainer");
+
+        ArrayList<String> testErrors = trainerController.getTestErrors();
+        ArrayList<String> codeErrors = trainerController.getCodeErrors();
+        ArrayList<String> refactorErrors = trainerController.getRefactorErrors();
+
+        testList.setItems(FXCollections.observableArrayList(testErrors));
+        codeList.setItems(FXCollections.observableArrayList(codeErrors));
+        refactorList.setItems(FXCollections.observableArrayList(refactorErrors));
+    }
+
+    @FXML
+    public void back(){
+        App.getInstance().showController("selection");
     }
 
 }
