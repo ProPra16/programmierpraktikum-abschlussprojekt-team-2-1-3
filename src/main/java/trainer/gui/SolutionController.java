@@ -20,9 +20,9 @@ public class SolutionController extends Controller {
     public  TextArea codeTextArea;
 
 
-    private String tempSavedCodeInput;
+    public String tempSavedCodeInput;
 
-    private String tempSavedTestInput;
+    public String tempSavedTestInput;
 
 
 

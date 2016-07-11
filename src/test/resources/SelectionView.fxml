@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="root" prefHeight="400.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainer.gui.SelectionController">
+   <children>
+      <StackPane prefHeight="150.0" prefWidth="200.0">
+         <children>
+            <Label text="Willkommen im TDD-Trainer!" />
+         </children>
+      </StackPane>
+      <VBox prefHeight="54.0" prefWidth="600.0">
+         <children>
+            <Label text="Katalog auswählen:">
+               <VBox.margin>
+                  <Insets left="30.0" />
+               </VBox.margin>
+            </Label>
+            <HBox prefHeight="18.0" prefWidth="600.0" spacing="2.0" VBox.vgrow="NEVER">
+               <children>
+                  <TextField fx:id="catalogTextField" editable="false" focusTraversable="false" prefHeight="26.0" prefWidth="508.0" />
+                  <Button mnemonicParsing="false" onAction="#searchForCatalogs" text="..." />
+               </children>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets right="30.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox depthTest="DISABLE" fillHeight="false" prefHeight="209.0" prefWidth="540.0" spacing="50.0" VBox.vgrow="NEVER">
+         <children>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="184.0" prefWidth="239.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Aufgaben auswählen:">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <ListView fx:id="exercisesListView" prefHeight="127.0" prefWidth="239.0" VBox.vgrow="ALWAYS" onMouseClicked="#showExercise" />
+               </children>
+            </VBox>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="180.0" prefWidth="252.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label alignment="TOP_LEFT" text="Beschreibung:" />
+                  <TextArea fx:id="exerciseTextArea" editable="false" prefHeight="70.0" prefWidth="247.0" VBox.vgrow="SOMETIMES" />
+               </children>
+            </VBox>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <VBox.margin>
+            <Insets left="30.0" right="30.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#quit" text="Beenden" />
+            <Button mnemonicParsing="false" onAction="#startTrainer" text="Start" />
+         </children>
+         <padding>
+            <Insets bottom="30.0" right="30.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>
