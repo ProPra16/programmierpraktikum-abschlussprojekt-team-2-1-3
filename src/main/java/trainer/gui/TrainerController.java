@@ -466,6 +466,7 @@ public class TrainerController extends Controller {
         if (((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.settingList.get("timetracking_value")) {
             isTracking = true;
             trackingLabel.setText("Tracking: On");
+            start = System.currentTimeMillis();
 
         }
     }
@@ -491,10 +492,7 @@ public class TrainerController extends Controller {
         ((SolutionController) children.get("solution")).tempSaveTest();
     }
 
-    public void initialize() {
-        if (isTracking)
-            start = System.currentTimeMillis();
-    }
+
 
     public void displayResult() throws IOException {
 

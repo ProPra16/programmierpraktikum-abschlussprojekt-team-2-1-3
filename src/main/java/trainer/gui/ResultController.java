@@ -78,6 +78,12 @@ public class ResultController extends Controller {
         testduration = testduration/1000;
         refactorduration = refactorduration/1000;
 
+
+        System.out.println(codeduration);
+        System.out.println(testduration);
+        System.out.println(refactorduration);
+
+
         XYChart.Series testseries = new XYChart.Series();
         XYChart.Series codeseries = new XYChart.Series();
         XYChart.Series refactorseries = new XYChart.Series();
