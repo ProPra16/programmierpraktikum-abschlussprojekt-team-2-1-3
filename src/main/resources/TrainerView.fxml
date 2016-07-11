@@ -48,7 +48,16 @@
                   </Menu>
                </menus>
             </MenuBar>
-            <TextField fx:id="timerTextField" alignment="CENTER" editable="false" focusTraversable="false" prefHeight="34.0" prefWidth="75.0" text="00:00" />
+            <HBox alignment="CENTER" prefHeight="29.0" prefWidth="317.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="trackingLabel" alignment="CENTER" prefHeight="19.0" prefWidth="144.0" text="Tracking: Off" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="timerTextField" alignment="CENTER" editable="false" focusTraversable="false" prefHeight="34.0" prefWidth="75.0" text="00:00" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
          </children>
       </HBox>
    </top>

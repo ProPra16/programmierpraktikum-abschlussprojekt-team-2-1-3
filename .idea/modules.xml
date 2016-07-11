@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/tddt.iml" filepath="$PROJECT_DIR$/.idea/modules/tddt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tddt_main.iml" filepath="$PROJECT_DIR$/.idea/modules/tddt_main.iml" group="tddt" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tddt_test.iml" filepath="$PROJECT_DIR$/.idea/modules/tddt_test.iml" group="tddt" />
     </modules>
   </component>
 </project>

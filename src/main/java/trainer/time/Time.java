@@ -10,4 +10,8 @@ public class Time {
         this.start = start;
         this.end = end;
     }
+
+    public long getDuration(){
+        return end-start;
+    }
 }

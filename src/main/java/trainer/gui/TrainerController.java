@@ -16,10 +16,12 @@ import trainer.App;
 import trainer.compilation.Compilation;
 import trainer.gui.system.Controller;
 import trainer.models.Exercise;
+import trainer.time.Time;
 import vk.core.api.CompilationUnit;
 import vk.core.api.CompileError;
 import vk.core.api.TestFailure;
 import vk.core.internal.InternalCompiler;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,6 +29,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -60,17 +63,29 @@ public class TrainerController extends Controller {
     private MenuItem fiveMenuItem;
     @FXML
     private TextField timerTextField;
+    @FXML
+    private Label trackingLabel;
 
 
     private boolean isRefactor = false;
     private Exercise exercise;
 
+    private ArrayList<Time> testTime = new ArrayList<>();
+    private ArrayList<Time> codeTime = new ArrayList<>();
+    private ArrayList<Time> refactorTime = new ArrayList<>();
+    private ArrayList<String> testErrors = new ArrayList<>();
+    private ArrayList<String> codeErrors = new ArrayList<>();
+    private ArrayList<String> refactorErrors = new ArrayList<>();
+
+    private long start;
+    private long stop;
+
     public static boolean running = false;
     LocalTime now;
     private boolean isBabysteps = false;
+    private boolean isTracking = false;
 
     private long chosenTime;
-
 
 
     public static TrainerController createWithName(String nameOfController) throws IOException {
@@ -100,7 +115,7 @@ public class TrainerController extends Controller {
 
 
     @FXML
-    public void quit() {
+    public void quit() throws IOException {
         Alert alert = new Alert(Alert.AlertType.WARNING, "Wenn du die Übung beenden möchtest, wird eine nicht gespeicherte Lösung verworfen. Möchtest du die Übung trotzdem beenden?", ButtonType.YES, ButtonType.NO);
         alert.setHeaderText("Achtung");
         alert.initStyle(StageStyle.UNDECORATED);
@@ -108,7 +123,13 @@ public class TrainerController extends Controller {
         alert.initModality(Modality.WINDOW_MODAL);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.YES) {
-            App.getInstance().showController("selection");
+
+            if (isTracking)
+                displayResult();
+
+            else
+                App.getInstance().showController("selection");
+
         } else if (result.isPresent() && result.get() == ButtonType.NO) {
             return;
         }
@@ -131,6 +152,13 @@ public class TrainerController extends Controller {
 
     @FXML
     public void endRefactor() {
+
+        if (isTracking) {
+            stop = System.currentTimeMillis();
+            refactorTime.add(new Time(start, stop));
+            start = System.currentTimeMillis();
+        }
+
         isRefactor = false;
         instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
         endRefactorMenuItem.setDisable(true);
@@ -162,19 +190,26 @@ public class TrainerController extends Controller {
         pathString += "/" + controller.selection.exercise.name;
 
         Path folderPath = Paths.get(pathString);
-        Path codePath = Paths.get(pathString + "/" + controller.selection.exercise.name + ".java");
-        Path testPath = Paths.get(pathString + "/" + controller.selection.exercise.name + "Tests.java");
+        Path codePath = Paths.get(pathString + "/" + controller.selection.exercise.codeTemplate.getName() + ".java");
+        Path testPath = Paths.get(pathString + "/" + controller.selection.exercise.testTemplate.getTest_name() + ".java");
 
         if (!Files.exists(folderPath) && Files.notExists(folderPath)) {
             Files.createDirectory(folderPath);
             Files.createFile(codePath);
             Files.createFile(testPath);
 
-            Files.write(codePath, controller.selection.exercise.codeTemplate.getCode().getBytes(), StandardOpenOption.WRITE);
-            Files.write(testPath, controller.selection.exercise.testTemplate.getTest_code().getBytes(), StandardOpenOption.WRITE);
+            TrainerController activeController = (TrainerController) App.getInstance().getController("trainer");
+            SolutionController solutionController = (SolutionController) activeController.getChildren().get("solution");
+
+            Files.write(codePath, solutionController.getCodeInput().getBytes(), StandardOpenOption.WRITE);
+            Files.write(testPath, solutionController.getTestInput().getBytes(), StandardOpenOption.WRITE);
         } else {
-            Files.write(codePath, controller.selection.exercise.codeTemplate.getCode().getBytes(), StandardOpenOption.WRITE);
-            Files.write(testPath, controller.selection.exercise.testTemplate.getTest_code().getBytes(), StandardOpenOption.WRITE);
+
+            TrainerController activeController = (TrainerController) App.getInstance().getController("trainer");
+            SolutionController solutionController = (SolutionController) activeController.getChildren().get("solution");
+
+            Files.write(codePath, solutionController.getCodeInput().getBytes());
+            Files.write(testPath, solutionController.getTestInput().getBytes());
         }
     }
 
@@ -230,6 +265,13 @@ public class TrainerController extends Controller {
             if (!((SolutionController) children.get("solution")).testTextArea.isDisabled()) {
 
                 if (hasCompileErrors || numberOfFailedTests == 1) {
+
+                    if (isTracking) {
+                        stop = System.currentTimeMillis();
+                        testTime.add(new Time(start, stop));
+                        start = System.currentTimeMillis();
+                    }
+
                     statusBar.setFill(Color.RED);
                     editCodeMenuItem.setDisable(false);
                     instructionLabel.setText("Um in die nächste Phase zu kommen, drücke Edit Code!");
@@ -248,6 +290,13 @@ public class TrainerController extends Controller {
             } else if (!((SolutionController) children.get("solution")).codeTextArea.isDisabled()) {
 
                 if (!hasCompileErrors && numberOfFailedTests == 0) {
+
+                    if (isTracking) {
+                        stop = System.currentTimeMillis();
+                        codeTime.add(new Time(start, stop));
+                        start = System.currentTimeMillis();
+                    }
+
                     running = false;
                     timerTextField.setText("00:00");
                     statusBar.setFill(Color.GREEN);
@@ -276,6 +325,7 @@ public class TrainerController extends Controller {
     private StackPane getRootForDescription() {
         return descriptionStackPane;
     }
+
     @FXML
     public void bsTwoChosen() {
         chosenTime = 2;
@@ -324,11 +374,11 @@ public class TrainerController extends Controller {
                         @Override
                         public void run() {
                             Duration diff = Duration.between(LocalTime.now(), now.plusMinutes(chosenTime));
-                            long minutes = diff.getSeconds()/60;
+                            long minutes = diff.getSeconds() / 60;
                             long seconds = diff.getSeconds() % 60;
                             if (seconds < 10) timerTextField.setText("0" + minutes + ":" + "0" + seconds);
                             else timerTextField.setText("0" + minutes + ":" + seconds);
-                            if ((minutes == 0 && seconds == 0)){
+                            if ((minutes == 0 && seconds == 0)) {
                                 running = false;
                                 if (!((SolutionController) children.get("solution")).testTextArea.isDisabled()) {
                                     if (((SolutionController) children.get("solution")).getTempSavedTestInput() == null) {
@@ -363,7 +413,6 @@ public class TrainerController extends Controller {
     }
 
 
-
     private StackPane getRootForSolution() {
         return solutionStackPane;
     }
@@ -392,6 +441,12 @@ public class TrainerController extends Controller {
             threeMenuItem.setDisable(true);
             fiveMenuItem.setDisable(true);
         }
+
+        if (((SelectionController) App.getInstance().controllers.get("selection")).selection.exercise.settingList.get("timetracking_value")) {
+            isTracking = true;
+            trackingLabel.setText("Tracking: On");
+
+        }
     }
 
     public void editTest() {
@@ -414,5 +469,46 @@ public class TrainerController extends Controller {
     public void tempSaveTest() {
         ((SolutionController) children.get("solution")).tempSaveTest();
     }
+
+    public void initialize() {
+        if (isTracking)
+            start = System.currentTimeMillis();
+    }
+
+    public void displayResult() throws IOException {
+
+        trackingLabel.setText("Tracking: Off");
+        isTracking = false;
+
+        App.getInstance().controllers.put("result", ResultController.createWithName("result"));
+        App.getInstance().showController("result");
+        App.getInstance().stage.setTitle("Zusammenfasung");
+
+    }
+
+    public ArrayList<Time> getTestTime() {
+        return testTime;
+    }
+
+    public ArrayList<Time> getCodeTime() {
+        return codeTime;
+    }
+
+    public ArrayList<Time> getRefactorTime() {
+        return refactorTime;
+    }
+
+    public ArrayList<String> getTestErrors() {
+        return testErrors;
+    }
+
+    public ArrayList<String> getCodeErrors() {
+        return codeErrors;
+    }
+
+    public ArrayList<String> getRefactorErrors() {
+        return refactorErrors;
+    }
+
 
 }
