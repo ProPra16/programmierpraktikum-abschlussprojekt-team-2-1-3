@@ -250,6 +250,13 @@ public class TrainerController extends Controller {
         /** Abfrage der moeglichen Situationen und entsprechende Aktion */
         if (isRefactor) {
             if (hasCompileErrors) {
+
+                if (!testCompileErrors.isEmpty())
+                    refactorErrors.add(testCompileErrors.toString());
+
+                if (!codeCompileErrors.isEmpty())
+                    refactorErrors.add(codeCompileErrors.toString());
+
                 statusBar.setFill(Color.RED);
                 endRefactorMenuItem.setDisable(true);
             } else if (numberOfFailedTests != 0) {
@@ -280,6 +287,13 @@ public class TrainerController extends Controller {
                     editCodeMenuItem.setDisable(true);
                     instructionLabel.setText("Alle Tests laufen. Füge weiteren Test hinzu oder speichere deine Lösung!");
                 } else if (numberOfFailedTests > 1) {
+
+                    if (!testCompileErrors.isEmpty())
+                        testErrors.add(testCompileErrors.toString());
+
+                    if (!codeCompileErrors.isEmpty())
+                        testErrors.add(codeCompileErrors.toString());
+
                     statusBar.setFill(Color.RED);
                     editCodeMenuItem.setDisable(true);
                     instructionLabel.setText("Es muss genau ein Test fehlschlagen!");
@@ -316,6 +330,13 @@ public class TrainerController extends Controller {
                         editTest();
                     }
                 } else {
+
+                    if (!testCompileErrors.isEmpty())
+                        codeErrors.add(testCompileErrors.toString());
+
+                    if (!codeCompileErrors.isEmpty())
+                        codeErrors.add(codeCompileErrors.toString());
+
                     statusBar.setFill(Color.RED);
                 }
             }
