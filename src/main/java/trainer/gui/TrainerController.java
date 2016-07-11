@@ -500,6 +500,8 @@ public class TrainerController extends Controller {
 
         trackingLabel.setText("Tracking: Off");
         isTracking = false;
+        running = false;
+        isBabysteps = false;
 
         App.getInstance().controllers.put("result", ResultController.createWithName("result"));
         App.getInstance().showController("result");
