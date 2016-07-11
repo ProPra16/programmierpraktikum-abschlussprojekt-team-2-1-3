@@ -57,4 +57,8 @@ public class ErrorAndFailureController extends Controller {
         compileErrorTextArea.clear();
         testOrCompileErrorList.clear();
     }
+
+    public ListView<String> getTestFailureListView() {
+        return testFailureListView;
+    }
 }

@@ -47,9 +47,6 @@ public class SelectionController extends Controller {
     public void showExercise() throws ParserConfigurationException, SAXException, IOException {
         /** Aufgabenstellung der ausgewaehlten Aufgabe anzeigen */
 
-        // -- Julian: Check --
-        // TODO: Fehler, wenn man auf unbesetztes Listenelement klickt - Julian
-
         if (exercisesListView.getSelectionModel().getSelectedItem() != null) {
 
             selection.exercise = new Exercise(selection.catalog, exercisesListView.getSelectionModel().getSelectedItem().toString());
