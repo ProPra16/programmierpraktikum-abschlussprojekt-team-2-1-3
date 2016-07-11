@@ -21,7 +21,7 @@ public class ErrorAndFailureController extends Controller {
     @FXML
     private ListView<String> testFailureListView;
 
-    private ObservableList<String> testOrCompileErrorList = FXCollections.observableArrayList();
+    public ObservableList<String> testOrCompileErrorList = FXCollections.observableArrayList();
 
 
     public static ErrorAndFailureController createWithName(String nameOfController) throws IOException {
@@ -45,7 +45,6 @@ public class ErrorAndFailureController extends Controller {
     public void setContent(Collection<TestFailure> testFailures) {
         Object[] testFailuresArray = testFailures.toArray();
         testOrCompileErrorList.clear();
-
 
         for (Object o : testFailuresArray) {
             testOrCompileErrorList.add(((TestFailure) o).getMethodName());

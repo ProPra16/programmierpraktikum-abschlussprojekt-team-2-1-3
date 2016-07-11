@@ -123,12 +123,14 @@ public class TrainerController extends Controller {
         alert.initModality(Modality.WINDOW_MODAL);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.YES) {
+            running = false;
+            timerTextField.setText("00:00");
 
-            if (isTracking)
+            if (isTracking) {
                 displayResult();
-
-            else
+            } else {
                 App.getInstance().showController("selection");
+            }
 
         } else if (result.isPresent() && result.get() == ButtonType.NO) {
             return;
@@ -249,14 +251,20 @@ public class TrainerController extends Controller {
 
         /** Abfrage der moeglichen Situationen und entsprechende Aktion */
         if (isRefactor) {
+
+            if (!codeCompileErrors.isEmpty())
+            refactorErrors.add(codeCompileErrors.toString());
+
+            if (!testCompileErrors.isEmpty())
+                refactorErrors.add(testCompileErrors.toString());
+
+            if (numberOfFailedTests != 0) {
+                setTestFailures(testFailures, refactorErrors);
+            }
+
+
+
             if (hasCompileErrors) {
-
-                if (!testCompileErrors.isEmpty())
-                    refactorErrors.add(testCompileErrors.toString());
-
-                if (!codeCompileErrors.isEmpty())
-                    refactorErrors.add(codeCompileErrors.toString());
-
                 statusBar.setFill(Color.RED);
                 endRefactorMenuItem.setDisable(true);
             } else if (numberOfFailedTests != 0) {
@@ -279,6 +287,16 @@ public class TrainerController extends Controller {
                         start = System.currentTimeMillis();
                     }
 
+                    if (!testCompileErrors.isEmpty())
+                        testErrors.add(testCompileErrors.toString());
+
+                    if (!codeCompileErrors.isEmpty())
+                        testErrors.add(codeCompileErrors.toString());
+
+                    if (numberOfFailedTests != 0) {
+                        setTestFailures(testFailures, testErrors);
+                    }
+
                     statusBar.setFill(Color.RED);
                     editCodeMenuItem.setDisable(false);
                     instructionLabel.setText("Um in die nächste Phase zu kommen, drücke Edit Code!");
@@ -287,12 +305,6 @@ public class TrainerController extends Controller {
                     editCodeMenuItem.setDisable(true);
                     instructionLabel.setText("Alle Tests laufen. Füge weiteren Test hinzu oder speichere deine Lösung!");
                 } else if (numberOfFailedTests > 1) {
-
-                    if (!testCompileErrors.isEmpty())
-                        testErrors.add(testCompileErrors.toString());
-
-                    if (!codeCompileErrors.isEmpty())
-                        testErrors.add(codeCompileErrors.toString());
 
                     statusBar.setFill(Color.RED);
                     editCodeMenuItem.setDisable(true);
@@ -336,6 +348,10 @@ public class TrainerController extends Controller {
 
                     if (!codeCompileErrors.isEmpty())
                         codeErrors.add(codeCompileErrors.toString());
+
+                    if (numberOfFailedTests != 0) {
+                        setTestFailures(testFailures, codeErrors);
+                    }
 
                     statusBar.setFill(Color.RED);
                 }
@@ -448,6 +464,7 @@ public class TrainerController extends Controller {
         editCodeMenuItem.setDisable(true);
         statusBar.setFill(Color.GRAY);
         endRefactorMenuItem.setDisable(true);
+        ((ErrorAndFailureController) children.get("errorAndFailure")).setContent();
 
 
         /** falls Babysteps eingeschaltet */
@@ -456,6 +473,10 @@ public class TrainerController extends Controller {
             ((SolutionController) getChildren().get("solution")).disableTestTextArea();
             compileAndRunMenuItem.setDisable(true);
             instructionLabel.setText("Wähle in den Babysteps-Settings eine Zeitspanne aus!");
+            twoMenuItem.setDisable(false);
+            threeMenuItem.setDisable(false);
+            fiveMenuItem.setDisable(false);
+
         } else {
             instructionLabel.setText("Schreibe einen Test und wähle Compile & Run!");
             twoMenuItem.setDisable(true);
@@ -529,6 +550,16 @@ public class TrainerController extends Controller {
 
     public ArrayList<String> getRefactorErrors() {
         return refactorErrors;
+    }
+
+    public void setTestFailures (Collection<TestFailure> testFailures, ArrayList<String> list) {
+        Object[] testFailuresArray = testFailures.toArray();
+
+        for (Object o : testFailuresArray) {
+            list.add("Fehler in der Testmethode : "+((TestFailure) o).getMethodName());
+        }
+
+
     }
 
 
