@@ -3,6 +3,5 @@
 build/
 
 .idea/
-gradle/
 task_switch
 
