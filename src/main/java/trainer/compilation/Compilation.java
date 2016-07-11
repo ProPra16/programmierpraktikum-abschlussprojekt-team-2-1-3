@@ -7,6 +7,7 @@ import vk.core.internal.InternalCompiler;
 
 public class Compilation {
 
+
     private CompilationUnit[] testAndCode = new CompilationUnit[2];
     private InternalCompiler compiler;
 
