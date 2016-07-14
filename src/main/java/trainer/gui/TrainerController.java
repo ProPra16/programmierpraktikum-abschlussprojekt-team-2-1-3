@@ -285,6 +285,12 @@ public class TrainerController extends Controller {
                         stop = System.currentTimeMillis();
                         testTime.add(new Time(start, stop));
                         start = System.currentTimeMillis();
+
+                        if (!testCompileErrors.isEmpty())
+                            testErrors.add(testCompileErrors.toString());
+
+                        if (!codeCompileErrors.isEmpty())
+                            testErrors.add(codeCompileErrors.toString());
                     }
 
                     if (!testCompileErrors.isEmpty())
