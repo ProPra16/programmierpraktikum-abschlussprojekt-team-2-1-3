@@ -126,6 +126,21 @@ public class TrainerController extends Controller {
             running = false;
             timerTextField.setText("00:00");
 
+            if (isRefactor){
+                stop = System.currentTimeMillis();
+                refactorTime.add(new Time(start, stop));
+            }
+
+            else if (!((SolutionController) children.get("solution")).testTextArea.isDisabled()){
+                stop = System.currentTimeMillis();
+                testTime.add(new Time(start, stop));
+            }
+
+            else if (((SolutionController) children.get("solution")).testTextArea.isDisabled()){
+                stop = System.currentTimeMillis();
+                codeTime.add(new Time(start, stop));
+            }
+
             if (isTracking) {
                 displayResult();
             } else {

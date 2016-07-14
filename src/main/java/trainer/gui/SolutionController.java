@@ -19,7 +19,6 @@ public class SolutionController extends Controller {
     @FXML
     public  TextArea codeTextArea;
 
-
     public String tempSavedCodeInput;
 
     public String tempSavedTestInput;

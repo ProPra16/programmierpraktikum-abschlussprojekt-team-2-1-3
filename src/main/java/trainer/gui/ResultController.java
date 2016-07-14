@@ -93,8 +93,7 @@ public class ResultController extends Controller {
         refactorseries.getData().add(new XYChart.Data<>("",refactorduration));
 
         timeChart.getData().addAll(testseries, codeseries, refactorseries);
-        timeChart.setTitle("Zeitverteilung");
-
+        timeChart.setTitle("Zeitverteilung in Sekunden");
     }
 
     public void setErrorView(){
@@ -112,6 +111,7 @@ public class ResultController extends Controller {
         numberOfTestErrors.setText("Testfehler: " + testErrors.size());
         numberOfCodeErrors.setText("Codefehler: " + codeErrors.size());
         numberOfRefactorErrors.setText("Refactorfehler: " + refactorErrors.size());
+
 
     }
 
