@@ -1,0 +1,24 @@
+Endprotokoll
+
+Silja:
+- Babysteps
+- Einarbeitung in den vorgegebenen Compiler / Einbindung
+- Compile&Run()
+- Tests
+- Gradle & Travis
+
+Kathrin:
+- Babysteps
+- Trainer (Views + Logik)
+- Controllerkonzept
+- Handbuch
+- Gradle & Travis
+
+Julian:
+- Tracking / ResultController
+- save-Funktion / Templates
+- Logik des SelectionControllers
+- Systembeschreibung
+
+
+Rest wurde gemeinsam von allen erstellt.
