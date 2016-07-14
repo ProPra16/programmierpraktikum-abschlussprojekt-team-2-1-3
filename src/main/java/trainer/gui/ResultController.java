@@ -111,7 +111,7 @@ public class ResultController extends Controller {
 
         numberOfTestErrors.setText("Testfehler: " + testErrors.size());
         numberOfCodeErrors.setText("Codefehler: " + codeErrors.size());
-        numberOfRefactorErrors.setText("Refactorfehlger: " + refactorErrors.size());
+        numberOfRefactorErrors.setText("Refactorfehler: " + refactorErrors.size());
 
     }
 

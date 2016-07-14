@@ -125,4 +125,18 @@ public class SelectionController extends Controller {
             e.printStackTrace();
         }
     }
+
+    public void didAppear() {
+        if (exercisesListView.getSelectionModel() != null) {
+            try {
+                showExercise();
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
