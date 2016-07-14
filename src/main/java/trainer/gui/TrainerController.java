@@ -308,12 +308,6 @@ public class TrainerController extends Controller {
                             testErrors.add(codeCompileErrors.toString());
                     }
 
-                    if (!testCompileErrors.isEmpty())
-                        testErrors.add(testCompileErrors.toString());
-
-                    if (!codeCompileErrors.isEmpty())
-                        testErrors.add(codeCompileErrors.toString());
-
                     if (numberOfFailedTests != 0) {
                         setTestFailures(testFailures, testErrors);
                     }
@@ -519,6 +513,7 @@ public class TrainerController extends Controller {
             timerTextField.setText(chosenTime + ":00");
             startTimer();
         }
+
         tempSaveCode();
         ((SolutionController) children.get("solution")).disableCodeTextArea();
         ((SolutionController) children.get("solution")).enableTestTextArea();
